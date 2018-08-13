@@ -57,18 +57,23 @@ case 'confirmation':
 //Если это уведомление о новом сообщении... 
 case 'message_new': 
 	//...получаем id его автора 
-	$user_id = $data->object->user_id; 
+	$message = $data['object'] ?? [];
+    $user_id = $message['user_id'] ?? 0;
+    $body = $message['body'] ?? '';
+    $payload = $message['payload'] ?? '';
+	
 	//затем с помощью users.get получаем данные об авторе 
 	$user_info = json_decode(file_get_contents("https://api.vk.com/method/users.get?user_ids={$user_id}&access_token={".VK_TOKEN."}&v=5.5")); 
 
 	//и извлекаем из ответа его имя 
 	$user_name = $user_info->response[0]->first_name; 
 
-	$payload = $data->object->payload;
 	
 	if ($payload) {
         $payload = json_decode($payload, true);
     }
+	
+	myLog("MSG: ".$body." PAYLOAD:".$payload);
 	
 	$kbd = [
 		one_time => false,
@@ -97,7 +102,6 @@ case 'message_new':
 		case CMD_QUEST:
 			$msg = "Отлично, спасибо! А у тебя как?";
 			break;
-		
 	}
 		
 		
@@ -113,7 +117,7 @@ case 'message_new':
 	try {
         if ($msg !== null) {
             $response = $vk->messages()->send(VK_TOKEN, [
-                'peer_id' => $userId,
+                'peer_id' => $user_id,
                 'message' => $msg,
                 'keyboard' => json_encode($kbd, JSON_UNESCAPED_UNICODE)
             ]);
