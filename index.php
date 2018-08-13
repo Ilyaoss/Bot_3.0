@@ -1,5 +1,4 @@
 <?php 
-
 require_once './vendor/autoload.php';
 
 use VK\Client\Enums\VKLanguage;
@@ -44,7 +43,7 @@ function myLog($str) {
 //Получаем и декодируем уведомление 
 $data = json_decode(file_get_contents('php://input')); 
 $type = $data['type'] ?? '';
-$vk = new VKApiClient(VERSION, VKLanguage::RUSSIAN);
+$vk = new VKApiClient('5.80', VKLanguage::RUSSIAN);
 
 //Проверяем, что находится в поле "type" 
 switch ($type) { 
