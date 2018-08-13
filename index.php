@@ -43,7 +43,7 @@ function myLog($str) {
 
 //Получаем и декодируем уведомление 
 $data = json_decode(file_get_contents('php://input')); 
-$vk = new VKApiClient('5.8', VKLanguage::RUSSIAN);
+$vk = new VKApiClient('5.5', VKLanguage::RUSSIAN);
 
 //Проверяем, что находится в поле "type" 
 switch ($data->type) { 
@@ -59,7 +59,7 @@ case 'message_new':
 	//...получаем id его автора 
 	$user_id = $data->object->user_id; 
 	//затем с помощью users.get получаем данные об авторе 
-	$user_info = json_decode(file_get_contents("https://api.vk.com/method/users.get?user_ids={$user_id}&access_token={".VK_TOKEN."}&v=".VERSION)); 
+	$user_info = json_decode(file_get_contents("https://api.vk.com/method/users.get?user_ids={$user_id}&access_token={".VK_TOKEN."}&v=5.5")); 
 
 	//и извлекаем из ответа его имя 
 	$user_name = $user_info->response[0]->first_name; 
