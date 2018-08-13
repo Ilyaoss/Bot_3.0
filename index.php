@@ -36,7 +36,7 @@ $request_params = array(
 'message' => "Hello, {$user_name}!", 
 'user_id' => $user_id, 
 'access_token' => $token, 
-'v' => '5.0' 
+'v' => '5.5' 
 ); 
 
 $get_params = http_build_query($request_params); 
