@@ -78,10 +78,11 @@ if ($type === 'message_new') {
         }
     } catch (\Exception $e) {
         myLog( $e->getCode().' '.$e->getMessage() );
+        
     }
+    echo  "OK";
 }
 else
 {
     echo 'd18ce045';
 }
-echo  "OK";
