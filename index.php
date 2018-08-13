@@ -9,9 +9,9 @@ const COLOR_POSITIVE = 'positive';
 const COLOR_DEFAULT = 'default';
 const COLOR_PRIMARY = 'primary';
 
- $CMD_ID = 'ID';
- $CMD_NEXT = 'NEXT';
- $CMD_TYPING = 'TYPING';
+const CMD_ID = 'ID';
+const CMD_NEXT = 'NEXT';
+const CMD_TYPING = 'TYPING';
 
 const VK_TOKEN = '0f0567f6ffa539268e0b6558d7622d375e6232283542932eadc135443d88109330c37b64bbb8c26bf525a';
 //Строка для подтверждения адреса сервера из настроек Callback API 
@@ -51,25 +51,25 @@ switch ($type) {
 		$kbd = [
 			'one_time' => false,
 			'buttons' => [
-				[getBtn("Покажи мой ID", COLOR_DEFAULT, $CMD_ID)],
-				[getBtn("Далее", COLOR_PRIMARY, $CMD_NEXT)],
+				[getBtn("Покажи мой ID", COLOR_DEFAULT, CMD_ID)],
+				[getBtn("Далее", COLOR_PRIMARY, CMD_NEXT)],
 			]
 		];
 		$msg = "Привет я бот!";
-		switch(payload){
-			case $CMD_ID:
+		switch($payload){
+			case CMD_ID:
 				$msg = "Ваш id ".$userId;
 				break;
-			case $CMD_NEXT: 
+			case CMD_NEXT: 
 				$kbd = [
 					'one_time' => false,
 					'buttons' => [
-						[getBtn("Пошли тайпинг", COLOR_POSITIVE, $CMD_TYPING)],
+						[getBtn("Пошли тайпинг", COLOR_POSITIVE, CMD_TYPING)],
 						[getBtn("Назад", COLOR_NEGATIVE)],
 					]
 				];
 				break;
-			case $CMD_TYPING:
+			case CMD_TYPING:
 				try {
 					$res = $vk->messages()->setActivity(VK_TOKEN, [
 						'peer_id' => $userId,
@@ -93,19 +93,19 @@ switch ($type) {
 			myLog( $e->getCode().' '.$e->getMessage() );
 			
 		}
-		/*if ($payload === $CMD_ID) {
+		/*if ($payload === CMD_ID) {
 			$msg = "Ваш id ".$userId;
 		}
-		if ($payload === $CMD_NEXT) {
+		if ($payload === CMD_NEXT) {
 			$kbd = [
 				'one_time' => false,
 				'buttons' => [
-					[getBtn("Пошли тайпинг", COLOR_POSITIVE, $CMD_TYPING)],
+					[getBtn("Пошли тайпинг", COLOR_POSITIVE, CMD_TYPING)],
 					[getBtn("Назад", COLOR_NEGATIVE)],
 				]
 			];
 		}
-		if ($payload === $CMD_TYPING) {
+		if ($payload === CMD_TYPING) {
 			try {
 				$res = $vk->messages()->setActivity(VK_TOKEN, [
 					'peer_id' => $userId,
