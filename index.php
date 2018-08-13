@@ -11,7 +11,7 @@ const COLOR_PRIMARY = 'primary';
 
 const CMD_ID = 'ID';
 const CMD_NEXT = 'NEXT';
-const CMD_TYPING = 'TYPING';
+const CMD_CAT = 'CAT';
 
 const VK_TOKEN = '0f0567f6ffa539268e0b6558d7622d375e6232283542932eadc135443d88109330c37b64bbb8c26bf525a';
 //Строка для подтверждения адреса сервера из настроек Callback API 
@@ -56,6 +56,12 @@ switch ($type) {
 			]
 		];
 		$msg = "Привет я бот!";
+		$photo_cat = [
+			'type' => 'photo',
+			'photo' =>[
+				'photo_2560'=> "https://wallbox.ru/wallpapers/main/201546/13dcd7162ea7a31.jpg"
+			]
+		]
 		switch($payload){
 			case CMD_ID:
 				$msg = "Ваш id ".$userId;
@@ -64,22 +70,22 @@ switch ($type) {
 				$kbd = [
 					'one_time' => false,
 					'buttons' => [
-						[getBtn("Пошли тайпинг", COLOR_POSITIVE, CMD_TYPING)],
+						[getBtn("Пошли котика", COLOR_POSITIVE, CMD_CAT)],
 						[getBtn("Назад", COLOR_NEGATIVE)],
 					]
 				];
 				break;
-			case CMD_TYPING:
+			case CMD_:
 				try {
-					$res = $vk->messages()->setActivity(VK_TOKEN, [
+					$res = $vk->messages()->send(VK_TOKEN, [
 						'peer_id' => $userId,
-						'type' => 'typing'
+						'attachment' => $json_encode(photo_cat)
 					]);
 					$msg = null;
 				} catch (\Exception $e) {
 					myLog( $e->getCode().' '.$e->getMessage() );
 				}
-				break;
+				break;*/
 		}
 		try {
 			if ($msg !== null) {
