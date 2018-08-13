@@ -24,7 +24,7 @@ const COLOR_PRIMARY = 'primary';
 
 const CMD_ID = 'ID';
 const CMD_NEXT = 'NEXT';
-const CMD_QUEST = 'QUEST'
+const CMD_QUEST = 'QUEST';
 
 function getBtn($label, $color, $payload = '') {
     return [
