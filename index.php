@@ -1,6 +1,6 @@
 <?php
 require_once './vendor/autoload.php';
-const VK_TOKEN = 'ae51ff9f59f0c40f029c67c3588466bcec1f7ff0f333404769952a31290c3cf097f5b7c0cfd90b0da4562';
+const VK_TOKEN = '0f0567f6ffa539268e0b6558d7622d375e6232283542932eadc135443d88109330c37b64bbb8c26bf525a';
 use VK\Client\Enums\VKLanguage;
 use VK\Client\VKApiClient;
 function myLog($str) {
@@ -79,5 +79,9 @@ if ($type === 'message_new') {
     } catch (\Exception $e) {
         myLog( $e->getCode().' '.$e->getMessage() );
     }
+}
+else
+{
+    echo 'd18ce045';
 }
 echo  "OK";
