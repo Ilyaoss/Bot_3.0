@@ -71,7 +71,7 @@ case 'message_new':
     }
 	
 	$kbd = [
-		one_time => false;
+		one_time => false,
 		'buttons' => [
 				[getBtn("Покажи мой ID", COLOR_DEFAULT, CMD_ID)],
 				[getBtn("Далее", COLOR_PRIMARY, CMD_NEXT)],
