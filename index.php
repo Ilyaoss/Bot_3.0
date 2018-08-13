@@ -99,7 +99,7 @@ switch ($type) {
 							'server' => $result['server'], 
 							'photo' => $result['photo'], 
 							'hash' => $result['hash'], 
-							));,true);
+							)),true);
 					
 					/*$request_params = [
 						'server' => $response_image['server'],
