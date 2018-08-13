@@ -61,7 +61,7 @@ switch ($type) {
 			'photo' =>[
 				'photo_2560'=> "https://wallbox.ru/wallpapers/main/201546/13dcd7162ea7a31.jpg"
 			]
-		]
+		];
 		switch($payload){
 			case CMD_ID:
 				$msg = "Ваш id ".$userId;
@@ -75,7 +75,7 @@ switch ($type) {
 					]
 				];
 				break;
-			case CMD_:
+			case CMD_CAT:
 				try {
 					$res = $vk->messages()->send(VK_TOKEN, [
 						'peer_id' => $userId,
@@ -85,7 +85,7 @@ switch ($type) {
 				} catch (\Exception $e) {
 					myLog( $e->getCode().' '.$e->getMessage() );
 				}
-				break;*/
+				break;
 		}
 		try {
 			if ($msg !== null) {
