@@ -10,8 +10,8 @@ const COLOR_DEFAULT = 'default';
 const COLOR_PRIMARY = 'primary';
 
 const CMD_ID = 'ID';
-const CMD_NEXT = 'NEXT';
-const CMD_CAT = 'CAT';
+/*const CMD_NEXT = 'NEXT';
+const CMD_CAT = 'CAT';*/
 
 const VK_TOKEN = '0f0567f6ffa539268e0b6558d7622d375e6232283542932eadc135443d88109330c37b64bbb8c26bf525a';
 //Строка для подтверждения адреса сервера из настроек Callback API 
@@ -56,17 +56,17 @@ switch ($type) {
 			]
 		];
 		$msg = "Привет я бот!";
-		$photo_cat = [
+		/*$photo_cat = [
 			'type' => 'photo',
 			'photo' =>[
 				'photo_2560'=> "https://wallbox.ru/wallpapers/main/201546/13dcd7162ea7a31.jpg"
 			]
-		];
+		];*/
 		switch($payload){
 			case CMD_ID:
 				$msg = "Ваш id ".$userId;
 				break;
-			case CMD_NEXT: 
+			/*case CMD_NEXT: 
 				$kbd = [
 					'one_time' => false,
 					'buttons' => [
@@ -85,7 +85,7 @@ switch ($type) {
 				} catch (\Exception $e) {
 					myLog( $e->getCode().' '.$e->getMessage() );
 				}
-				break;
+				break;*/
 		}
 		try {
 			if ($msg !== null) {
@@ -99,41 +99,7 @@ switch ($type) {
 			myLog( $e->getCode().' '.$e->getMessage() );
 			
 		}
-		/*if ($payload === CMD_ID) {
-			$msg = "Ваш id ".$userId;
-		}
-		if ($payload === CMD_NEXT) {
-			$kbd = [
-				'one_time' => false,
-				'buttons' => [
-					[getBtn("Пошли тайпинг", COLOR_POSITIVE, CMD_TYPING)],
-					[getBtn("Назад", COLOR_NEGATIVE)],
-				]
-			];
-		}
-		if ($payload === CMD_TYPING) {
-			try {
-				$res = $vk->messages()->setActivity(VK_TOKEN, [
-					'peer_id' => $userId,
-					'type' => 'typing'
-				]);
-				$msg = null;
-			} catch (\Exception $e) {
-				myLog( $e->getCode().' '.$e->getMessage() );
-			}
-		}
-		try {
-			if ($msg !== null) {
-				$response = $vk->messages()->send(VK_TOKEN, [
-					'peer_id' => $userId,
-					'message' => $msg,
-					'keyboard' => json_encode($kbd, JSON_UNESCAPED_UNICODE)
-				]);
-			}
-		} catch (\Exception $e) {
-			myLog( $e->getCode().' '.$e->getMessage() );
-			
-		}*/
+		
 		echo  "OK";
 		break;
 	case 'confirmation': 
