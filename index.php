@@ -10,8 +10,8 @@ const COLOR_DEFAULT = 'default';
 const COLOR_PRIMARY = 'primary';
 
 const CMD_ID = 'ID';
-/*const CMD_NEXT = 'NEXT';
-const CMD_CAT = 'CAT';*/
+const CMD_NEXT = 'NEXT';
+const CMD_CAT = 'CAT';
 
 const VK_TOKEN = '0f0567f6ffa539268e0b6558d7622d375e6232283542932eadc135443d88109330c37b64bbb8c26bf525a';
 //Строка для подтверждения адреса сервера из настроек Callback API 
@@ -56,17 +56,17 @@ switch ($type) {
 			]
 		];
 		$msg = "Привет я бот!";
-		/*$photo_cat = [
+		$photo_cat = [
 			'type' => 'photo',
 			'photo' =>[
-				'photo_2560'=> "https://wallbox.ru/wallpapers/main/201546/13dcd7162ea7a31.jpg"
+				'photo_2560'=> @'https://s.fishki.net/upload/users/2017/04/05/414721/8419b6ac67d83d3dea58db13a67b2763.jpg'
 			]
-		];*/
+		];
 		switch($payload){
 			case CMD_ID:
 				$msg = "Ваш id ".$userId;
 				break;
-			/*case CMD_NEXT: 
+			case CMD_NEXT: 
 				$kbd = [
 					'one_time' => false,
 					'buttons' => [
@@ -77,15 +77,45 @@ switch ($type) {
 				break;
 			case CMD_CAT:
 				try {
+					$request_param = [
+						'access_token' => VK_TOKEN,
+						'v' = > '5.78'
+					]
+					$url = vk->photos()->getMessagesUploadServer(request_param);
+					result = json_decode($url,true);
+					
+					$curl = curl_init();
+					$file = 'https://s.fishki.net/upload/users/2017/04/05/414721/8419b6ac67d83d3dea58db13a67b2763.jpg';
+					$file = curl_file_create($file, mime_content_type($file), pathinfo($file)['basename']);
+					curl_setopt($curl, CURLOPT_URL,$result['response']['upload_url']);
+					curl_setopt($curl, CURLOPT_POST,true);
+					curl_setopt($curl, CURLOPT_HTTPHEADER,['Content-Type: multipart/form-data;charset=utf-8']);
+					curl_setopt($curl, CURLOPT_POSTFIELDS,['file'=>$file]);
+					curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
+					curl_setopt($curl, CURLOPT_TIMEOUT,10);
+					curl_setopt($curl, CURLOPT_FOLLOWINGLOCATION,true);
+					
+					$response_image = json_decode(curl_exec($curl),true)
+					
+					$request_params = [
+						'server' => $response_image['server'],
+						'photo' =>$response_image['photo'],
+						'hash' =>$response_image['hash'],
+						'access_token' => VK_TOKEN,
+						'v' = > '5.78'
+					]
+					$url = vk->photos()->saveMessagesPhoto(request_params);
+					$res_img = json_decode(curl_exec($curl),true);
+					
 					$res = $vk->messages()->send(VK_TOKEN, [
 						'peer_id' => $userId,
-						'attachment' => $json_encode(photo_cat)
+						'attachment' => 'photo'.$res_img['response'][0]['owner_id'].'_'.$res_img['response'][0]['id']
 					]);
 					$msg = null;
 				} catch (\Exception $e) {
 					myLog( $e->getCode().' '.$e->getMessage() );
 				}
-				break;*/
+				break;
 		}
 		try {
 			if ($msg !== null) {
@@ -99,7 +129,41 @@ switch ($type) {
 			myLog( $e->getCode().' '.$e->getMessage() );
 			
 		}
-		
+		/*if ($payload === CMD_ID) {
+			$msg = "Ваш id ".$userId;
+		}
+		if ($payload === CMD_NEXT) {
+			$kbd = [
+				'one_time' => false,
+				'buttons' => [
+					[getBtn("Пошли тайпинг", COLOR_POSITIVE, CMD_TYPING)],
+					[getBtn("Назад", COLOR_NEGATIVE)],
+				]
+			];
+		}
+		if ($payload === CMD_TYPING) {
+			try {
+				$res = $vk->messages()->setActivity(VK_TOKEN, [
+					'peer_id' => $userId,
+					'type' => 'typing'
+				]);
+				$msg = null;
+			} catch (\Exception $e) {
+				myLog( $e->getCode().' '.$e->getMessage() );
+			}
+		}
+		try {
+			if ($msg !== null) {
+				$response = $vk->messages()->send(VK_TOKEN, [
+					'peer_id' => $userId,
+					'message' => $msg,
+					'keyboard' => json_encode($kbd, JSON_UNESCAPED_UNICODE)
+				]);
+			}
+		} catch (\Exception $e) {
+			myLog( $e->getCode().' '.$e->getMessage() );
+			
+		}*/
 		echo  "OK";
 		break;
 	case 'confirmation': 
