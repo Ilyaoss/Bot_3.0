@@ -9,7 +9,7 @@ use VK\Client\VKApiClient;
 return; 
 } */
 
-/Ключ доступа сообщества 
+//Ключ доступа сообщества 
 const VK_TOKEN = '0f0567f6ffa539268e0b6558d7622d375e6232283542932eadc135443d88109330c37b64bbb8c26bf525a'; 
 
 const VERSION = '5.80';
