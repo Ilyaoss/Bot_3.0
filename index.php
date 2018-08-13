@@ -43,6 +43,7 @@ switch ($type) {
 		$userId = $message['user_id'] ?? 0;
 		$body = $message['body'] ?? '';
 		$payload = $message['payload'] ?? '';
+		echo payload;
 		if ($payload) {
 			$payload = json_decode($payload, true);
 		}
