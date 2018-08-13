@@ -77,14 +77,14 @@ switch ($type) {
 				break;
 			case CMD_CAT:
 				try {
-					$request_param = [
+					/*$request_param = [
 						'access_token' => VK_TOKEN,
 						'v' => '5.78'
-					];
-					$url = $vk->photos()->getMessagesUploadServer(request_param);
+					];*/
+					$url = $vk->photos()->getMessagesUploadServer(userId);
 					$result = json_decode($url,true);
 					
-					$curl = curl_init();
+					/*$curl = curl_init();
 					$file = 'https://s.fishki.net/upload/users/2017/04/05/414721/8419b6ac67d83d3dea58db13a67b2763.jpg';
 					$file = curl_file_create($file, mime_content_type($file), pathinfo($file)['basename']);
 					curl_setopt($curl, CURLOPT_URL,$result['response']['upload_url']);
@@ -93,11 +93,15 @@ switch ($type) {
 					curl_setopt($curl, CURLOPT_POSTFIELDS,['file'=>$file]);
 					curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
 					curl_setopt($curl, CURLOPT_TIMEOUT,10);
-					curl_setopt($curl, CURLOPT_FOLLOWINGLOCATION,true);
+					curl_setopt($curl, CURLOPT_FOLLOWINGLOCATION,true);*/
 					
-					$response_image = json_decode(curl_exec($curl),true);
+					$response_image = json_decode($vk->photos()->saveMessagesPhoto(VK_TOKEN, array( 
+							'server' => $result['server'], 
+							'photo' => $result['photo'], 
+							'hash' => $result['hash'], 
+							));,true);
 					
-					$request_params = [
+					/*$request_params = [
 						'server' => $response_image['server'],
 						'photo' =>$response_image['photo'],
 						'hash' =>$response_image['hash'],
@@ -105,11 +109,11 @@ switch ($type) {
 						'v' => '5.78'
 					];
 					$url = $vk->photos()->saveMessagesPhoto(request_params);
-					$res_img = json_decode(curl_exec($curl),true);
+					$res_img = json_decode(curl_exec($curl),true);*/
 					
 					$res = $vk->messages()->send(VK_TOKEN, [
 						'peer_id' => $userId,
-						'attachment' => 'photo'.$res_img['response'][0]['owner_id'].'_'.$res_img['response'][0]['id']
+						'attachment' => 'photo'.$response_image['response'][0]['owner_id'].'_'.$response_image['response'][0]['id']
 					]);
 					$msg = null;
 				} catch (\Exception $e) {
