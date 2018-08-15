@@ -121,7 +121,7 @@ switch ($type) {
 						CURLOPT_HTTPHEADER=>['Content-Type: multipart/form-data;charset=utf-8'],
 						CURLOPT_RETURNTRANSFER => true,
 						CURLOPT_POST => true,
-						CURLOPT_POSTFIELDS => http_build_query($file)
+						CURLOPT_POSTFIELDS => http_build_query(array('photo'=> 'https://s.fishki.net/upload/users/2017/04/05/414721/8419b6ac67d83d3dea58db13a67b2763.jpg'))
 					));
 					$response = curl_exec($myCurl);
 					curl_close($myCurl);
