@@ -124,7 +124,7 @@ switch ($type) {
 					curl_setopt_array($myCurl, array(
 						CURLOPT_URL => $url['upload_url'],
 						CURLOPT_HTTPHEADER=>['Content-Type: multipart/form-data'],
-						CURLOPT_SSL_VERIFYPEER=> false
+						CURLOPT_SSL_VERIFYPEER=> false,
 						CURLOPT_RETURNTRANSFER => true,
 						CURLOPT_POST => true,
 						CURLOPT_POSTFIELDS => $data_file
