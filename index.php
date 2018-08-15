@@ -104,7 +104,8 @@ switch ($type) {
 						'v' => '5.78'
 					];*/
 					$url = $vk->photos()->getMessagesUploadServer(VK_TOKEN,['peer_id'=>$userId]);
-					$result = json_decode($url,true);
+					myLog("typeof".typeof($url));
+					$result;// = json_decode($url,true);
 					myLog("server: ".$url[0]. 
 							'photo: '.$url[1]. 
 							'hash: '.$url[2].
