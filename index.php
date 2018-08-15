@@ -120,7 +120,7 @@ switch ($type) {
 						CURLOPT_URL => $url['upload_url'],
 						CURLOPT_RETURNTRANSFER => true,
 						CURLOPT_POST => true,
-						CURLOPT_POSTFIELDS => http_build_query(array('file'=>$file)
+						CURLOPT_POSTFIELDS => http_build_query(array('file'=>$file))
 					));
 					$response = curl_exec($myCurl);
 					curl_close($myCurl);
