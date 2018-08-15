@@ -102,7 +102,7 @@ switch ($type) {
 						'access_token' => VK_TOKEN,
 						'v' => '5.78'
 					];*/
-					$url = $vk->photos()->getMessagesUploadServer($userId,'access_token'=>VK_TOKEN);
+					$url = $vk->photos()->getMessagesUploadServer($userId,'access_token'=VK_TOKEN);
 					$result = json_decode($url,true);
 					myLog("json: ".$url);
 					/*$curl = curl_init();
