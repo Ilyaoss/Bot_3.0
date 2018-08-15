@@ -102,7 +102,7 @@ switch ($type) {
 						'access_token' => VK_TOKEN,
 						'v' => '5.78'
 					];*/
-					$url = $vk->photos()->getMessagesUploadServer(['peer_id'=>$userId,'access_token'=>VK_TOKEN]);
+					$url = $vk->photos()->getMessagesUploadServer(VK_TOKEN,['peer_id'=>$userId]);
 					$result = json_decode($url,true);
 					myLog("json: ".$url);
 					/*$curl = curl_init();
@@ -137,6 +137,7 @@ switch ($type) {
 						'attachment' => 'photo'.$response_image['response'][0]['owner_id'].'_'.$response_image['response'][0]['id']
 					]);*/
 					$msg = null;
+					break;
 				} catch (\Exception $e) {
 					myLog( $e->getCode().' '.$e->getMessage() );
 				}
