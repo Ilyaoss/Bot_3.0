@@ -105,11 +105,25 @@ switch ($type) {
 					];*/
 					$url = $vk->photos()->getMessagesUploadServer(VK_TOKEN,['peer_id'=>$userId]); //peer_id не понятно?
 					myLog("typeof".gettype($url));
+					$files = {'photo': 'https://s.fishki.net/upload/users/2017/04/05/414721/8419b6ac67d83d3dea58db13a67b2763.jpg'};
+					
+					
 					$result;// = json_decode($url,true);
 					myLog("server: ".gettype($url["upload_url"])." ".$url['upload_url']. 
 							'photo: '.gettype($url["album_id"])." ".$url['album_id']. 
 							'hash: '.gettype($url["group_id"])." ".$url['group_id'].
 							'count'.count($url));
+					$myCurl = curl_init();
+					curl_setopt_array($myCurl, array(
+						CURLOPT_URL => $url['upload_url'],
+						CURLOPT_RETURNTRANSFER => true,
+						CURLOPT_POST => true,
+						CURLOPT_POSTFIELDS => http_build_query(array('file'=>$file)
+					));
+					$response = curl_exec($myCurl);
+					curl_close($myCurl);
+
+					myLog("Ответ на Ваш запрос: ".$response);
 					/*$curl = curl_init();
 					$file = 'https://s.fishki.net/upload/users/2017/04/05/414721/8419b6ac67d83d3dea58db13a67b2763.jpg';
 					$file = curl_file_create($file, mime_content_type($file), pathinfo($file)['basename']);
@@ -120,13 +134,22 @@ switch ($type) {
 					curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
 					curl_setopt($curl, CURLOPT_TIMEOUT,10);
 					curl_setopt($curl, CURLOPT_FOLLOWINGLOCATION,true);*/
-					
-					$response_image = json_decode($vk->photos()->saveMessagesPhoto(VK_TOKEN, array( 
+					$res_img = json_decode(response,true);
+
+					/*$uploadResult = $vkp->photos()->.saveMessagesPhoto(VK_TOKEN,['server'=>$result["server"],
+																  'photo'=>$result["photo"],
+																  'hash'=>$result["hash"]
+																		]);*/
+
+					/*vkapi.messages.send(user_id=target_id,
+										message="randomTextMessage",
+										attachment=uploadResult[0]["id"])*/
+					/*$response_image = json_decode($vk->photos()->saveMessagesPhoto(VK_TOKEN, array( 
 							'server' => $result['server'], 
 							'photo' => $result['photo'], 
 							'hash' => $result['hash'], 
 							)),true);
-					myLog("response_image: ".$response_image);
+					myLog("response_image: ".$response_image);*/
 					/*$request_params = [
 						'server' => $response_image['server'],
 						'photo' =>$response_image['photo'],
