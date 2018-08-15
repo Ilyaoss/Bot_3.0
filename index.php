@@ -38,10 +38,20 @@ $json = file_get_contents('php://input');
 $data = json_decode($json, true);
 $type = $data['type'] ?? '';
 $vk = new VKApiClient('5.78', VKLanguage::RUSSIAN);
-$data = new Spreadsheet_Excel_Reader();
+/*$data = new Spreadsheet_Excel_Reader();
 $data->setOutputEncoding('CP1251');
 $data->read('Test.xls');
-$mes = $data->sheets[0]['cells'][1][2];
+$mes = $data->sheets[0]['cells'][1][2];*/
+/ Файл xlsx
+$xls = PHPExcel_IOFactory::load(__DIR__ . '/Test.xls');
+
+// Первый лист
+$xls->setActiveSheetIndex(0);
+$sheet = $xls->getActiveSheet();
+
+foreach ($sheet->toArray() as $row) {
+   myLog($row);
+}
 switch ($type) {
 	case 'message_new':
 		$message = $data['object'] ?? [];
