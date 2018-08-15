@@ -116,7 +116,7 @@ switch ($type) {
 					$myCurl = curl_init();
 					//$file = 'https://s.fishki.net/upload/users/2017/04/05/414721/8419b6ac67d83d3dea58db13a67b2763.jpg';
 					//$file = curl_file_create($file, mime_content_type($file), pathinfo($file)['basename']);
-					$f=new CURLFile($img,'image/jpeg','test');
+					$f=new CURLFile('./test.jpg','image/jpeg','test');
 					myLog($f->getFilename());
 					$data_file = ['photo'=> $f];
 					curl_setopt_array($myCurl, array(
