@@ -52,6 +52,9 @@ switch ($type) {
 			'one_time' => false,
 			'buttons' => [
 				[getBtn("Покажи мой ID", COLOR_DEFAULT, CMD_ID)],
+				[getBtn("Покажи моё Имя", COLOR_DEFAULT, CMD_ID)],
+				[getBtn("Покажи мою Фамилию", COLOR_PRIMARY, CMD_ID)],
+				[getBtn("Покажи мой статус", 'yellow', CMD_ID)],
 				[getBtn("Далее", COLOR_PRIMARY, CMD_NEXT)],
 			]
 		];
@@ -81,7 +84,7 @@ switch ($type) {
 						'access_token' => VK_TOKEN,
 						'v' => '5.78'
 					];*/
-					$url = $vk->photos()->getMessagesUploadServer(userId);
+					$url = $vk->photos()->getMessagesUploadServer(VK_TOKEN,userId);
 					$result = json_decode($url,true);
 					
 					/*$curl = curl_init();
