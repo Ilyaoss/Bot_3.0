@@ -118,7 +118,7 @@ switch ($type) {
 					//$file = curl_file_create($file, mime_content_type($file), pathinfo($file)['basename']);
 					curl_setopt_array($myCurl, array(
 						CURLOPT_URL => $url['upload_url'],
-						CURLOPT_HTTPHEADER=>['Content-Type: multipart/form-data;charset=utf-8']
+						CURLOPT_HTTPHEADER=>['Content-Type: multipart/form-data;charset=utf-8'],
 						CURLOPT_RETURNTRANSFER => true,
 						CURLOPT_POST => true,
 						CURLOPT_POSTFIELDS => http_build_query(array('file'=>$file))
