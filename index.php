@@ -39,7 +39,7 @@ $json = file_get_contents('php://input');
 //myLog($json);
 $data = json_decode($json, true);
 $type = $data['type'] ?? '';
-$vk = new VKApiClient('5.78', VKLanguage::RUSSIAN);
+$vk = new VKApiClient('5.80', VKLanguage::RUSSIAN);
 /*$data = new Spreadsheet_Excel_Reader();
 $data->setOutputEncoding('CP1251');
 $data->read('Test.xls');
@@ -112,7 +112,7 @@ switch ($type) {
 					myLog("server: ".gettype($url["upload_url"])." ".$url['upload_url']. 
 							'photo: '.gettype($url["album_id"])." ".$url['album_id']. 
 							'hash: '.gettype($url["group_id"])." ".$url['group_id'].
-							'count'.count($url));
+							'count: '.count($url));
 							
 					//myLog("ver: ". curl_version()[version]);
 					$myCurl = curl_init();
