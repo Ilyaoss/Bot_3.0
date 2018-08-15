@@ -99,25 +99,16 @@ switch ($type) {
 				break;
 			case CMD_CAT:
 				try {
-					/*$request_param = [
-						'access_token' => VK_TOKEN,
-						'v' => '5.78'
-					];*/
+
 					$url = $vk->photos()->getMessagesUploadServer(VK_TOKEN,['peer_id'=>$userId]); //peer_id не понятно?
 					myLog("typeof".gettype($url));
-					//$file = [files={'photo': open('test.jpg', 'rb')};
-					$img = __DIR__ . '/test.jpg';
-					
-					$result;// = json_decode($url,true);
+
 					myLog("server: ".gettype($url["upload_url"])." ".$url['upload_url']. 
 							'photo: '.gettype($url["album_id"])." ".$url['album_id']. 
 							'hash: '.gettype($url["group_id"])." ".$url['group_id'].
 							'count: '.count($url));
 							
-					//myLog("ver: ". curl_version()[version]);
 					$myCurl = curl_init();
-					//$file = 'https://s.fishki.net/upload/users/2017/04/05/414721/8419b6ac67d83d3dea58db13a67b2763.jpg';
-					//$file = curl_file_create($file, mime_content_type($file), pathinfo($file)['basename']);
 					$f=curl_file_create(dirname(__FILE__)."/test.jpg",'image/jpeg','test_name.jpg');
 					myLog($f->getFilename());
 					$data_file = ['photo'=> $f];
@@ -133,48 +124,17 @@ switch ($type) {
 					curl_close($myCurl);
 
 					myLog("Ответ на Ваш запрос: ".$response);
-					
-					/*$curl = curl_init();
-					$file = 'https://s.fishki.net/upload/users/2017/04/05/414721/8419b6ac67d83d3dea58db13a67b2763.jpg';
-					$file = curl_file_create($file,'image/jpeg','test');
-					curl_setopt($curl, CURLOPT_URL,$url['upload_url']);
-					curl_setopt($curl, CURLOPT_POST,true);
-					curl_setopt($curl, CURLOPT_HTTPHEADER,['Content-Type: multipart/form-data;charset=utf-8']);
-					curl_setopt($curl, CURLOPT_POSTFIELDS,['file'=>$file]);
-					curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
-					curl_setopt($curl, CURLOPT_TIMEOUT,10);
-					$response = curl_exec($curl);
-					
-					myLog("Ответ на Ваш запрос: ".$response);*/
-					
+
 					$res_img = json_decode($response,true);
-					//myLog("Ответ на Ваш запрос: ".$res_img["photo"][0]);
+
 					$uploadResult = $vk->photos()->saveMessagesPhoto(VK_TOKEN,['server'=>$res_img["server"],
 																  'photo'=>$res_img["photo"],
 																  'hash'=>$res_img["hash"]
 																		]);
 					myLog("own_id ".$uploadResult[0]['owner_id']);
-					/*vkapi.messages.send(user_id=target_id,
-										message="randomTextMessage",
-										attachment=uploadResult[0]["id"])*/
-					/*$response_image = json_decode($vk->photos()->saveMessagesPhoto(VK_TOKEN, array( 
-							'server' => $result['server'], 
-							'photo' => $result['photo'], 
-							'hash' => $result['hash'], 
-							)),true);
-					myLog("response_image: ".$response_image);*/
-					/*$request_params = [
-						'server' => $response_image['server'],
-						'photo' =>$response_image['photo'],
-						'hash' =>$response_image['hash'],
-						'access_token' => VK_TOKEN,
-						'v' => '5.78'
-					];
-					$url = $vk->photos()->saveMessagesPhoto(request_params);
-					$res_img = json_decode(curl_exec($curl),true);*/
+					myLog("user_id ".$userId);
 					myLog('photo'.$uploadResult[0]['owner_id'].'_'.$uploadResult[0]['id']);
-					$res = $vk->messages()->send(VK_TOKEN, [
-						'peer_id' => $userId,
+					$res = $vk->messages()->send(VK_TOKEN, ['peer_id' => $userId,
 						'attachment' => 'photo'.$uploadResult[0]['owner_id'].'_'.$uploadResult[0]['id']
 					]);
 					$msg = null;
