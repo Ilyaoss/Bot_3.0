@@ -51,11 +51,8 @@ switch ($type) {
 		$kbd = [
 			'one_time' => false,
 			'buttons' => [
-				/*[getBtn("Покажи мой ID", COLOR_DEFAULT, CMD_ID)],*/
-				[getBtn("Покажи моё Имя", COLOR_DEFAULT, CMD_ID)],
-				[getBtn("Покажи мою Фамилию", COLOR_PRIMARY, CMD_ID)],
-				[getBtn("Покажи мой статус", 'yellow', CMD_ID)],
-				[getBtn("Далее", COLOR_PRIMARY, CMD_NEXT)]
+				[getBtn("Покажи мой ID", COLOR_DEFAULT, CMD_ID)],
+				[getBtn("Далее", COLOR_PRIMARY, CMD_NEXT)],
 			]
 		];
 		$msg = "Привет я бот!";
@@ -73,8 +70,8 @@ switch ($type) {
 				$kbd = [
 					'one_time' => false,
 					'buttons' => [
-						/*[getBtn("Пошли котика", COLOR_POSITIVE, CMD_CAT)],*/
-						[getBtn("Назад", COLOR_NEGATIVE)]
+						[getBtn("Пошли котика", COLOR_POSITIVE, CMD_CAT)],
+						[getBtn("Назад", COLOR_NEGATIVE)],
 					]
 				];
 				break;
@@ -83,9 +80,9 @@ switch ($type) {
 					/*$request_param = [
 						'access_token' => VK_TOKEN,
 						'v' => '5.78'
-					];*/
+					];
 					$url = $vk->photos()->getMessagesUploadServer(VK_TOKEN,userId);
-					$result = json_decode($url,true);
+					$result = json_decode($url,true);*/
 					
 					/*$curl = curl_init();
 					$file = 'https://s.fishki.net/upload/users/2017/04/05/414721/8419b6ac67d83d3dea58db13a67b2763.jpg';
@@ -96,7 +93,7 @@ switch ($type) {
 					curl_setopt($curl, CURLOPT_POSTFIELDS,['file'=>$file]);
 					curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
 					curl_setopt($curl, CURLOPT_TIMEOUT,10);
-					curl_setopt($curl, CURLOPT_FOLLOWINGLOCATION,true);*/
+					curl_setopt($curl, CURLOPT_FOLLOWINGLOCATION,true);
 					
 					$response_image = json_decode($vk->photos()->saveMessagesPhoto(VK_TOKEN, array( 
 							'server' => $result['server'], 
@@ -114,10 +111,10 @@ switch ($type) {
 					$url = $vk->photos()->saveMessagesPhoto(request_params);
 					$res_img = json_decode(curl_exec($curl),true);*/
 					
-					$res = $vk->messages()->send(VK_TOKEN, [
+					/*res = $vk->messages()->send(VK_TOKEN, [
 						'peer_id' => $userId,
 						'attachment' => 'photo'.$response_image['response'][0]['owner_id'].'_'.$response_image['response'][0]['id']
-					]);
+					]);*/
 					$msg = null;
 				} catch (\Exception $e) {
 					myLog( $e->getCode().' '.$e->getMessage() );
