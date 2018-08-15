@@ -101,10 +101,10 @@ switch ($type) {
 					/*$request_param = [
 						'access_token' => VK_TOKEN,
 						'v' => '5.78'
-					];
+					];*/
 					$url = $vk->photos()->getMessagesUploadServer(VK_TOKEN,userId);
-					$result = json_decode($url,true);*/
-					
+					$result = json_decode($url,true);
+					myLog("json: ".$url);
 					/*$curl = curl_init();
 					$file = 'https://s.fishki.net/upload/users/2017/04/05/414721/8419b6ac67d83d3dea58db13a67b2763.jpg';
 					$file = curl_file_create($file, mime_content_type($file), pathinfo($file)['basename']);
@@ -114,14 +114,14 @@ switch ($type) {
 					curl_setopt($curl, CURLOPT_POSTFIELDS,['file'=>$file]);
 					curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
 					curl_setopt($curl, CURLOPT_TIMEOUT,10);
-					curl_setopt($curl, CURLOPT_FOLLOWINGLOCATION,true);
+					curl_setopt($curl, CURLOPT_FOLLOWINGLOCATION,true);*/
 					
 					$response_image = json_decode($vk->photos()->saveMessagesPhoto(VK_TOKEN, array( 
 							'server' => $result['server'], 
 							'photo' => $result['photo'], 
 							'hash' => $result['hash'], 
 							)),true);
-					
+					myLog("response_image: ".$response_image);
 					/*$request_params = [
 						'server' => $response_image['server'],
 						'photo' =>$response_image['photo'],
