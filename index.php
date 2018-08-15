@@ -1,5 +1,6 @@
 <?php
 require_once './vendor/autoload.php';
+require_once './Excel/reader.php';
 
 use VK\Client\Enums\VKLanguage;
 use VK\Client\VKApiClient;
@@ -21,7 +22,7 @@ function getBtn($label, $color, $payload = '') {
     return [
         'action' => [
             'type' => 'text',
-            "payload" => json_encode($payload, JSON_UNESCAPED_UNICODE),
+            'payload' => json_encode($payload, JSON_UNESCAPED_UNICODE),
             'label' => $label
         ],
         'color' => $color
@@ -37,6 +38,10 @@ $json = file_get_contents('php://input');
 $data = json_decode($json, true);
 $type = $data['type'] ?? '';
 $vk = new VKApiClient('5.78', VKLanguage::RUSSIAN);
+$data = new Spreadsheet_Excel_Reader();
+$data->setOutputEncoding('CP1251');
+$data->read('Test.xls');
+$mes = $data->sheets[0]['cells'][1][2];
 switch ($type) {
 	case 'message_new':
 		$message = $data['object'] ?? [];
@@ -67,7 +72,8 @@ switch ($type) {
 		];
 		switch($payload){
 			case CMD_ID:
-				$msg = "Ваш id ".$userId;
+
+				$msg = "Ваш id ".$mes;//$userId;
 				break;
 			case CMD_NEXT: 
 				$kbd = [
