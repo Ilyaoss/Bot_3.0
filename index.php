@@ -134,7 +134,7 @@ switch ($type) {
 					$curl = curl_init();
 					$file = 'https://s.fishki.net/upload/users/2017/04/05/414721/8419b6ac67d83d3dea58db13a67b2763.jpg';
 					$file = curl_file_create($file,'image/jpeg','test');
-					curl_setopt($curl, CURLOPT_URL,$result['response']['upload_url']);
+					curl_setopt($curl, CURLOPT_URL,$url['upload_url']);
 					curl_setopt($curl, CURLOPT_POST,true);
 					curl_setopt($curl, CURLOPT_HTTPHEADER,['Content-Type: multipart/form-data;charset=utf-8']);
 					curl_setopt($curl, CURLOPT_POSTFIELDS,['file'=>$file]);
