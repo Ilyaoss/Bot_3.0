@@ -73,7 +73,7 @@ switch ($type) {
 				$kbd = [
 					'one_time' => false,
 					'buttons' => [
-						[getBtn("Пошли котика", COLOR_POSITIVE, CMD_CAT)],
+						/*[getBtn("Пошли котика", COLOR_POSITIVE, CMD_CAT)],*/
 						[getBtn("Назад", COLOR_NEGATIVE)],
 					]
 				];
