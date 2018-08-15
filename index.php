@@ -77,12 +77,12 @@ switch ($type) {
 			]
 		];
 		$msg = "Привет я бот!";
-		$photo_cat = [
+		/*$photo_cat = [
 			'type' => 'photo',
 			'photo' =>[
 				'photo_2560'=> @'https://s.fishki.net/upload/users/2017/04/05/414721/8419b6ac67d83d3dea58db13a67b2763.jpg'
 			]
-		];
+		];*/
 		switch($payload){
 			case CMD_ID:
 
@@ -103,10 +103,10 @@ switch ($type) {
 						'access_token' => VK_TOKEN,
 						'v' => '5.78'
 					];*/
-					$url = $vk->photos()->getMessagesUploadServer(VK_TOKEN); //peer_id не понятно?
+					$url = $vk->photos()->getMessagesUploadServer(VK_TOKEN,['peer_id'=>$userId]); //peer_id не понятно?
 					myLog("typeof".gettype($url));
 					$result;// = json_decode($url,true);
-					myLog("server: ".gettype($url[0]). 
+					myLog("server: ".gettype($url["upload_url"]). 
 							'photo: '.gettype($url[1]). 
 							'hash: '.gettype($url[2]).
 							'count'.count($url));
