@@ -106,7 +106,7 @@ switch ($type) {
 					$url = $vk->photos()->getMessagesUploadServer(VK_TOKEN,['peer_id'=>$userId]); //peer_id не понятно?
 					myLog("typeof".gettype($url));
 					//$file = [files={'photo': open('test.jpg', 'rb')};
-					$file = __DIR__ .'/test.jpg';
+					$img = __DIR__ . '/test.jpg';
 					
 					$result;// = json_decode($url,true);
 					myLog("server: ".gettype($url["upload_url"])." ".$url['upload_url']. 
@@ -121,7 +121,7 @@ switch ($type) {
 						CURLOPT_HTTPHEADER=>['Content-Type: multipart/form-data;charset=utf-8'],
 						CURLOPT_RETURNTRANSFER => true,
 						CURLOPT_POST => true,
-						CURLOPT_POSTFIELDS => array('photo' => '@'.$file)
+						CURLOPT_POSTFIELDS => http_build_query(array('photo'=> new CurlFile($img)))
 					));
 					$response = curl_exec($myCurl);
 					curl_close($myCurl);
