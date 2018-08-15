@@ -42,13 +42,13 @@ $vk = new VKApiClient('5.78', VKLanguage::RUSSIAN);
 $data->setOutputEncoding('CP1251');
 $data->read('Test.xls');
 $mes = $data->sheets[0]['cells'][1][2];*/
-/ Файл xlsx
+// Файл xlsx
 $xls = PHPExcel_IOFactory::load(__DIR__ . '/Test.xls');
 
 // Первый лист
 $xls->setActiveSheetIndex(0);
 $sheet = $xls->getActiveSheet();
-
+$mes = "test";
 foreach ($sheet->toArray() as $row) {
    myLog($row);
 }
