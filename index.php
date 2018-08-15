@@ -98,11 +98,11 @@ switch ($type) {
 				break;
 			case CMD_CAT:
 				try {
-					/*$request_param = [
+					$request_param = [
 						'access_token' => VK_TOKEN,
 						'v' => '5.78'
-					];*/
-					$url = $vk->photos()->getMessagesUploadServer(VK_TOKEN,$userId);
+					];
+					$url = $vk->photos()->getMessagesUploadServer($request_param);
 					$result = json_decode($url,true);
 					myLog("json: ".$url);
 					/*$curl = curl_init();
