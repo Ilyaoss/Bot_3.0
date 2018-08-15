@@ -173,10 +173,10 @@ switch ($type) {
 					$url = $vk->photos()->saveMessagesPhoto(request_params);
 					$res_img = json_decode(curl_exec($curl),true);*/
 					
-					$res = $vk->messages()->send(VK_TOKEN, [
+					/*$res = $vk->messages()->send(VK_TOKEN, [
 						'peer_id' => $userId,
 						'attachment' => 'photo'.$uploadResult[0]['owner_id'].'_'.$uploadResult[0]['id']
-					]);
+					]);*/
 					$msg = null;
 					break;
 				} catch (\Exception $e) {
