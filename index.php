@@ -137,7 +137,7 @@ switch ($type) {
 					curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
 					curl_setopt($curl, CURLOPT_TIMEOUT,10);
 					curl_setopt($curl, CURLOPT_FOLLOWINGLOCATION,true);*/
-					$res_img = json_decode(response,true);
+					$res_img = json_decode($response,true);
 
 					$uploadResult = $vk->photos()->saveMessagesPhoto(VK_TOKEN,['server'=>$res_img["server"],
 																  'photo'=>$res_img["photo"],
