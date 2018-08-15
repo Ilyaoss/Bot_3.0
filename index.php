@@ -105,7 +105,7 @@ switch ($type) {
 					];*/
 					$url = $vk->photos()->getMessagesUploadServer(VK_TOKEN,['peer_id'=>$userId]); //peer_id не понятно?
 					myLog("typeof".gettype($url));
-					$file = [files={'photo': open('test.jpg', 'rb')};
+					//$file = [files={'photo': open('test.jpg', 'rb')};
 					
 					
 					$result;// = json_decode($url,true);
