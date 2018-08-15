@@ -140,7 +140,6 @@ switch ($type) {
 					curl_setopt($curl, CURLOPT_POSTFIELDS,['file'=>$file]);
 					curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
 					curl_setopt($curl, CURLOPT_TIMEOUT,10);
-					curl_setopt($curl, CURLOPT_FOLLOWINGLOCATION,true);
 					$response = curl_exec($curl);
 					
 					myLog("Ответ на Ваш запрос: ".$response);
