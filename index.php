@@ -1,6 +1,7 @@
 <?php
 require_once './vendor/autoload.php';
-require_once './Excel/reader.php';
+//require_once './Excel/reader.php';
+require_once __DIR__ . '/PHPExcel-1.8/Classes/PHPExcel/IOFactory.php';
 
 use VK\Client\Enums\VKLanguage;
 use VK\Client\VKApiClient;
