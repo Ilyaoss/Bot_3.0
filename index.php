@@ -55,7 +55,7 @@ switch ($type) {
 				[getBtn("Покажи моё Имя", COLOR_DEFAULT, CMD_ID)],
 				[getBtn("Покажи мою Фамилию", COLOR_PRIMARY, CMD_ID)],
 				[getBtn("Покажи мой статус", 'yellow', CMD_ID)],
-				[getBtn("Далее", COLOR_PRIMARY, CMD_NEXT)],
+				[getBtn("Далее", COLOR_PRIMARY, CMD_NEXT)]
 			]
 		];
 		$msg = "Привет я бот!";
@@ -74,7 +74,7 @@ switch ($type) {
 					'one_time' => false,
 					'buttons' => [
 						/*[getBtn("Пошли котика", COLOR_POSITIVE, CMD_CAT)],*/
-						[getBtn("Назад", COLOR_NEGATIVE)],
+						[getBtn("Назад", COLOR_NEGATIVE)]
 					]
 				];
 				break;
