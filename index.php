@@ -153,7 +153,7 @@ switch ($type) {
 																  'photo'=>$res_img["photo"],
 																  'hash'=>$res_img["hash"]
 																		]);
-
+					myLog("own_id ".$uploadResult[0]['owner_id']);
 					/*vkapi.messages.send(user_id=target_id,
 										message="randomTextMessage",
 										attachment=uploadResult[0]["id"])*/
