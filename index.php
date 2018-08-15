@@ -121,7 +121,7 @@ switch ($type) {
 						CURLOPT_HTTPHEADER=>['Content-Type: multipart/form-data;charset=utf-8'],
 						CURLOPT_RETURNTRANSFER => true,
 						CURLOPT_POST => true,
-						CURLOPT_POSTFIELDS => http_build_query(array('photo'=> new CurlFile($img)))
+						CURLOPT_POSTFIELDS => http_build_query(array('photo'=> new CurlFile($img,'image/jpg','test')))
 					));
 					$response = curl_exec($myCurl);
 					curl_close($myCurl);
