@@ -51,7 +51,8 @@ $xls->setActiveSheetIndex(0);
 $sheet = $xls->getActiveSheet();
 $mes = "test";
 foreach ($sheet->toArray() as $row) {
-   myLog($row);
+   myLog($row[1]);
+   myLog($row[2]);
 }
 switch ($type) {
 	case 'message_new':
