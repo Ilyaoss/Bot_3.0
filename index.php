@@ -51,7 +51,7 @@ switch ($type) {
 		$kbd = [
 			'one_time' => false,
 			'buttons' => [
-				[getBtn("Покажи мой ID", COLOR_DEFAULT, CMD_ID)],
+				/*[getBtn("Покажи мой ID", COLOR_DEFAULT, CMD_ID)],*/
 				[getBtn("Покажи моё Имя", COLOR_DEFAULT, CMD_ID)],
 				[getBtn("Покажи мою Фамилию", COLOR_PRIMARY, CMD_ID)],
 				[getBtn("Покажи мой статус", 'yellow', CMD_ID)],
