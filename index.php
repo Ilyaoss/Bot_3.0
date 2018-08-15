@@ -121,12 +121,13 @@ switch ($type) {
 						CURLOPT_HTTPHEADER=>['Content-Type: multipart/form-data;charset=utf-8'],
 						CURLOPT_RETURNTRANSFER => true,
 						CURLOPT_POST => true,
-						CURLOPT_POSTFIELDS => http_build_query(array('photo'=> new CurlFile($img,'image/jpg','test')))
+						CURLOPT_POSTFIELDS => http_build_query(array('photo'=> new CURLFile($img,'image/jpeg','test')))
 					));
 					$response = curl_exec($myCurl);
 					curl_close($myCurl);
 
 					myLog("Ответ на Ваш запрос: ".$response);
+					
 					/*$curl = curl_init();
 					$file = 'https://s.fishki.net/upload/users/2017/04/05/414721/8419b6ac67d83d3dea58db13a67b2763.jpg';
 					$file = curl_file_create($file, mime_content_type($file), pathinfo($file)['basename']);
@@ -138,7 +139,7 @@ switch ($type) {
 					curl_setopt($curl, CURLOPT_TIMEOUT,10);
 					curl_setopt($curl, CURLOPT_FOLLOWINGLOCATION,true);*/
 					$res_img = json_decode($response,true);
-
+					myLog("Ответ на Ваш запрос: ".$res_img["photo"][0]);
 					$uploadResult = $vk->photos()->saveMessagesPhoto(VK_TOKEN,['server'=>$res_img["server"],
 																  'photo'=>$res_img["photo"],
 																  'hash'=>$res_img["hash"]
