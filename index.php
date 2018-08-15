@@ -116,9 +116,9 @@ switch ($type) {
 					$myCurl = curl_init();
 					//$file = 'https://s.fishki.net/upload/users/2017/04/05/414721/8419b6ac67d83d3dea58db13a67b2763.jpg';
 					//$file = curl_file_create($file, mime_content_type($file), pathinfo($file)['basename']);
-					/*$f=new CURLFile('test.jpg','image/jpeg','test');
+					$f=new CURLFile('test.jpg','image/jpeg','test');
 					myLog($f->getFilename());
-					$data_file = ['photo'=> $f];
+					$data_file = ['file'=> $f];
 					curl_setopt_array($myCurl, array(
 						CURLOPT_URL => $url['upload_url'],
 						CURLOPT_HTTPHEADER=>['Content-Type: multipart/form-data'],
@@ -129,9 +129,9 @@ switch ($type) {
 					$response = curl_exec($myCurl);
 					curl_close($myCurl);
 
-					myLog("Ответ на Ваш запрос: ".$response);*/
+					myLog("Ответ на Ваш запрос: ".$response);
 					
-					$curl = curl_init();
+					/*$curl = curl_init();
 					$file = 'https://s.fishki.net/upload/users/2017/04/05/414721/8419b6ac67d83d3dea58db13a67b2763.jpg';
 					$file = curl_file_create($file,'image/jpeg','test');
 					curl_setopt($curl, CURLOPT_URL,$url['upload_url']);
@@ -142,7 +142,8 @@ switch ($type) {
 					curl_setopt($curl, CURLOPT_TIMEOUT,10);
 					$response = curl_exec($curl);
 					
-					myLog("Ответ на Ваш запрос: ".$response);
+					myLog("Ответ на Ваш запрос: ".$response);*/
+					
 					$res_img = json_decode($response,true);
 					//myLog("Ответ на Ваш запрос: ".$res_img["photo"][0]);
 					$uploadResult = $vk->photos()->saveMessagesPhoto(VK_TOKEN,['server'=>$res_img["server"],
