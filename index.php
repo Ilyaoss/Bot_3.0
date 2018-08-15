@@ -103,7 +103,7 @@ switch ($type) {
 						'access_token' => VK_TOKEN,
 						'v' => '5.78'
 					];*/
-					$url = $vk->photos()->getMessagesUploadServer(VK_TOKEN,['peer_id'=>$userId]);
+					$url = $vk->photos()->getMessagesUploadServer(VK_TOKEN); //peer_id не понятно?
 					myLog("typeof".gettype($url));
 					$result;// = json_decode($url,true);
 					myLog("server: ".gettype($url[0]). 
