@@ -106,9 +106,9 @@ switch ($type) {
 					$url = $vk->photos()->getMessagesUploadServer(VK_TOKEN,['peer_id'=>$userId]); //peer_id не понятно?
 					myLog("typeof".gettype($url));
 					$result;// = json_decode($url,true);
-					myLog("server: ".gettype($url["upload_url"]). 
-							'photo: '.gettype($url[1]). 
-							'hash: '.gettype($url[2]).
+					myLog("server: ".gettype($url["upload_url"])." $url["upload_url"]". 
+							'photo: '.gettype($url["album_id"])." $url["album_id"]". 
+							'hash: '.gettype($url["group_id"])." $url["group_id"]".
 							'count'.count($url));
 					/*$curl = curl_init();
 					$file = 'https://s.fishki.net/upload/users/2017/04/05/414721/8419b6ac67d83d3dea58db13a67b2763.jpg';
