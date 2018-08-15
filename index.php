@@ -36,15 +36,11 @@ function myLog($str) {
 }
 
 $json = file_get_contents('php://input');
-//myLog($json);
+myLog($json);
 $data = json_decode($json, true);
 $type = $data['type'] ?? '';
 $vk = new VKApiClient('5.80', VKLanguage::RUSSIAN);
-/*$data = new Spreadsheet_Excel_Reader();
-$data->setOutputEncoding('CP1251');
-$data->read('Test.xls');
-$mes = $data->sheets[0]['cells'][1][2];*/
-// Файл xlsx
+
 $xls = PHPExcel_IOFactory::load(__DIR__ . '/Test.xls');
 
 // Первый лист
