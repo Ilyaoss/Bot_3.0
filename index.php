@@ -52,6 +52,9 @@ switch ($type) {
 			'one_time' => false,
 			'buttons' => [
 				[getBtn("Покажи мой ID", COLOR_DEFAULT, CMD_ID)],
+				[getBtn("Покажи моё имя", COLOR_DEFAULT, CMD_ID)],
+				[getBtn("Покажи мою фамилию", COLOR_DEFAULT, CMD_ID)],
+				[getBtn("Покажи мой статус", COLOR_DEFAULT, CMD_ID)],
 				[getBtn("Далее", COLOR_PRIMARY, CMD_NEXT)],
 			]
 		];
