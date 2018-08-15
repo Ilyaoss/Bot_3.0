@@ -54,7 +54,7 @@ foreach ($sheet->toArray() as $row) {
 switch ($type) {
 	case 'message_new':
 		$message = $data['object'] ?? [];
-		$userId = $message['user_id'] ?? 0;
+		$userId = $message['from_id'] ?? 0; //user_id
 		$body = $message['body'] ?? '';
 		$payload = $message['payload'] ?? '';
 		
