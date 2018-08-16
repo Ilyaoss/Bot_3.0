@@ -71,9 +71,9 @@ for($i=1;$i<count($def_mas);++$i) {
 	$value = $def_mas[$i];
 	$array[$value[0]][$value[1]][] = $value[2];
 }
-$keys_1 = array_unique(array_column($def_mas, 0)); 
-$keys_2 = array_unique(array_column($def_mas, 1));
-$keys_3 = array_unique(array_column($def_mas, 2));
+$keys_1 = array_unique(array_column($def_mas, 0),SORT_REGULAR); 
+$keys_2 = array_unique(array_column($def_mas, 1),SORT_REGULAR);
+$keys_3 = array_column($def_mas, 2);
 
 myLog("Test: $array[0]\n count: ".count($array)."\n c1 ".$array['Комм и маркетинг']['Медиа'][0]);
 myLog("Ключ 1: $keys_1[2] Ключ 2: $keys_2[6] Ключ 3: $keys_3[3]");
