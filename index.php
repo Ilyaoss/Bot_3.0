@@ -72,8 +72,8 @@ for($i=1;i<count($def_mas);++$i) {
 	$array[$value[0]][$value[1]][] = $value[3];
 }
 $keys_1 = array_column($def_mas, 0); 
-$keys_2 = array_keys($def_mas, 1);
-$keys_3 = array_keys($def_mas, 2);
+$keys_2 = array_column($def_mas, 1);
+$keys_3 = array_column($def_mas, 2);
 
 myLog("Test: $array[0]\n count: ".count($array)."\n c1 ".count($array['Комм и маркетинг']['Медиа']));
 
