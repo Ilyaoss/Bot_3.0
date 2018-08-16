@@ -77,7 +77,7 @@ $keys_3 = array_keys($array, 2);
 
 myLog("Test: $array[0]\n count: ".count($array)."\n c1 ".count($array['Комм и маркетинг']['Медиа']));
 
-myLog("\nКомм и маркетинг.Производство ATL рекламы.Наружная и indoor реклама:\n $array[$keys_1[2]][$keys_2[6]][$keys_3[3]]");
+myLog("\nКомм и маркетинг.Производство ATL рекламы.Наружная и indoor реклама:\n ".$array[$keys_1[2]][$keys_2[6]][$keys_3[3]]");
 
 
 switch ($type) {
