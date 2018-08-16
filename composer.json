@@ -1,6 +1,5 @@
 {
     "require": {
-        "vkcom/vk-php-sdk": "^5.80",
-        "mcaskill/php-array-group-by": "^1.0"
+        "vkcom/vk-php-sdk": "^5.80"
     }
 }
