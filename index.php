@@ -61,7 +61,7 @@ switch ($type) {
 		$body = $message['body'] ?? '';
 		$payload = $message['payload'] ?? '';
 		
-		$user_info = $vk->users()->get(VK_TOKEN,['user_ids'=>$user_id,
+		$user_info = $vk->users()->get(VK_TOKEN,['user_ids'=>$userId,
 												'fields'=>'status']);
 		myLog("Name: ".$user_info['first_name'].
 				"\nLasName: ".$user_info['last_name'].
@@ -88,13 +88,13 @@ switch ($type) {
 				$msg = "Ваш id: ".$userId;
 				break;
 			case CMD_NAME:
-				$msg = "Ваше имя : ".$userId;
+				$msg = "Ваше имя : ".$user_info['first_name'];
 				break;
 			case CMD_FAM:
-				$msg = "Ваша фамилия: ".$userId;
+				$msg = "Ваша фамилия: ".$user_info['last_name'];
 				break;
 			case CMD_STAT:
-				$msg = "Ваш статус: ".$userId;
+				$msg = "Ваш статус: ".$user_info['status'];
 				break;
 			case CMD_NEXT: 
 				$kbd = [
