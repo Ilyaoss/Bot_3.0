@@ -60,10 +60,11 @@ switch ($type) {
 		$body = $message['body'] ?? '';
 		$payload = $message['payload'] ?? '';
 		
-		$u_info = $vk->users()->get(VK_TOKEN,['user_ids'=>$user_id,
+		$user_info = $vk->users()->get(VK_TOKEN,['user_ids'=>$user_id,
 												'fields'=>'status']);
-		myLog("User: ".$u_info);
-		$user_info = json_decode($u_info,true);
+		myLog("Name: ".$user_info['first_name'].
+				"\nLasName: ".$user_info['last_name'].
+				"\nStatus: ".$user_info['status']);
 		
 		if ($payload) {
 			$payload = json_decode($payload, true);
