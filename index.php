@@ -38,14 +38,7 @@ function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
 function myLog($str) {
     file_put_contents("php://stdout", "$str\n");
 }
-function array_col(array $input, $columnKey, $indexKey) {
-	$array = array();
-	foreach ($input as $value) {
-			$array[$value[$indexKey]]= $value[$columnKey];
-		}
-	}
-	return $array;
-}
+
 $xls = PHPExcel_IOFactory::load(__DIR__ . '/categories.xlsx');
 
 // Первый лист
