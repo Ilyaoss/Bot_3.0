@@ -54,11 +54,13 @@ $catigories = [];
 $def_mas = $sheet->toArray();
 myLog("Выводит?".$def_mas[0][1]);
 $level_12 = array_column( $def_mas, 1,0); /*асоц массив где ключи 1-й уровень, а значения 2-й*/
-$level_23 = array_column( $def_mas, 2,1);/*асоц массив где ключи 2-й уровень, а значения 3-й*/
+$level_23 = array_column( $def_mas, 2,1); /*асоц массив где ключи 2-й уровень, а значения 3-й*/
+$keys_12 = array_keys($level_12); 
+$keys_23 = array_keys($level_23);
 $res = $level_12;
 for($i=1;$i<count($level_12);$i++)
 {
-	myLog("\nВыводит!: ".gettype($level_12[$i]));
+	myLog("\nВыводит!: ".$level_12[$keys_12[$i]]);
 	/*for ($j=1;$j<count($level_12[$i]);$j++)
 	{
 		array_push($res[$i][$j], $level_23[$j]);
