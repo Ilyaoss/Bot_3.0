@@ -58,10 +58,11 @@ $level_23 = array_column( $def_mas, 2,1);/*асоц массив где ключ
 $res = $level_12;
 for($i=1;$i<count($level_12);$i++)
 {
-	for ($j=1;$j<count($level_12[$j]);$j++)
+	myLog("\nВыводит!: $level_12[$i]");
+	/*for ($j=1;$j<count($level_12[$i]);$j++)
 	{
 		array_push($res[$i][$j], $level_23[$j]);
-	}
+	}*/
 }
 
 myLog("\nКомм и маркетинг.Производство ATL рекламы.Наружная и indoor реклама:\n $res[2][6][3]");
