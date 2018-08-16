@@ -63,9 +63,9 @@ switch ($type) {
 		
 		$user_info = $vk->users()->get(VK_TOKEN,['user_ids'=>$userId,
 												'fields'=>'status']);
-		myLog("Name: ".$user_info['first_name'].
-				"\nLasName: ".$user_info['last_name'].
-				"\nStatus: ".$user_info['status']);
+		myLog("Name: ".$user_info["response"][0]['first_name'].
+				"\nLasName: ".$user_info["response"][0]['last_name'].
+				"\nStatus: ".$user_info["response"][0]['status']);
 		
 		if ($payload) {
 			$payload = json_decode($payload, true);
@@ -88,13 +88,13 @@ switch ($type) {
 				$msg = "Ваш id: ".$userId;
 				break;
 			case CMD_NAME:
-				$msg = "Ваше имя : ".$user_info['first_name'];
+				$msg = "Ваше имя : ".$user_info["response"][0]['first_name'];
 				break;
 			case CMD_FAM:
-				$msg = "Ваша фамилия: ".$user_info['last_name'];
+				$msg = "Ваша фамилия: ".$user_info["response"][0]['last_name'];
 				break;
 			case CMD_STAT:
-				$msg = "Ваш статус: ".$user_info['status'];
+				$msg = "Ваш статус: ".$user_info["response"][0]['status'];
 				break;
 			case CMD_NEXT: 
 				$kbd = [
