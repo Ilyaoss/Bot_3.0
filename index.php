@@ -38,25 +38,9 @@ function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
 function myLog($str) {
     file_put_contents("php://stdout", "$str\n");
 }
-function array_col(array $input, $columnKey, $indexKey = null) {
+function array_col(array $input, $columnKey, $indexKey) {
 	$array = array();
 	foreach ($input as $value) {
-		if ( !array_key_exists($columnKey, $value)) {
-			trigger_error("Key \"$columnKey\" does not exist in array");
-			return false;
-		}
-		if (is_null($indexKey)) {
-			$array[] = $value[$columnKey];
-		}
-		else {
-			if ( !array_key_exists($indexKey, $value)) {
-				trigger_error("Key \"$indexKey\" does not exist in array");
-				return false;
-			}
-			if ( ! is_scalar($value[$indexKey])) {
-				trigger_error("Key \"$indexKey\" does not contain scalar value");
-				return false;
-			}
 			$array[$value[$indexKey]]= $value[$columnKey];
 		}
 	}
@@ -76,9 +60,9 @@ $vk = new VKApiClient('5.80', VKLanguage::RUSSIAN);
 $catigories = [];
 $def_mas = $sheet->toArray();
 myLog("Выводит?".$def_mas[0][1]);
-$level_12 = array_col( $def_mas, 1,0); /*асоц массив где ключи 1-й уровень, а значения 2-й*/
-$level_23 = array_col( $def_mas, 2,1); /*асоц массив где ключи 2-й уровень, а значения 3-й*/
-$keys_12 = array_keys($level_12); 
+/*$level_12 = array_col( $def_mas, 1,0); /*асоц массив где ключи 1-й уровень, а значения 2-й*/
+/*$level_23 = array_col( $def_mas, 2,1); /*асоц массив где ключи 2-й уровень, а значения 3-й*/
+/*$keys_12 = array_keys($level_12); 
 $keys_23 = array_keys($level_23);
 $res = $level_12;
 for($i=1;$i<count($level_12);$i++)
@@ -87,10 +71,16 @@ for($i=1;$i<count($level_12);$i++)
 	/*for ($j=1;$j<count($level_12[$i]);$j++)
 	{
 		array_push($res[$i][$j], $level_23[$j]);
-	}*/
+	}
+}*/
+$array = array();
+foreach ($def_mas as $value) {
+	$array[$value[0]][]= $value[1];
+	$array[$value[0]][$value[1]][] = $array[$value[0]][$value[1]][$value[3]];
 }
 
-myLog("\nКомм и маркетинг.Производство ATL рекламы.Наружная и indoor реклама:\n $res[2][6][3]");
+
+myLog("\nКомм и маркетинг.Производство ATL рекламы.Наружная и indoor реклама:\n $array[3][7][4]");
 
 
 switch ($type) {
