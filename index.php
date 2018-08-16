@@ -54,7 +54,9 @@ $catigories = [];
 $def_mas = $sheet->toArray();
 myLog("Выводит?".$def_mas[0][1]);
 $grouped = array_column( $def_mas, 0, 1);
-myLog("Шо тут у нас".$grouped);
+$keys = array_keys($grouped);
+myLog("\nКлючики: $keys[0] $keys[1]");
+myLog("\nШо тут у нас".$grouped);
 
 switch ($type) {
 	case 'message_new':
