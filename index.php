@@ -76,7 +76,7 @@ $keys_2 = array_column($def_mas, 1);
 $keys_3 = array_column($def_mas, 2);
 
 myLog("Test: $array[0]\n count: ".count($array)."\n c1 ".$array['Комм и маркетинг']['Медиа'][0]);
-
+myLog("Ключ 1: $keys_1[2] Ключ 2: $keys_2[6] Ключ 3: $keys_3[3]");
 myLog("\nКомм и маркетинг.Производство ATL рекламы.Наружная и indoor реклама:\n".$array[$keys_1[2]][$keys_2[6]][$keys_3[3]]);
 
 
