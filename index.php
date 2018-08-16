@@ -71,7 +71,7 @@ foreach ($def_mas as $value) {
 	//$array[$value[0]]=> $value[1];
 	$array[$value[0]][$value[1]] = $value[3];
 }
-myLog("Test: $array[0]\n count: ".count($array)."\n c1 ".count($array['Комм и маркетинг']));
+myLog("Test: $array[0]\n count: ".count($array)."\n c1 ".count($array['Комм и маркетинг']['Медиа']));
 
 myLog("\nКомм и маркетинг.Производство ATL рекламы.Наружная и indoor реклама:\n $array[3][7][4]");
 
