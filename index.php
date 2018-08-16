@@ -53,10 +53,19 @@ $vk = new VKApiClient('5.80', VKLanguage::RUSSIAN);
 $catigories = [];
 $def_mas = $sheet->toArray();
 myLog("Выводит?".$def_mas[0][1]);
-$grouped = array_column( $def_mas, 1,0);
-$keys = array_keys($grouped);
-myLog("\nКлючики: $keys[0] $keys[1] $keys[3]");
-myLog("\nШо тут у нас".$grouped);
+$level_12 = array_column( $def_mas, 1,0); /*асоц массив где ключи 1-й уровень, а значения 2-й*/
+$level_23 = array_column( $def_mas, 2,1);/*асоц массив где ключи 2-й уровень, а значения 3-й*/
+$res = $level_12;
+for($i=1;i<count($level_12);$i++)
+{
+	for ($j=1;j<count($level_12[$j]);$j++)
+	{
+		$res[$i][$j] => $level_23[$j];
+	}
+}
+
+myLog("\nКомм и маркетинг.Производство ATL рекламы.Наружная и indoor реклама:\n $res[2][6][3]");
+
 
 switch ($type) {
 	case 'message_new':
