@@ -88,13 +88,13 @@ switch ($type) {
 				$msg = "Ваш id: ".$userId;
 				break;
 			case CMD_NAME:
-				$msg = "Ваше имя : ".$user_info["response"][0]['first_name'];
+				$msg = "Ваше имя : ".$user_info[0]['first_name'];
 				break;
 			case CMD_FAM:
-				$msg = "Ваша фамилия: ".$user_info["response"][0]['last_name'];
+				$msg = "Ваша фамилия: ".$user_info[0]['last_name'];
 				break;
 			case CMD_STAT:
-				$msg = "Ваш статус: ".$user_info["response"][0]['status'];
+				$msg = "Ваш статус: ".$user_info[0]['status'];
 				break;
 			case CMD_NEXT: 
 				$kbd = [
