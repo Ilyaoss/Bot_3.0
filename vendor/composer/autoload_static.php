@@ -6,6 +6,10 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit4caeebb6b0e51f17930ba80e3eb7ab5b
 {
+    public static $files = array (
+        '45aa9999d4f6d0867d163901abfff6b6' => __DIR__ . '/..' . '/mcaskill/php-array-group-by/Function.Array-Group-By.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
         'V' => 
         array (

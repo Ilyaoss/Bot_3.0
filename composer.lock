@@ -4,8 +4,47 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9eb92987965565698487387465aba9be",
+    "content-hash": "8847fcd30511656242f8b81447fd04e0",
     "packages": [
+        {
+            "name": "mcaskill/php-array-group-by",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://gist.github.com/mcaskill/baaee44487653e1afc0d",
+                "reference": "20aa76bbc63c0a83448db7d7b93af8006a5bb56f"
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "Function.Array-Group-By.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chauncey McAskill",
+                    "email": "chauncey@mcaskill.ca",
+                    "homepage": "https://github.com/mcaskill"
+                }
+            ],
+            "description": "Groups an array by a given key.",
+            "keywords": [
+                "function"
+            ],
+            "time": "2017-11-24T13:45:55+00:00"
+        },
         {
             "name": "vkcom/vk-php-sdk",
             "version": "5.80.1",

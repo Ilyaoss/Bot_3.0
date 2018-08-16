@@ -1,0 +1,61 @@
+$j=0;
+$temp = $def_mas[1][1]; //первый элемент из 2 уровня
+$temp_bef = null;//$def_mas[1][0]; // первый элемент 1-го уровня
+//$temp_idx = 1;			//индекс уровня
+$temp_array = &$array;
+for($i=1; $i<count($def_mas);) {
+	while(true)
+	{
+		if($temp != $def_mas[$i][$j] /*&& $def_mas[$i][$j] == $temp_bef*/)
+		{	
+			if($j < 2)
+			{
+				if($def_mas[$i][$j-1] == $temp_bef){
+					temp_array[$def_mas[$i][$j]] = $def_mas[$i][$j+1];
+					//$temp_bef = $def_mas[$i-1][$j-1];
+					$temp=$def_mas[$i][$j];
+					$i++;
+				}
+				else{
+					$j--;
+					
+					$temp_array[def_mas[$i][$j]] => [];
+					$temp_array = &$catigories[def_mas[$i][$j]];
+					//$temp = $def_mas[$i][$j];
+					++$j;
+				}
+				
+			}
+			else{
+				array_push($temp_array,$def_mas[$i][$j]);
+				$temp = $def_mas[$i][$j-1];
+				$j--;
+				++$i;
+				//$temp_bef = $temp_bef = $def_mas[$i][0];
+			}
+		}
+		else{
+			if($def_mas[$i][$j-1] == $temp_bef)
+			{
+				$temp_array[$def_mas[$i][$j]] = $def_mas[$i][$j+1];
+				//array_push($temp_array,$def_mas[$i][$j+1]);
+				//$temp = $def_mas[$i][$j-1];
+				//$j--;
+				++$i;
+				//$temp_bef = $def_mas[$i][0];
+			}
+			else
+			{
+				$temp_bef = $def_mas[$i][$j-1];
+				$j--;
+				$temp = $def_mas[$i][$j-1];
+				
+			}
+			/*array_push($temp_array,$def_mas[$i][$j+1]);
+			//$temp = $def_mas[$i][$j-1];
+			//$j--;
+			++$i;
+			$temp_bef = $temp_bef = $def_mas[$i][0];*/
+		}
+	}
+}

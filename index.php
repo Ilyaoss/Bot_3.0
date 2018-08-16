@@ -20,10 +20,11 @@ const CMD_STAT = 'STAT';
 
 const VK_TOKEN = '887f275780153f8d0a42339e542ecb1f1b6a47bce9385aea12ada07d3a459095800074da66b418d5911c9';
 //'0f0567f6ffa539268e0b6558d7622d375e6232283542932eadc135443d88109330c37b64bbb8c26bf525a';
+
 //Строка для подтверждения адреса сервера из настроек Callback API 
 $confirmation_token = 'd18ce045'; 
 
-function getBtn($label, $color, $payload = '') {
+function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
     return [
         'action' => [
             'type' => 'text',
@@ -38,22 +39,23 @@ function myLog($str) {
     file_put_contents("php://stdout", "$str\n");
 }
 
+$xls = PHPExcel_IOFactory::load(__DIR__ . '/categories.xlsx');
+
+// Первый лист
+$xls->setActiveSheetIndex(0);
+$sheet = $xls->getActiveSheet();
+
 $json = file_get_contents('php://input');
 myLog($json);
 $data = json_decode($json, true);
 $type = $data['type'] ?? '';
 $vk = new VKApiClient('5.80', VKLanguage::RUSSIAN);
+$catigories = [];
+$def_mas = $sheet->toArray();
+myLog("Выводит?".$def_mas[0][1]);
+$grouped = array_group_by( $def_mas, 0, 1);
+myLog("Шо тут у нас".$grouped);
 
-$xls = PHPExcel_IOFactory::load(__DIR__ . '/Test.xls');
-
-// Первый лист
-$xls->setActiveSheetIndex(0);
-$sheet = $xls->getActiveSheet();
-$mes = "test";
-foreach ($sheet->toArray() as $row) {
-   myLog($row[0]);
-   myLog($row[1]);
-}
 switch ($type) {
 	case 'message_new':
 		$message = $data['object'] ?? [];
@@ -61,11 +63,11 @@ switch ($type) {
 		$body = $message['body'] ?? '';
 		$payload = $message['payload'] ?? '';
 		
-		$user_info = $vk->users()->get(VK_TOKEN,['user_ids'=>$userId,
+		//$user_info = $vk->users()->get(VK_TOKEN,['user_ids'=>$userId,
 												'fields'=>'status']);
-		myLog("Name: ".$user_info[0]['first_name'].
+		/*myLog("Name: ".$user_info[0]['first_name'].
 				"\nLasName: ".$user_info[0]['last_name'].
-				"\nStatus: ".$user_info[0]['status']);
+				"\nStatus: ".$user_info[0]['status']);*/
 		
 		if ($payload) {
 			$payload = json_decode($payload, true);
@@ -104,6 +106,7 @@ switch ($type) {
 						[getBtn("Назад", COLOR_NEGATIVE)],
 					]
 				];
+				$msg = null;
 				break;
 			case CMD_CAT:
 				try {
