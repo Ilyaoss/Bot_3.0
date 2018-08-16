@@ -14,7 +14,7 @@ const COLOR_PRIMARY = 'primary';
 const CMD_ID = 'ID';
 const CMD_NEXT = 'NEXT';
 const CMD_CAT = 'CAT';
-const CMD_NAME = 'NAME'
+const CMD_NAME = 'NAME';
 const CMD_FAM = 'FAM';
 const CMD_STAT = 'STAT';
 
