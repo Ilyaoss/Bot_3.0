@@ -73,22 +73,17 @@ switch ($type) {
 			]
 		];
 		$msg = "Привет я бот!";
-		/*$photo_cat = [
-			'type' => 'photo',
-			'photo' =>[
-				'photo_2560'=> @'https://s.fishki.net/upload/users/2017/04/05/414721/8419b6ac67d83d3dea58db13a67b2763.jpg'
-			]
-		];*/
+
 		switch($payload){
 			case CMD_ID:
 
-				$msg = "Ваш id ".$mes;//$userId;
+				$msg = "Ваш id ".$userId;
 				break;
 			case CMD_NEXT: 
 				$kbd = [
 					'one_time' => false,
 					'buttons' => [
-						[getBtn("Пошли котика", COLOR_POSITIVE, CMD_CAT)],
+						[getBtn("Пришли котика", COLOR_POSITIVE, CMD_CAT)],
 						[getBtn("Назад", COLOR_NEGATIVE)],
 					]
 				];
@@ -152,41 +147,6 @@ switch ($type) {
 			myLog( $e->getCode().' '.$e->getMessage() );
 			
 		}
-		/*if ($payload === CMD_ID) {
-			$msg = "Ваш id ".$userId;
-		}
-		if ($payload === CMD_NEXT) {
-			$kbd = [
-				'one_time' => false,
-				'buttons' => [
-					[getBtn("Пошли тайпинг", COLOR_POSITIVE, CMD_TYPING)],
-					[getBtn("Назад", COLOR_NEGATIVE)],
-				]
-			];
-		}
-		if ($payload === CMD_TYPING) {
-			try {
-				$res = $vk->messages()->setActivity(VK_TOKEN, [
-					'peer_id' => $userId,
-					'type' => 'typing'
-				]);
-				$msg = null;
-			} catch (\Exception $e) {
-				myLog( $e->getCode().' '.$e->getMessage() );
-			}
-		}
-		try {
-			if ($msg !== null) {
-				$response = $vk->messages()->send(VK_TOKEN, [
-					'peer_id' => $userId,
-					'message' => $msg,
-					'keyboard' => json_encode($kbd, JSON_UNESCAPED_UNICODE)
-				]);
-			}
-		} catch (\Exception $e) {
-			myLog( $e->getCode().' '.$e->getMessage() );
-			
-		}*/
 		echo  "OK";
 		break;
 	case 'confirmation': 
