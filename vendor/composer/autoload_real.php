@@ -53,7 +53,6 @@ class ComposerAutoloaderInit4caeebb6b0e51f17930ba80e3eb7ab5b
             $includeFiles = require __DIR__ . '/autoload_files.php';
         }
         foreach ($includeFiles as $fileIdentifier => $file) {
-			file_put_contents("php://stdout", "$file\n");
             composerRequire4caeebb6b0e51f17930ba80e3eb7ab5b($fileIdentifier, $file);
         }
 
