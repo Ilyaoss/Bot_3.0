@@ -14,6 +14,8 @@ const COLOR_PRIMARY = 'primary';
 const CMD_ID = 'ID';
 const CMD_NEXT = 'NEXT';
 const CMD_CAT = 'CAT';
+const CMD_FAM = 'FAM';
+const CMD_STAT = 'STAT';
 
 const VK_TOKEN = '887f275780153f8d0a42339e542ecb1f1b6a47bce9385aea12ada07d3a459095800074da66b418d5911c9';
 //'0f0567f6ffa539268e0b6558d7622d375e6232283542932eadc135443d88109330c37b64bbb8c26bf525a';
@@ -58,6 +60,11 @@ switch ($type) {
 		$body = $message['body'] ?? '';
 		$payload = $message['payload'] ?? '';
 		
+		$u_info = $vk->users()->get(VK_TOKEN,['user_ids'=>$user_id,
+												'fields'=>'status']);
+		myLog("User: ".$u_info);
+		$user_info = json_decode($u_info,true);
+		
 		if ($payload) {
 			$payload = json_decode($payload, true);
 		}
@@ -66,9 +73,9 @@ switch ($type) {
 			'one_time' => false,
 			'buttons' => [
 				[getBtn("Покажи мой ID", COLOR_DEFAULT, CMD_ID)],
-				[getBtn("Покажи моё имя", COLOR_DEFAULT, CMD_ID)],
-				[getBtn("Покажи мою фамилию", COLOR_DEFAULT, CMD_ID)],
-				[getBtn("Покажи мой статус", COLOR_DEFAULT, CMD_ID)],
+				[getBtn("Покажи моё имя", COLOR_DEFAULT, CMD_NAME)],
+				[getBtn("Покажи мою фамилию", COLOR_DEFAULT, CMD_FAM)],
+				[getBtn("Покажи мой статус", COLOR_DEFAULT, CMD_STAT)],
 				[getBtn("Далее", COLOR_PRIMARY, CMD_NEXT)],
 			]
 		];
@@ -76,8 +83,13 @@ switch ($type) {
 
 		switch($payload){
 			case CMD_ID:
-
-				$msg = "Ваш id ".$userId;
+				$msg = "Ваш id: ".$userId;
+				break;
+			case CMD_FAM:
+				$msg = "Ваша фамилия: ".$userId;
+				break;
+			case CMD_STAT:
+				$msg = "Ваш статус: ".$userId;
 				break;
 			case CMD_NEXT: 
 				$kbd = [
