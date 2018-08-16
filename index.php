@@ -67,7 +67,7 @@ for($i=1;$i<count($level_12);$i++)
 	}
 }*/
  $array = array();
-for($i=1;i<count($def_mas);++$i) {
+for($i=1;$i<count($def_mas);++$i) {
 	$value = $def_mas[$i];
 	$array[$value[0]][$value[1]][] = $value[3];
 }
