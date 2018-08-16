@@ -53,7 +53,7 @@ $vk = new VKApiClient('5.80', VKLanguage::RUSSIAN);
 $catigories = [];
 $def_mas = $sheet->toArray();
 myLog("Выводит?".$def_mas[0][1]);
-$grouped = array_column( $def_mas, 0, 1);
+$grouped = array_column( $def_mas, 1);
 $keys = array_keys($grouped);
 myLog("\nКлючики: $keys[0] $keys[1] $keys[3]");
 myLog("\nШо тут у нас".$grouped);
