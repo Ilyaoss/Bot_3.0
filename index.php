@@ -14,6 +14,7 @@ const COLOR_PRIMARY = 'primary';
 const CMD_ID = 'ID';
 const CMD_NEXT = 'NEXT';
 const CMD_CAT = 'CAT';
+const CMD_NAME = 'NAME'
 const CMD_FAM = 'FAM';
 const CMD_STAT = 'STAT';
 
@@ -85,6 +86,9 @@ switch ($type) {
 		switch($payload){
 			case CMD_ID:
 				$msg = "Ваш id: ".$userId;
+				break;
+			case CMD_NAME:
+				$msg = "Ваше имя : ".$userId;
 				break;
 			case CMD_FAM:
 				$msg = "Ваша фамилия: ".$userId;
