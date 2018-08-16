@@ -38,7 +38,7 @@ function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
 function myLog($str) {
     file_put_contents("php://stdout", "$str\n");
 }
-function array_column(array $input, $columnKey, $indexKey = null) {
+function array_col(array $input, $columnKey, $indexKey = null) {
 	$array = array();
 	foreach ($input as $value) {
 		if ( !array_key_exists($columnKey, $value)) {
@@ -76,8 +76,8 @@ $vk = new VKApiClient('5.80', VKLanguage::RUSSIAN);
 $catigories = [];
 $def_mas = $sheet->toArray();
 myLog("Выводит?".$def_mas[0][1]);
-$level_12 = array_column( $def_mas, 1,0); /*асоц массив где ключи 1-й уровень, а значения 2-й*/
-$level_23 = array_column( $def_mas, 2,1); /*асоц массив где ключи 2-й уровень, а значения 3-й*/
+$level_12 = array_col( $def_mas, 1,0); /*асоц массив где ключи 1-й уровень, а значения 2-й*/
+$level_23 = array_col( $def_mas, 2,1); /*асоц массив где ключи 2-й уровень, а значения 3-й*/
 $keys_12 = array_keys($level_12); 
 $keys_23 = array_keys($level_23);
 $res = $level_12;
