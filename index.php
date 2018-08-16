@@ -60,7 +60,7 @@ for($i=1;i<count($level_12);$i++)
 {
 	for ($j=1;j<count($level_12[$j]);$j++)
 	{
-		$res[$i][$j] => $level_23[$j];
+		array_push($res[$i][$j], $level_23[$j]);
 	}
 }
 
