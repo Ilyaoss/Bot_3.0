@@ -38,7 +38,30 @@ function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
 function myLog($str) {
     file_put_contents("php://stdout", "$str\n");
 }
-
+function array_column(array $input, $columnKey, $indexKey = null) {
+	$array = array();
+	foreach ($input as $value) {
+		if ( !array_key_exists($columnKey, $value)) {
+			trigger_error("Key \"$columnKey\" does not exist in array");
+			return false;
+		}
+		if (is_null($indexKey)) {
+			$array[] = $value[$columnKey];
+		}
+		else {
+			if ( !array_key_exists($indexKey, $value)) {
+				trigger_error("Key \"$indexKey\" does not exist in array");
+				return false;
+			}
+			if ( ! is_scalar($value[$indexKey])) {
+				trigger_error("Key \"$indexKey\" does not contain scalar value");
+				return false;
+			}
+			array_push($array[$value[$indexKey]], $value[$columnKey]);
+		}
+	}
+	return $array;
+}
 $xls = PHPExcel_IOFactory::load(__DIR__ . '/categories.xlsx');
 
 // Первый лист
