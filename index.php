@@ -57,7 +57,7 @@ function array_col(array $input, $columnKey, $indexKey = null) {
 				trigger_error("Key \"$indexKey\" does not contain scalar value");
 				return false;
 			}
-			array_push($array[$value[$indexKey]], $value[$columnKey]);
+			$array[$value[$indexKey]]= $value[$columnKey];
 		}
 	}
 	return $array;
