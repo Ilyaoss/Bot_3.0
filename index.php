@@ -63,9 +63,9 @@ switch ($type) {
 		
 		$user_info = $vk->users()->get(VK_TOKEN,['user_ids'=>$userId,
 												'fields'=>'status']);
-		myLog("Name: ".$user_info["response"][0]['first_name'].
-				"\nLasName: ".$user_info["response"][0]['last_name'].
-				"\nStatus: ".$user_info["response"][0]['status']);
+		myLog("Name: ".$user_info[0]['first_name'].
+				"\nLasName: ".$user_info[0]['last_name'].
+				"\nStatus: ".$user_info[0]['status']);
 		
 		if ($payload) {
 			$payload = json_decode($payload, true);
