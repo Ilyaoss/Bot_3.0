@@ -77,9 +77,9 @@ $keys_1 = array_keys($array); /*Кнопки 1-го уровня*/
 /*foreach($keys_1 as $key){
 	array_push($buttons,[getBtn($key, COLOR_DEFAULT)]);
 }*/
-for($i=0;$i<count($keys_1);++$i) {
+for($i=0;$i<4;++$i) {
 	$key = $keys_1[$i];
-	if($i<10) {
+	if($i2) {
 		array_push($buttons1,getBtn($key, COLOR_DEFAULT,$key));
 	}
 	else {
@@ -92,7 +92,7 @@ myLog("Keyboard0: ".json_encode([
 						[getBtn("Пришли котика", COLOR_POSITIVE, CMD_CAT)],
 						[getBtn("Назад", COLOR_NEGATIVE)],
 					],JSON_UNESCAPED_UNICODE));
-myLog("Keyboard1: ".json_encode($buttons1,JSON_UNESCAPED_UNICODE));
+myLog("Keyboard1: ".json_encode([$buttons1,$buttons2],JSON_UNESCAPED_UNICODE));
 myLog("Keys: ".json_encode($keys_1[0],JSON_UNESCAPED_UNICODE));
 //myLog("Array: ".json_encode($array),JSON_UNESCAPED_UNICODE);
 myLog("Test: $array[0]\n count: ".count($array)."\n c1 ".$array['Комм и маркетинг']['Медиа'][0]);
