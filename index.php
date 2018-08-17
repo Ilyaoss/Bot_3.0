@@ -44,7 +44,7 @@ function getBtn2($label, $color = COLOR_DEFAULT, $payload = '', $prev) {
     return [
         'action' => [
             'type' => 'text',
-            'payload' => json_encode([$payload=>$prev], JSON_UNESCAPED_UNICODE),
+            'payload' => json_encode([$prev=>$payload], JSON_UNESCAPED_UNICODE),
             'label' => $label
         ],
         'color' => $color
@@ -298,16 +298,21 @@ switch ($type) {
 						'buttons' => $buttons
 					];
 				}*/
-				$keys_2 = array_keys($array[$payload]);
-				myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
-				$buttons = getKbd_2(0,count($keys_2),$keys_2,$payload);//count($keys_2)
-				array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK)]);
-				//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-				$kbd = [
-					'one_time' => false,
-					'buttons' => $buttons
-				];
-				
+				if(is_array($payload)){
+					myLog("MSG: ".$body." PAYLOAD:".$payload[0]);
+				}
+				else
+				{
+					$keys_2 = array_keys($array[$payload]);
+					myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
+					$buttons = getKbd_2(0,count($keys_2),$keys_2,$payload);//count($keys_2)
+					array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK)]);
+					//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
+					$kbd = [
+						'one_time' => false,
+						'buttons' => $buttons
+					];
+				}
 				/*foreach($keys_1 as $key)
 				{
 					if($key == $payload)
