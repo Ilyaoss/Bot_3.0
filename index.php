@@ -74,7 +74,7 @@ for($i=1;$i<count($def_mas);++$i) {
 $buttons = [];
 $keys_1 = array_keys($array); /*Кнопки 1-го уровня*/
 foreach($keys_1 as $key){
-	array_push($buttons,[getBtn($key, COLOR_DEFAULT, $key)]);
+	array_push($buttons,[getBtn($key, COLOR_DEFAULT)]);
 }
 $keys_2 = array_unique(array_column($def_mas, 1),SORT_REGULAR);
 $keys_3 = array_column($def_mas, 2);
@@ -86,8 +86,8 @@ myLog("Keyboard1: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
 myLog("Keys: ".json_encode($keys_1[0],JSON_UNESCAPED_UNICODE));
 //myLog("Array: ".json_encode($array),JSON_UNESCAPED_UNICODE);
 myLog("Test: $array[0]\n count: ".count($array)."\n c1 ".$array['Комм и маркетинг']['Медиа'][0]);
-//myLog("Ключ 1: $keys_1[2] Ключ 2: $keys_2[6] Ключ 3: $keys_3[3]");
-myLog("Ключ 1: ".count($keys_1)."Ключ 2: ".count($keys_2)."Ключ 3: ".count($keys_3));
+myLog("Ключ 1: $keys_1[2] Ключ 2: $keys_2[6] Ключ 3: $keys_3[3]");
+//myLog("Ключ 1: ".count($keys_1)."Ключ 2: ".count($keys_2)."Ключ 3: ".count($keys_3));
 myLog("Array: $array[2][0][0]");
 myLog("\nКомм и маркетинг.Производство ATL рекламы.Наружная и indoor реклама:\n".$array[$keys_1[2]][$keys_2[6]][3]);
 
