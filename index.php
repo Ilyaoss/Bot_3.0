@@ -66,12 +66,16 @@ for($i=1;$i<count($level_12);$i++)
 		array_push($res[$i][$j], $level_23[$j]);
 	}
 }*/
- $array = array();
+$array = array();
 for($i=1;$i<count($def_mas);++$i) {
 	$value = $def_mas[$i];
 	$array[$value[0]][$value[1]][] = $value[2];
 }
-$keys_1 = array_keys($array); 
+$buttons = [];
+$keys_1 = array_keys($array); /*Кнопки 1-го уровня*/
+foreach($keys_1 as $key){
+	array_push($buttons,[getBtn($key, COLOR_DEFAULT, $key)]);
+}
 $keys_2 = array_unique(array_column($def_mas, 1),SORT_REGULAR);
 $keys_3 = array_column($def_mas, 2);
 myLog("Keys: ".json_encode($keys_1[0],JSON_UNESCAPED_UNICODE));
@@ -102,13 +106,7 @@ switch ($type) {
 		myLog("MSG: ".$body." PAYLOAD:".$payload);
 		$kbd = [
 			'one_time' => false,
-			'buttons' => [
-				[getBtn("Покажи мой ID", COLOR_DEFAULT, CMD_ID)],
-				[getBtn("Покажи моё имя", COLOR_DEFAULT, CMD_NAME)],
-				[getBtn("Покажи мою фамилию", COLOR_DEFAULT, CMD_FAM)],
-				[getBtn("Покажи мой статус", COLOR_DEFAULT, CMD_STAT)],
-				[getBtn("Далее", COLOR_PRIMARY, CMD_NEXT)],
-			]
+			'buttons' => $buttons
 		];
 		$msg = "Привет я бот!";
 
