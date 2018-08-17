@@ -94,7 +94,7 @@ for($i=0;$i<9;++$i) {
 	$key = $keys_1[$i];
 	array_push($buttons,[getBtn($key, COLOR_DEFAULT,$key)]);
 }
-array_push($buttons,[getBtn('Далее', COLOR_DEFAULT,CMD_NEXT)]);
+array_push($buttons,[getBtn('Далее', COLOR_POSITIVE,CMD_NEXT)]);
 
 $keys_2 = array_unique(array_column($def_mas, 1),SORT_REGULAR);
 $keys_3 = array_column($def_mas, 2);
@@ -133,7 +133,7 @@ switch ($type) {
 			'one_time' => false,
 			'buttons' => $buttons//,$buttons2]
 		];
-		$msg = "Привет я бот!";
+		$msg = "Список подкатегорий 1-го уровня, нажми для перехода во 2 уровень";
 
 		switch($payload){
 			case CMD_BACK:
@@ -142,12 +142,11 @@ switch ($type) {
 					$key = $keys_1[$i];
 					array_push($buttons,[getBtn($key, COLOR_DEFAULT,$key)]);
 				}
-				array_push($buttons,[getBtn('Далее', COLOR_DEFAULT,CMD_BACK)]);
+				array_push($buttons,[getBtn('Далее', COLOR_POSITIVE,CMD_BACK)]);
 				$kbd = [
 					'one_time' => false,
 					'buttons' => $buttons
 				];
-				$msg = null;
 				break;
 			case CMD_NEXT:
 				$buttons = [];
@@ -160,7 +159,6 @@ switch ($type) {
 					'one_time' => false,
 					'buttons' => $buttons
 				];
-				$msg = null;
 				break;
 			case CMD_CAT:
 				try {
