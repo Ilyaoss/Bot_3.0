@@ -166,7 +166,7 @@ switch ($type) {
 		/*myLog("Name: ".$user_info[0]['first_name'].
 				"\nLasName: ".$user_info[0]['last_name'].
 				"\nStatus: ".$user_info[0]['status']);*/
-		
+		myLog("MSG: ".$body." PAYLOAD:".$payload);
 		if ($payload) {
 			$payload = json_decode($payload, true);
 		}
