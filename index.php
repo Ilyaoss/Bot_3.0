@@ -54,7 +54,7 @@ function getKbd($start, $end, $keys){
 	}
 	return $buttons;
 }
-function getKbd_2($start, $end, $keys,){
+function getKbd_2($start, $end, $keys){
 	$buttons = [];
 	$buttons_temp = [];
 	for($i=$start;$i<$end;++$i) {
