@@ -152,6 +152,7 @@ switch ($type) {
 					'one_time' => false,
 					'buttons' => $buttons//,$buttons2]
 				];
+				break;
 			case CMD_CAT:
 				$buttons = getKbd(0,9,$keys_1);
 				array_push($buttons,[getBtn('Далее-->', COLOR_POSITIVE,CMD_NEXT)]);
