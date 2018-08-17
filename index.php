@@ -71,7 +71,7 @@ for($i=1;$i<count($def_mas);++$i) {
 	$value = $def_mas[$i];
 	$array[$value[0]][$value[1]][] = $value[2];
 }
-$keys_1 = array_unique(array_column($def_mas, 0),SORT_REGULAR); 
+$keys_1 = array_column($array, 0); 
 $keys_2 = array_unique(array_column($def_mas, 1),SORT_REGULAR);
 $keys_3 = array_column($def_mas, 2);
 myLog("Keys: ".json_encode($keys_1,JSON_UNESCAPED_UNICODE));
