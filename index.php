@@ -303,7 +303,7 @@ switch ($type) {
 					myLog("MSG: ".$body." PAYLOAD_val:".$payload[$key[0]]);
 					$keys_3 = $array[$key[0]][$payload[$key[0]]];
 					$buttons = getKbd(0,count($keys_3),$keys_3);
-					myLog("CHECK THIS OUT: ".json_encode(buttons,JSON_UNESCAPED_UNICODE));
+					myLog("CHECK THIS OUT: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
 					$kbd = [
 						'one_time' => false,
 						'buttons' => $buttons
