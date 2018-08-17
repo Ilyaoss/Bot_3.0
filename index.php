@@ -20,13 +20,15 @@ const CMD_STAT = 'STAT';
 const CMD_BACK = 'BACK';
 const CMD_MAIN = 'MAIN';
 const CMD_MY = 'MY_SUBS';
+const CMD_SUBS = 'SUBS';
 
 const VK_TOKEN = '887f275780153f8d0a42339e542ecb1f1b6a47bce9385aea12ada07d3a459095800074da66b418d5911c9';
 //'0f0567f6ffa539268e0b6558d7622d375e6232283542932eadc135443d88109330c37b64bbb8c26bf525a';
 
 //Строка для подтверждения адреса сервера из настроек Callback API 
 $confirmation_token = 'd18ce045'; 
-
+$cur_lvl = 0;
+$cur_mas = []; 
 function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
     return [
         'action' => [
@@ -165,6 +167,7 @@ switch ($type) {
 
 		switch($payload){
 			case CMD_MAIN:
+				$cur_lvl = 0;
 				$buttons = [];
 				array_push($buttons,[getBtn('Подписаться на категории', COLOR_DEFAULT,CMD_CAT)]);
 				array_push($buttons,[getBtn('Мои подписки', COLOR_DEFAULT,CMD_MY)]);
@@ -174,6 +177,7 @@ switch ($type) {
 				];
 				break;
 			case CMD_CAT:
+				$cur_lvl = 1;
 				$buttons = getKbd(0,9,$keys_1);
 				array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('Далее-->', COLOR_POSITIVE,CMD_NEXT)]);
 				//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
@@ -251,7 +255,34 @@ switch ($type) {
 				}
 				break;*/
 			default:
-				$keys_2 = array_keys($array[$payload]);
+				if($cur_lvl == 1)/*Перешли с 1-го уровня*/
+				{
+					$cur_lvl = 2;
+					$cur_mas = $array[$payload];
+					$keys_2 = array_keys($array[$payload]);
+					myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
+					$buttons = getKbd_2(0,count($keys_2),$keys_2);//count($keys_2)
+					array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK)]);
+					//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
+					$kbd = [
+						'one_time' => false,
+						'buttons' => $buttons
+					];
+				}
+				if($cur_lvl == 2)/*Перешли с 2-го уровня*/
+				{
+					$cur_lvl = 3;
+					$keys_3 = $cur_mas[$payload];
+					myLog("Keys3: ".json_encode($keys_3,JSON_UNESCAPED_UNICODE));
+					$buttons = getKbd(0,count($keys_3),$keys_3);//count($keys_2)
+					array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK)]);
+					//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
+					$kbd = [
+						'one_time' => false,
+						'buttons' => $buttons
+					];
+				}
+				/*$keys_2 = array_keys($array[$payload]);
 				myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
 				$buttons = getKbd_2(0,count($keys_2),$keys_2);//count($keys_2)
 				array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK)]);
@@ -259,7 +290,8 @@ switch ($type) {
 				$kbd = [
 					'one_time' => false,
 					'buttons' => $buttons
-				];
+				];*/
+				
 				/*foreach($keys_1 as $key)
 				{
 					if($key == $payload)
