@@ -301,7 +301,9 @@ switch ($type) {
 				if(is_array($payload)){
 					$key = array_keys($payload);
 					myLog("MSG: ".$body." PAYLOAD:".$payload[$key[0]]);
+					$keys_3 = $array[$key][$payload[$key[0]]];
 					$buttons = getKbd(0,count($keys_3),$keys_3);
+					myLog("CHECK THIS OUT: ".json_encode($keys_3,JSON_UNESCAPED_UNICODE));
 					$kbd = [
 						'one_time' => false,
 						'buttons' => $buttons
