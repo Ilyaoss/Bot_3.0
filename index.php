@@ -299,7 +299,8 @@ switch ($type) {
 					];
 				}*/
 				if(is_array($payload)){
-					myLog("MSG: ".$body." PAYLOAD:".$payload[0]);
+					$key = array_keys($array[$payload]);
+					myLog("MSG: ".$body." PAYLOAD:".$payload[$key[0]]);
 				}
 				else
 				{
