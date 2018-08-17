@@ -178,6 +178,7 @@ switch ($type) {
 				break;
 			case CMD_CAT:
 				$cur_lvl = 1;
+				myLog("CUR_LVL: $cur_lvl");
 				$buttons = getKbd(0,9,$keys_1);
 				array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('Далее-->', COLOR_POSITIVE,CMD_NEXT)]);
 				//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
@@ -255,9 +256,11 @@ switch ($type) {
 				}
 				break;*/
 			default:
+				myLog("CUR_LVL: $cur_lvl");
 				if($cur_lvl == 1)/*Перешли с 1-го уровня*/
 				{
 					$cur_lvl = 2;
+					myLog("CUR_LVL: $cur_lvl");
 					$cur_mas = $array[$payload];
 					$keys_2 = array_keys($array[$payload]);
 					myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
@@ -272,6 +275,7 @@ switch ($type) {
 				if($cur_lvl == 2)/*Перешли с 2-го уровня*/
 				{
 					$cur_lvl = 3;
+					myLog("CUR_LVL: $cur_lvl");
 					$keys_3 = $cur_mas[$payload];
 					myLog("Keys3: ".json_encode($keys_3,JSON_UNESCAPED_UNICODE));
 					$buttons = getKbd(0,count($keys_3),$keys_3);//count($keys_2)
