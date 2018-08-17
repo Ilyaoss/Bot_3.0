@@ -37,7 +37,15 @@ function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
         'color' => $color
     ];
 }
-
+/*Цикл вывода в 2 ряда*/
+/*for($i=0;$i<9;++$i) {
+	$key = $keys_1[$i];
+	array_push($buttons1,getBtn($key, COLOR_DEFAULT,$key));
+	if($i%2>0) {
+		array_push($buttons,$buttons1);
+		$buttons1 = [];
+	}
+}*/
 function getKbd($start, $end, $keys){
 	$buttons = [];
 	for($i=$start;$i<$end;++$i) {
@@ -46,7 +54,19 @@ function getKbd($start, $end, $keys){
 	}
 	return $buttons;
 }
-
+function getKbd_2($start, $end, $keys,){
+	$buttons = [];
+	$buttons_temp = [];
+	for($i=$start;$i<$end;++$i) {
+		$key = $keys[$i];
+		array_push($buttons_temp,getBtn($key, COLOR_DEFAULT,$key));
+		if($i%2>0) {
+			array_push($buttons,$buttons_temp);
+			$buttons_temp = [];
+		}
+	}
+	return $buttons;
+}
 function myLog($str) {
     file_put_contents("php://stdout", "$str\n");
 }
@@ -233,7 +253,7 @@ switch ($type) {
 			default:
 				$keys_2 = array_keys($array[$payload]);
 				myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
-				$buttons = getKbd(0,count($keys_2),$keys_2);
+				$buttons = getKbd_2(0,count($keys_2),$keys_2);//count($keys_2)
 				array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK)]);
 				array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 				$kbd = [
