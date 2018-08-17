@@ -77,10 +77,10 @@ $keys_1 = array_keys($array); /*Кнопки 1-го уровня*/
 /*foreach($keys_1 as $key){
 	array_push($buttons,[getBtn($key, COLOR_DEFAULT)]);
 }*/
-for($i=0;$i<6;++$i) {
+for($i=0;$i<10;++$i) {
 	$key = $keys_1[$i];
-	if($i<3) {
-		array_push($buttons1,getBtn($key, COLOR_DEFAULT,$key));
+	if($i<10) {
+		array_push($buttons1,[getBtn($key, COLOR_DEFAULT,$key)]);
 	}
 	else {
 		array_push($buttons2,getBtn($key, COLOR_DEFAULT,$key));
@@ -121,7 +121,7 @@ switch ($type) {
 		myLog("MSG: ".$body." PAYLOAD:".$payload);
 		$kbd = [
 			'one_time' => false,
-			'buttons' => [$buttons1,$buttons2]
+			'buttons' => $buttons1//,$buttons2]
 		];
 		$msg = "Привет я бот!";
 
