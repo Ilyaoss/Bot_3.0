@@ -73,8 +73,12 @@ for($i=1;$i<count($def_mas);++$i) {
 }
 $buttons = [];
 $keys_1 = array_keys($array); /*Кнопки 1-го уровня*/
-foreach($keys_1 as $key){
+/*foreach($keys_1 as $key){
 	array_push($buttons,[getBtn($key, COLOR_DEFAULT)]);
+}*/
+for($i=0;$i<2;++$i) {
+	$key = $keys_1[$i];
+	array_push($buttons,[getBtn($key, COLOR_DEFAULT,$key)]);
 }
 $keys_2 = array_unique(array_column($def_mas, 1),SORT_REGULAR);
 $keys_3 = array_column($def_mas, 2);
