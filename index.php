@@ -19,6 +19,7 @@ const CMD_FAM = 'FAM';
 const CMD_STAT = 'STAT';
 const CMD_BACK = 'BACK';
 const CMD_MAIN = 'MAIN';
+const CMD_MY = 'MY_SUBS';
 
 const VK_TOKEN = '887f275780153f8d0a42339e542ecb1f1b6a47bce9385aea12ada07d3a459095800074da66b418d5911c9';
 //'0f0567f6ffa539268e0b6558d7622d375e6232283542932eadc135443d88109330c37b64bbb8c26bf525a';
@@ -146,7 +147,7 @@ switch ($type) {
 			case CMD_MAIN:
 				$buttons = [];
 				array_push($buttons,[getBtn('Подписаться на категории', COLOR_DEFAULT,CMD_CAT)]);
-				array_push($buttons,[getBtn('Мои подписки', COLOR_DEFAULT,CMD_TORG)]);
+				array_push($buttons,[getBtn('Мои подписки', COLOR_DEFAULT,CMD_MY)]);
 				$kbd = [
 					'one_time' => false,
 					'buttons' => $buttons//,$buttons2]
@@ -158,6 +159,9 @@ switch ($type) {
 					'one_time' => false,
 					'buttons' => $buttons
 				];
+				break;
+			case CMD_MY:
+				
 				break;
 			case CMD_BACK:
 				$buttons = getKbd(0,9,$keys_1);
@@ -227,7 +231,7 @@ switch ($type) {
 				myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
 				$buttons = getKbd(0,count($keys_2),$keys_2);
 				array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK)]);
-				array_push($buttons,[getBtn('<<<-В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
+				array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 				$kbd = [
 					'one_time' => false,
 					'buttons' => $buttons
