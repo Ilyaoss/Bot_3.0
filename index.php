@@ -127,7 +127,7 @@ for($i=0;$i<count($keys_1);++$i) {
 }
 
 $buttons = getKbd(0,9,$keys_1);
-array_push($buttons,[getBtn('Далее-->', COLOR_POSITIVE,CMD_NEXT)]);
+array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('Далее-->', COLOR_POSITIVE,CMD_NEXT)]);
 
 $keys_2 = array_unique(array_column($def_mas, 1),SORT_REGULAR);
 $keys_3 = array_column($def_mas, 2);
