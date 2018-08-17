@@ -17,6 +17,7 @@ const CMD_CAT = 'CAT';
 const CMD_NAME = 'NAME';
 const CMD_FAM = 'FAM';
 const CMD_STAT = 'STAT';
+const CMD_BACK = 'BACK';
 
 const VK_TOKEN = '887f275780153f8d0a42339e542ecb1f1b6a47bce9385aea12ada07d3a459095800074da66b418d5911c9';
 //'0f0567f6ffa539268e0b6558d7622d375e6232283542932eadc135443d88109330c37b64bbb8c26bf525a';
@@ -78,14 +79,23 @@ $keys_1 = array_keys($array); /*Кнопки 1-го уровня*/
 /*foreach($keys_1 as $key){
 	array_push($buttons,[getBtn($key, COLOR_DEFAULT)]);
 }*/
-for($i=0;$i<9;++$i) {
+
+/*Цикл вывода в 2 ряда*/
+/*for($i=0;$i<9;++$i) {
 	$key = $keys_1[$i];
 	array_push($buttons1,getBtn($key, COLOR_DEFAULT,$key));
 	if($i%2>0) {
 		array_push($buttons,$buttons1);
 		$buttons1 = [];
 	}
+}*/
+
+for($i=0;$i<9;++$i) {
+	$key = $keys_1[$i];
+	array_push($buttons,[getBtn($key, COLOR_DEFAULT,$key)]);
 }
+array_push($buttons,[getBtn('Далее', COLOR_DEFAULT,CMD_NEXT)]);
+
 $keys_2 = array_unique(array_column($def_mas, 1),SORT_REGULAR);
 $keys_3 = array_column($def_mas, 2);
 myLog("Keyboard0: ".json_encode([
@@ -126,25 +136,29 @@ switch ($type) {
 		$msg = "Привет я бот!";
 
 		switch($payload){
-			case CMD_ID:
-				$msg = "Ваш id: ".$userId;
-				break;
-			case CMD_NAME:
-				$msg = "Ваше имя : ".$user_info[0]['first_name'];
-				break;
-			case CMD_FAM:
-				$msg = "Ваша фамилия: ".$user_info[0]['last_name'];
-				break;
-			case CMD_STAT:
-				$msg = "Ваш статус: ".$user_info[0]['status'];
-				break;
-			case CMD_NEXT: 
+			case CMD_BACK:
+				$buttons = [];
+				for($i=0;$i<9;++$i) {
+					$key = $keys_1[$i];
+					array_push($buttons,[getBtn($key, COLOR_DEFAULT,$key)]);
+				}
+				array_push($buttons,[getBtn('Далее', COLOR_DEFAULT,CMD_BACK)]);
 				$kbd = [
 					'one_time' => false,
-					'buttons' => [
-						[getBtn("Пришли котика", COLOR_POSITIVE, CMD_CAT)],
-						[getBtn("Назад", COLOR_NEGATIVE)],
-					]
+					'buttons' => $buttons
+				];
+				$msg = null;
+				break;
+			case CMD_NEXT:
+				$buttons = [];
+				for($i=10;$i<count($keys_1);++$i) {
+					$key = $keys_1[$i];
+					array_push($buttons,[getBtn($key, COLOR_DEFAULT,$key)]);
+				}
+				array_push($buttons,[getBtn('Назад', COLOR_DEFAULT,CMD_BACK)]);
+				$kbd = [
+					'one_time' => false,
+					'buttons' => $buttons
 				];
 				$msg = null;
 				break;
