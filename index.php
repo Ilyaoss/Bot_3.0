@@ -36,6 +36,15 @@ function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
     ];
 }
 
+function getKbd($start, $end, $keys){
+	$buttons = [];
+	for($i=$start;$i<$end;++$i) {
+		$key = $keys[$i];
+		array_push($buttons,[getBtn($key, COLOR_DEFAULT,$key)]);
+	}
+	return $buttons;
+}
+
 function myLog($str) {
     file_put_contents("php://stdout", "$str\n");
 }
@@ -72,9 +81,7 @@ for($i=1;$i<count($def_mas);++$i) {
 	$value = $def_mas[$i];
 	$array[$value[0]][$value[1]][] = $value[2];
 }
-$buttons = [];
-$buttons1 = [];
-$buttons2 = [];
+
 $keys_1 = array_keys($array); /*Кнопки 1-го уровня*/
 /*foreach($keys_1 as $key){
 	array_push($buttons,[getBtn($key, COLOR_DEFAULT)]);
@@ -90,10 +97,7 @@ $keys_1 = array_keys($array); /*Кнопки 1-го уровня*/
 	}
 }*/
 
-for($i=0;$i<9;++$i) {
-	$key = $keys_1[$i];
-	array_push($buttons,[getBtn($key, COLOR_DEFAULT,$key)]);
-}
+$buttons = getKbd(0,9,$keys_1);
 array_push($buttons,[getBtn('Далее-->', COLOR_POSITIVE,CMD_NEXT)]);
 
 $keys_2 = array_unique(array_column($def_mas, 1),SORT_REGULAR);
@@ -134,11 +138,7 @@ switch ($type) {
 
 		switch($payload){
 			case CMD_BACK:
-				$buttons = [];
-				for($i=0;$i<9;++$i) {
-					$key = $keys_1[$i];
-					array_push($buttons,[getBtn($key, COLOR_DEFAULT,$key)]);
-				}
+				$buttons = getKbd(0,9,$keys_1);
 				array_push($buttons,[getBtn('Далее-->', COLOR_POSITIVE,CMD_NEXT)]);
 				$kbd = [
 					'one_time' => false,
@@ -146,11 +146,7 @@ switch ($type) {
 				];
 				break;
 			case CMD_NEXT:
-				$buttons = [];
-				for($i=10;$i<count($keys_1);++$i) {
-					$key = $keys_1[$i];
-					array_push($buttons,[getBtn($key, COLOR_DEFAULT,$key)]);
-				}
+				$buttons = getKbd(10,count($keys_1),$keys_1);
 				array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK)]);
 				$kbd = [
 					'one_time' => false,
