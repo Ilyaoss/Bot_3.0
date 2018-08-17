@@ -39,6 +39,18 @@ function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
         'color' => $color
     ];
 }
+
+function getBtn2($label, $color = COLOR_DEFAULT, $payload = '', $prev) {
+    return [
+        'action' => [
+            'type' => 'text',
+            'payload' => json_encode([$payload=>$prev], JSON_UNESCAPED_UNICODE),
+            'label' => $label
+        ],
+        'color' => $color
+    ];
+}
+
 /*Цикл вывода в 2 ряда*/
 /*for($i=0;$i<9;++$i) {
 	$key = $keys_1[$i];
@@ -56,12 +68,12 @@ function getKbd($start, $end, $keys){
 	}
 	return $buttons;
 }
-function getKbd_2($start, $end, $keys){
+function getKbd_2($start, $end, $keys, $prev){
 	$buttons = [];
 	$buttons_temp = [];
 	for($i=$start;$i<$end;++$i) {
 		$key = $keys[$i];
-		array_push($buttons_temp,getBtn($key, COLOR_DEFAULT,$key));
+		array_push($buttons_temp,getBtn2($key, COLOR_DEFAULT,$key,$prev));
 		if($i%2>0) {
 			array_push($buttons,$buttons_temp);
 			$buttons_temp = [];
@@ -257,14 +269,14 @@ switch ($type) {
 				break;*/
 			default:
 				myLog("CUR_LVL: $cur_lvl");
-				if($cur_lvl == 1)/*Перешли с 1-го уровня*/
+				/*if($cur_lvl == 1)/*Перешли с 1-го уровня
 				{
 					$cur_lvl = 2;
 					myLog("CUR_LVL: $cur_lvl");
 					$cur_mas = $array[$payload];
 					$keys_2 = array_keys($array[$payload]);
 					myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
-					$buttons = getKbd_2(0,count($keys_2),$keys_2);//count($keys_2)
+					$buttons = getKbd_2(0,count($keys_2),$keys_2,$payload);//count($keys_2)
 					array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK)]);
 					//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 					$kbd = [
@@ -272,7 +284,7 @@ switch ($type) {
 						'buttons' => $buttons
 					];
 				}
-				if($cur_lvl == 2)/*Перешли с 2-го уровня*/
+				if($cur_lvl == 2)/*Перешли с 2-го уровня
 				{
 					$cur_lvl = 3;
 					myLog("CUR_LVL: $cur_lvl");
@@ -285,16 +297,16 @@ switch ($type) {
 						'one_time' => false,
 						'buttons' => $buttons
 					];
-				}
-				/*$keys_2 = array_keys($array[$payload]);
+				}*/
+				$keys_2 = array_keys($array[$payload]);
 				myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
-				$buttons = getKbd_2(0,count($keys_2),$keys_2);//count($keys_2)
+				$buttons = getKbd_2(0,count($keys_2),$keys_2,$payload);//count($keys_2)
 				array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK)]);
 				//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 				$kbd = [
 					'one_time' => false,
 					'buttons' => $buttons
-				];*/
+				];
 				
 				/*foreach($keys_1 as $key)
 				{
