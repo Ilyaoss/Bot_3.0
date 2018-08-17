@@ -71,14 +71,16 @@ for($i=1;$i<count($def_mas);++$i) {
 	$value = $def_mas[$i];
 	$array[$value[0]][$value[1]][] = $value[2];
 }
-$buttons = [];
+$buttons1 = [];
+$buttons2 = [];
 $keys_1 = array_keys($array); /*Кнопки 1-го уровня*/
 /*foreach($keys_1 as $key){
 	array_push($buttons,[getBtn($key, COLOR_DEFAULT)]);
 }*/
-for($i=0;$i<12;++$i) {
+for($i=0;$i<count($keys_1);++$i) {
 	$key = $keys_1[$i];
-	array_push($buttons,[getBtn($key, COLOR_DEFAULT,$key)]);
+	if($i<10) array_push($buttons1,[getBtn($key, COLOR_DEFAULT,$key)]);
+	else array_push($buttons2,[getBtn($key, COLOR_DEFAULT,$key)]);
 }
 $keys_2 = array_unique(array_column($def_mas, 1),SORT_REGULAR);
 $keys_3 = array_column($def_mas, 2);
@@ -115,7 +117,7 @@ switch ($type) {
 		myLog("MSG: ".$body." PAYLOAD:".$payload);
 		$kbd = [
 			'one_time' => false,
-			'buttons' => $buttons
+			'buttons' => [$buttons1,$buttons2]
 		];
 		$msg = "Привет я бот!";
 
