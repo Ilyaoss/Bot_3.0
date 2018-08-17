@@ -199,6 +199,18 @@ switch ($type) {
 					myLog( $e->getCode().' '.$e->getMessage() );
 				}
 				break;
+			default:
+				$keys_2 = array_keys($array[$payload]);
+				myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
+				$buttons = getKbd(0,9,$keys_1);
+				/*foreach($keys_1 as $key)
+				{
+					if($key == $payload)
+					{
+						
+						break;
+					}
+				}*/
 		}
 		try {
 			if ($msg !== null) {
