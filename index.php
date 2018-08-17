@@ -94,14 +94,11 @@ for($i=0;$i<9;++$i) {
 	$key = $keys_1[$i];
 	array_push($buttons,[getBtn($key, COLOR_DEFAULT,$key)]);
 }
-array_push($buttons,[getBtn('Далее', COLOR_POSITIVE,CMD_NEXT)]);
+array_push($buttons,[getBtn('Далее-->', COLOR_POSITIVE,CMD_NEXT)]);
 
 $keys_2 = array_unique(array_column($def_mas, 1),SORT_REGULAR);
 $keys_3 = array_column($def_mas, 2);
-myLog("Keyboard0: ".json_encode([
-						[getBtn("Пришли котика", COLOR_POSITIVE, CMD_CAT)],
-						[getBtn("Назад", COLOR_NEGATIVE)],
-					],JSON_UNESCAPED_UNICODE));
+
 myLog("Keyboard1: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
 myLog("Keys: ".json_encode($keys_1[0],JSON_UNESCAPED_UNICODE));
 //myLog("Array: ".json_encode($array),JSON_UNESCAPED_UNICODE);
@@ -142,7 +139,7 @@ switch ($type) {
 					$key = $keys_1[$i];
 					array_push($buttons,[getBtn($key, COLOR_DEFAULT,$key)]);
 				}
-				array_push($buttons,[getBtn('Далее-->', COLOR_POSITIVE,CMD_BACK)]);
+				array_push($buttons,[getBtn('Далее-->', COLOR_POSITIVE,CMD_NEXT)]);
 				$kbd = [
 					'one_time' => false,
 					'buttons' => $buttons
