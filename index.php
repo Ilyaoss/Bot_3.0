@@ -71,10 +71,10 @@ for($i=1;$i<count($def_mas);++$i) {
 	$value = $def_mas[$i];
 	$array[$value[0]][$value[1]][] = $value[2];
 }
-$keys_1 = array_column($array, 0); 
+$keys_1 = array_keys($array); 
 $keys_2 = array_unique(array_column($def_mas, 1),SORT_REGULAR);
 $keys_3 = array_column($def_mas, 2);
-myLog("Keys: ".json_encode($array[0],JSON_UNESCAPED_UNICODE));
+myLog("Keys: ".json_encode($keys_1,JSON_UNESCAPED_UNICODE));
 //myLog("Array: ".json_encode($array),JSON_UNESCAPED_UNICODE);
 myLog("Test: $array[0]\n count: ".count($array)."\n c1 ".$array['Комм и маркетинг']['Медиа'][0]);
 myLog("Ключ 1: $keys_1[2] Ключ 2: $keys_2[6] Ключ 3: $keys_3[3]");
