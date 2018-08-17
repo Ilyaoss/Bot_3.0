@@ -79,6 +79,7 @@ $keys_1 = array_keys($array); /*Кнопки 1-го уровня*/
 	array_push($buttons,[getBtn($key, COLOR_DEFAULT)]);
 }*/
 for($i=0;$i<9;++$i) {
+	$key = $keys_1[$i];
 	array_push($buttons1,getBtn($key, COLOR_DEFAULT,$key));
 	if($i%2>0) {
 		array_push($buttons,$buttons1);
