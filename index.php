@@ -176,7 +176,7 @@ switch ($type) {
 			case CMD_CAT:
 				$buttons = getKbd(0,9,$keys_1);
 				array_push($buttons,[getBtn('Далее-->', COLOR_POSITIVE,CMD_NEXT)]);
-				array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
+				//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 				$kbd = [
 					'one_time' => false,
 					'buttons' => $buttons
@@ -197,7 +197,7 @@ switch ($type) {
 			case CMD_NEXT:
 				$buttons = getKbd(10,count($keys_1),$keys_1);
 				array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK)]);
-				array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
+				//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 				
 				$kbd = [
 					'one_time' => false,
@@ -255,7 +255,7 @@ switch ($type) {
 				myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
 				$buttons = getKbd_2(0,count($keys_2),$keys_2);//count($keys_2)
 				array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK)]);
-				array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
+				//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 				$kbd = [
 					'one_time' => false,
 					'buttons' => $buttons
