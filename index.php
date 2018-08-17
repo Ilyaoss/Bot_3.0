@@ -97,6 +97,11 @@ $keys_1 = array_keys($array); /*Кнопки 1-го уровня*/
 	}
 }*/
 
+for($i=0;$i<count($keys_1);++$i) {
+	$key = $keys_1[$i];
+	myLog("Key $key count :".count(array_keys($array[$key])));
+}
+
 $buttons = getKbd(0,9,$keys_1);
 array_push($buttons,[getBtn('Далее-->', COLOR_POSITIVE,CMD_NEXT)]);
 
@@ -203,6 +208,7 @@ switch ($type) {
 				$keys_2 = array_keys($array[$payload]);
 				myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
 				$buttons = getKbd(0,count($keys_2),$keys_2);
+				array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK)]);
 				$kbd = [
 					'one_time' => false,
 					'buttons' => $buttons
