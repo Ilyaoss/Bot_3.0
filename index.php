@@ -299,7 +299,7 @@ switch ($type) {
 					];
 				}*/
 				if(is_array($payload)){
-					$key = array_keys($array[$payload]);
+					$key = array_keys($payload);
 					myLog("MSG: ".$body." PAYLOAD:".$payload[$key[0]]);
 				}
 				else
