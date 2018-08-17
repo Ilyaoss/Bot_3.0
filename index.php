@@ -142,7 +142,7 @@ switch ($type) {
 					$key = $keys_1[$i];
 					array_push($buttons,[getBtn($key, COLOR_DEFAULT,$key)]);
 				}
-				array_push($buttons,[getBtn('Далее', COLOR_POSITIVE,CMD_BACK)]);
+				array_push($buttons,[getBtn('Далее-->', COLOR_POSITIVE,CMD_BACK)]);
 				$kbd = [
 					'one_time' => false,
 					'buttons' => $buttons
@@ -154,7 +154,7 @@ switch ($type) {
 					$key = $keys_1[$i];
 					array_push($buttons,[getBtn($key, COLOR_DEFAULT,$key)]);
 				}
-				array_push($buttons,[getBtn('Назад', COLOR_DEFAULT,CMD_BACK)]);
+				array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK)]);
 				$kbd = [
 					'one_time' => false,
 					'buttons' => $buttons
