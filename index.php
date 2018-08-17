@@ -74,8 +74,8 @@ for($i=1;$i<count($def_mas);++$i) {
 $keys_1 = array_unique(array_column($def_mas, 0),SORT_REGULAR); 
 $keys_2 = array_unique(array_column($def_mas, 1),SORT_REGULAR);
 $keys_3 = array_column($def_mas, 2);
-var_dump($keys_1);
-var_dump($array);
+myLog("Keys: ".json_encode($keys_1));
+myLog("Array: ".json_encode($array));
 myLog("Test: $array[0]\n count: ".count($array)."\n c1 ".$array['Комм и маркетинг']['Медиа'][0]);
 myLog("Ключ 1: $keys_1[2] Ключ 2: $keys_2[6] Ключ 3: $keys_3[3]");
 myLog("Ключ 1: ".count($keys_1)."Ключ 2: ".count($keys_2)."Ключ 3: ".count($keys_3));
