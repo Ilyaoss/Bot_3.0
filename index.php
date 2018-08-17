@@ -71,19 +71,18 @@ for($i=1;$i<count($def_mas);++$i) {
 	$value = $def_mas[$i];
 	$array[$value[0]][$value[1]][] = $value[2];
 }
+$buttons = [];
 $buttons1 = [];
 $buttons2 = [];
 $keys_1 = array_keys($array); /*Кнопки 1-го уровня*/
 /*foreach($keys_1 as $key){
 	array_push($buttons,[getBtn($key, COLOR_DEFAULT)]);
 }*/
-for($i=0;$i<10;++$i) {
-	$key = $keys_1[$i];
-	if($i<10) {
-		array_push($buttons1,[getBtn($key, COLOR_DEFAULT,$key)]);
-	}
-	else {
-		array_push($buttons2,getBtn($key, COLOR_DEFAULT,$key));
+for($i=0;$i<9;++$i) {
+	array_push($buttons1,getBtn($key, COLOR_DEFAULT,$key));
+	if($i%2>0) {
+		array_push($buttons,$buttons1);
+		$buttons1 = [];
 	}
 }
 $keys_2 = array_unique(array_column($def_mas, 1),SORT_REGULAR);
@@ -92,7 +91,7 @@ myLog("Keyboard0: ".json_encode([
 						[getBtn("Пришли котика", COLOR_POSITIVE, CMD_CAT)],
 						[getBtn("Назад", COLOR_NEGATIVE)],
 					],JSON_UNESCAPED_UNICODE));
-myLog("Keyboard1: ".json_encode([$buttons1,$buttons2],JSON_UNESCAPED_UNICODE));
+myLog("Keyboard1: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
 myLog("Keys: ".json_encode($keys_1[0],JSON_UNESCAPED_UNICODE));
 //myLog("Array: ".json_encode($array),JSON_UNESCAPED_UNICODE);
 myLog("Test: $array[0]\n count: ".count($array)."\n c1 ".$array['Комм и маркетинг']['Медиа'][0]);
@@ -121,7 +120,7 @@ switch ($type) {
 		myLog("MSG: ".$body." PAYLOAD:".$payload);
 		$kbd = [
 			'one_time' => false,
-			'buttons' => $buttons1//,$buttons2]
+			'buttons' => $buttons//,$buttons2]
 		];
 		$msg = "Привет я бот!";
 
