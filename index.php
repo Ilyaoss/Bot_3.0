@@ -188,7 +188,7 @@ switch ($type) {
 			case CMD_BACK:
 				$buttons = getKbd(0,9,$keys_1);
 				array_push($buttons,[getBtn('Далее-->', COLOR_POSITIVE,CMD_NEXT)]);
-				array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
+				//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 				$kbd = [
 					'one_time' => false,
 					'buttons' => $buttons
