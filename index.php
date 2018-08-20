@@ -192,7 +192,7 @@ switch ($type) {
 				];*/
 				break;
 			case CMD_CAT:
-				$msg = 'Список категорий 1-го уровня. Нажми для открытия подкатегорий.'
+				$msg = 'Список категорий 1-го уровня. Нажми для открытия подкатегорий.';
 				$buttons = getKbd(0,9,$keys_1);
 				array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('Далее-->', COLOR_POSITIVE,CMD_NEXT)]);
 				//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
