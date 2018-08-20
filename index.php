@@ -340,10 +340,12 @@ switch ($type) {
 						'buttons' => $buttons
 					];
 				}*/
-				if(is_array($payload)){/*3 уровень*/
+				if(is_array($payload)){
+					/*3 уровень*/
 					$key = array_keys($payload);
 					if(is_array($payload[$key[0]]))
 					{
+						/*4-й уровень - подписка оформляется*/
 						myLog("MSG: ".$body." PAYLOAD_val1:".json_encode($payload[$key[0]],JSON_UNESCAPED_UNICODE));
 						$keys = array_keys($payload[$key[0]]);
 						$str = "$key[0].$keys[0].".$payload[$key[0]][$keys[0]];
@@ -361,7 +363,8 @@ switch ($type) {
 						
 					}
 					else
-					{
+					{	
+						/*Пришло сообщение от 2 уровня*/
 						myLog("MSG: ".$body." PAYLOAD_val:".$payload[$key[0]]);
 						/*------------Дублирую код----------*/
 						if($payload[$key[0]]==CMD_BACK)
@@ -369,6 +372,16 @@ switch ($type) {
 							$buttons = getKbd(0,9,$keys_1);
 							array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('Далее-->', COLOR_POSITIVE,CMD_NEXT)]);
 						}/*------------Закончил Дублировать код----------*/
+						/* */
+						elseif($payload[$key[0]]==CMD_NEXT)
+						{
+							$keys_2 = array_keys($array[$key[0]]);
+							$buttons = getKbd_3(7,count($keys_2),$keys_2,$payload);//count($keys_2)
+							array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0]=>'SUBS_ALL'])]);
+							array_push($buttons,[getBtn('<-- На пред. стр.', COLOR_NEGATIVE,$key[0]),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
+							array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,CMD_BACK)]);
+						}
+						/*3-й уровень кнопок:*/
 						else{
 							$keys_3 = $array[$key[0]][$payload[$key[0]]];
 							$buttons = getKbd_2(0,count($keys_3),$keys_3,$payload);
@@ -407,14 +420,6 @@ switch ($type) {
 						'buttons' => $buttons
 					];
 				}
-				/*foreach($keys_1 as $key)
-				{
-					if($key == $payload)
-					{
-						
-						break;
-					}
-				}*/
 		}
 		try {
 			if ($msg !== null) {
