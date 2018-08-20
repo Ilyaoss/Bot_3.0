@@ -73,7 +73,7 @@ function getKbd_2($start, $end, $keys, $prev){
 	$buttons_temp = [];
 	for($i=$start;$i<$end;++$i) {
 		$key = $keys[$i];
-		array_push($buttons_temp,getBtn2($key, COLOR_DEFAULT,$key,$prev));
+		array_push($buttons_temp,getBtn($key, COLOR_DEFAULT,[$prev=>$key]));
 		if($i%2>0) {
 			array_push($buttons,$buttons_temp);
 			$buttons_temp = [];
