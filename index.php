@@ -210,7 +210,17 @@ switch ($type) {
 				];
 				break;
 			case CMD_MY:
-				
+				$msg = "Мои подписки:\n";
+				$file = file_get_contents(__DIR__ . '/data.json');  // Открыть файл data.json
+				myLog("file: $file");
+				$data = json_decode($file,TRUE);   // Декодировать в массив 						
+				unset($file);                      // Очистить переменную $file		   
+				$my_subs = $data[$userId];
+				foreach($my_subs as $item)
+				{
+					$msg = $msg."-$item\n";
+				}
+				unset($data);
 				break;
 			case CMD_BACK:
 				$buttons = getKbd(0,9,$keys_1);
