@@ -315,7 +315,7 @@ switch ($type) {
 						myLog("MSG: ".$body." PAYLOAD_val1:".json_encode($payload[$key[0]],JSON_UNESCAPED_UNICODE));
 						$keys = array_keys($payload[$key[0]]);
 						$str = "$key[0].$keys[0]";// $payload[$key[0]][$keys[0]]
-						myLog("str: $keys[0]");
+						myLog("str: $payload[$key[0]][$keys[0]]");
 						
 						$file = file_get_contents(__DIR__ . '/data.json');  // Открыть файл data.json
 						myLog("file: $file");
