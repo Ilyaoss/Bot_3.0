@@ -343,7 +343,7 @@ switch ($type) {
 						myLog("MSG: ".$body." PAYLOAD_val:".$payload[$key[0]]);
 						$keys_3 = $array[$key[0]][$payload[$key[0]]];
 						$buttons = getKbd_2(0,count($keys_3),$keys_3,$payload);
-						array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,[]CMD_BACK)]);
+						array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK));
 						myLog("CHECK THIS OUT: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
 						$kbd = [
 							'one_time' => false,
@@ -356,7 +356,7 @@ switch ($type) {
 					$keys_2 = array_keys($array[$payload]);
 					myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
 					$buttons = getKbd_2(0,count($keys_2),$keys_2,$payload);//count($keys_2)
-					array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,[$payload=>CMD_BACK]]);
+					array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,[$payload=>CMD_BACK])]);
 					//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 					$kbd = [
 						'one_time' => false,
