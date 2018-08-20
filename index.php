@@ -443,6 +443,7 @@ switch ($type) {
 					//buttons = getKbd_2(0,count($keys_2),$keys_2,$payload);//count($keys_2)
 					//array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,[$payload=>CMD_BACK])]);
 					//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
+					myLog("CHECK THIS OUT: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
 					$kbd = [
 						'one_time' => false,
 						'buttons' => $buttons
