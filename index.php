@@ -413,8 +413,8 @@ switch ($type) {
 							];
 							/*$keys_3 = $array[$key[0]][$payload[$key[0]]];
 							$buttons = getKbd_2(0,count($keys_3),$keys_3,$payload);
-							array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK)]);
-							myLog("CHECK THIS OUT: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));*/
+							array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK)]);*/
+							myLog("CHECK THIS OUT: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
 							$kbd = [
 								'one_time' => false,
 								'buttons' => $buttons
