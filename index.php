@@ -316,10 +316,12 @@ switch ($type) {
 						$keys = array_keys($payload[$key[0]]);
 						
 						$file = file_get_contents(__DIR__ . '/data.json');  // Открыть файл data.json
+						myLog("file: $file");
 						$data = json_decode($file,TRUE);        // Декодировать в массив 						
 						unset($file);                               // Очистить переменную $file		   
 						$str = "$key[0].$keys[0]"//$payload[$key[0]][$keys[0]]";
-						array_push($data[$userId],$str);        // Добавить подписку
+						myLog("str: $str");
+						$data[$userId][]=$str;        // Добавить подписку
 						file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
 						unset($data);
 						
