@@ -362,6 +362,22 @@ switch ($type) {
 								'buttons' => $buttons
 							];
 						}
+						/*C 3 уровня пришла комманда SUBS_ALL*/
+						elseif($payload[$key[0]][$keys[0]]== 'SUBS_ALL')
+						{
+							/*------------DK-------------*/
+							$str = "$key[0].$keys[0]";
+							$file = file_get_contents(__DIR__ . '/data.json');  // Открыть файл data.json
+							myLog("file: $file");
+							$data = json_decode($file,TRUE);        // Декодировать в массив 						
+							unset($file);                               // Очистить переменную $file		   
+							$data[$userId][]="$str";//.$payload[$key[0]][$keys[0]];       // Добавить подписку
+							file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
+							unset($data);
+							
+							$msg = "Вы успешно поддписались на $str";//.$payload[$key[0]][$keys[0]];
+							/*-------------DK-----------*/
+						}
 						else{
 							
 							$str = "$key[0].$keys[0].".$payload[$key[0]][$keys[0]];
@@ -428,13 +444,13 @@ switch ($type) {
 							if(count($keys_3)<9)
 							{
 								$buttons = getKbd_3(0,count($keys_3),$keys_3,$payload);
-								array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,'SUBS_ALL')]);//[$payload=>'SA']   [$k[0]=>[$prev[$k[0]]=>$key]]
+								array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0] => [$payload[$key[0]]=>'SUBS_ALL']])]);//[$payload=>'SA']   [$k[0]=>[$prev[$k[0]]=>$key]]
 								array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,$key[0]),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 							}
 							else
 							{
 								$buttons = getKbd_3(0,7,$keys_3,$payload);//count($keys_2)
-								array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL'])]);
+								array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0] => [$payload[$key[0]]=>'SUBS_ALL']])]);
 								array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[$key[0]=>[$payload[$key[0]]=>CMD_NEXT]])]);//[$k[0]=>[$prev[$k[0]]=>$key]]
 								array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,$key[0])]);
 							}
