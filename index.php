@@ -341,14 +341,29 @@ switch ($type) {
 					else
 					{
 						myLog("MSG: ".$body." PAYLOAD_val:".$payload[$key[0]]);
-						$keys_3 = $array[$key[0]][$payload[$key[0]]];
-						$buttons = getKbd_2(0,count($keys_3),$keys_3,$payload);
-						array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK)]);
-						myLog("CHECK THIS OUT: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
-						$kbd = [
-							'one_time' => false,
-							'buttons' => $buttons
-						];
+						/*------------Дублирую код----------*/
+						if($payload[$key[0]]==CMD_BACK)
+						{
+							$keys_2 = array_keys($array[$key[0]]);
+							myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
+							$buttons = getKbd_2(0,count($keys_2),$keys_2,$key[0]);//count($keys_2)
+							array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,[$key[0]=>CMD_BACK])]);
+							//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
+							$kbd = [
+								'one_time' => false,
+								'buttons' => $buttons
+							];
+						}/*------------Закончил Дублировать код----------*/
+						else{
+							$keys_3 = $array[$key[0]][$payload[$key[0]]];
+							$buttons = getKbd_2(0,count($keys_3),$keys_3,$payload);
+							array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK)]);
+							myLog("CHECK THIS OUT: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
+							$kbd = [
+								'one_time' => false,
+								'buttons' => $buttons
+							];
+						}
 					}
 				}
 				else
