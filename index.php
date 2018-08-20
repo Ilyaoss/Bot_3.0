@@ -77,7 +77,7 @@ function getKbd_2($start, $end, $keys, $prev){
 		{
 			myLog("CATCH");
 			$k = array_keys($prev);
-			array_push($buttons_temp,getBtn($key, COLOR_DEFAULT,[$k[0]=>$prev[$k[0]]=>$key]));//getBtn2
+			array_push($buttons_temp,getBtn($key, COLOR_DEFAULT,[$k[0]=>[$prev[$k[0]]=>$key]]));//getBtn2
 		}
 		else
 		{
