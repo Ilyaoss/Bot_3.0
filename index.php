@@ -99,7 +99,6 @@ function getKbd_3($start, $end, $keys, $prev){
 		$key = $keys[$i];
 		if(is_array($prev))
 		{
-			myLog("CATCH");
 			$k = array_keys($prev);
 			array_push($buttons,[getBtn($key, COLOR_DEFAULT,[$k[0]=>[$prev[$k[0]]=>$key]])]);//getBtn2
 		}
@@ -131,19 +130,7 @@ $vk = new VKApiClient('5.80', VKLanguage::RUSSIAN);
 $catigories = [];
 $def_mas = $sheet->toArray();
 myLog("Выводит?".$def_mas[0][1]);
-/*$level_12 = array_col( $def_mas, 1,0); /*асоц массив где ключи 1-й уровень, а значения 2-й*/
-/*$level_23 = array_col( $def_mas, 2,1); /*асоц массив где ключи 2-й уровень, а значения 3-й*/
-/*$keys_12 = array_keys($level_12); 
-$keys_23 = array_keys($level_23);
-$res = $level_12;
-for($i=1;$i<count($level_12);$i++)
-{
-	myLog("\nВыводит!: ".$level_12[$keys_12[$i]]);
-	/*for ($j=1;$j<count($level_12[$i]);$j++)
-	{
-		array_push($res[$i][$j], $level_23[$j]);
-	}
-}*/
+/*--Создаём ассоц. массив--*/
 $array = array();
 for($i=1;$i<count($def_mas);++$i) {
 	$value = $def_mas[$i];
@@ -151,40 +138,24 @@ for($i=1;$i<count($def_mas);++$i) {
 }
 
 $keys_1 = array_keys($array); /*Кнопки 1-го уровня*/
-/*foreach($keys_1 as $key){
-	array_push($buttons,[getBtn($key, COLOR_DEFAULT)]);
-}*/
 
-/*Цикл вывода в 2 ряда*/
-/*for($i=0;$i<9;++$i) {
-	$key = $keys_1[$i];
-	array_push($buttons1,getBtn($key, COLOR_DEFAULT,$key));
-	if($i%2>0) {
-		array_push($buttons,$buttons1);
-		$buttons1 = [];
-	}
-}*/
-
-for($i=0;$i<count($keys_1);++$i) {
-	$key = $keys_1[$i];
-	myLog("Key $key count :".count(array_keys($array[$key])));
-}
-
-$buttons = getKbd(0,9,$keys_1);
-array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('Далее-->', COLOR_POSITIVE,CMD_NEXT)]);
+$buttons = [];
+array_push($buttons,[getBtn('Подписаться на категории', COLOR_DEFAULT,CMD_CAT)]);
+array_push($buttons,[getBtn('Мои подписки', COLOR_DEFAULT,CMD_MY)]);
+$kbd = [
+	'one_time' => false,
+	'buttons' => $buttons//,$buttons2]
+];
 
 $keys_2 = array_unique(array_column($def_mas, 1),SORT_REGULAR);
 $keys_3 = array_column($def_mas, 2);
 
-myLog("Keyboard1: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
+/*myLog("Keyboard1: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
 myLog("Keys: ".json_encode($keys_1[0],JSON_UNESCAPED_UNICODE));
-//myLog("Array: ".json_encode($array),JSON_UNESCAPED_UNICODE);
+myLog("Array: ".json_encode($array),JSON_UNESCAPED_UNICODE);
 myLog("Test: $array[0]\n count: ".count($array)."\n c1 ".$array['Комм и маркетинг']['Медиа'][0]);
 myLog("Ключ 1: $keys_1[2] Ключ 2: $keys_2[6] Ключ 3: $keys_3[3]");
-//myLog("Ключ 1: ".count($keys_1)."Ключ 2: ".count($keys_2)."Ключ 3: ".count($keys_3));
-myLog("Array: $array[2][0][0]");
-myLog("\nКомм и маркетинг.Производство ATL рекламы.Наружная и indoor реклама:\n".$array[$keys_1[2]][$keys_2[6]][3]);
-
+//myLog("Ключ 1: ".count($keys_1)."Ключ 2: ".count($keys_2)."Ключ 3: ".count($keys_3));*/
 
 switch ($type) {
 	case 'message_new':
@@ -211,18 +182,17 @@ switch ($type) {
 
 		switch($payload){
 			case CMD_MAIN:
-				$cur_lvl = 0;
-				$buttons = [];
+				
+				/*$buttons = [];
 				array_push($buttons,[getBtn('Подписаться на категории', COLOR_DEFAULT,CMD_CAT)]);
 				array_push($buttons,[getBtn('Мои подписки', COLOR_DEFAULT,CMD_MY)]);
 				$kbd = [
 					'one_time' => false,
 					'buttons' => $buttons//,$buttons2]
-				];
+				];*/
 				break;
 			case CMD_CAT:
-				$cur_lvl = 1;
-				myLog("CUR_LVL: $cur_lvl");
+
 				$buttons = getKbd(0,9,$keys_1);
 				array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('Далее-->', COLOR_POSITIVE,CMD_NEXT)]);
 				//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
