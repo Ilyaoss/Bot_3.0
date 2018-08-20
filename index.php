@@ -390,7 +390,7 @@ switch ($type) {
 						else{
 							$keys_3 = $array[$key[0]][$payload[$key[0]]];
 							/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)*/
-							if(count($keys_2)<9)
+							if(count($keys_3)<9)
 							{
 								$buttons = getKbd_3(0,count($keys_3),$keys_3,$payload);
 								array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL'])]);
