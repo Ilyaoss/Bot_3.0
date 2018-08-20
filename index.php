@@ -393,8 +393,8 @@ switch ($type) {
 							if(count($keys_3)<9)
 							{
 								$buttons = getKbd_3(0,count($keys_3),$keys_3,$payload);
-								array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL'])]);
-								array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,[$payload=>CMD_BACK]),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
+								array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,'SUBS_ALL')]);//[$payload=>'SA']   [$k[0]=>[$prev[$k[0]]=>$key]]
+								array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 							}
 							else
 							{
