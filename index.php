@@ -351,10 +351,10 @@ switch ($type) {
 						
 						if($payload[$key[0]][$keys[0]]==CMD_NEXT)
 						{
-							$keys_2 = array_keys($array[$key[0]]);
-							$buttons = getKbd_3(7,count($keys_2),$keys_2,$key[0]);//count($keys_2)
-							array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0]=>'SUBS_ALL'])]);
-							array_push($buttons,[getBtn('<-- На пред. стр.', COLOR_NEGATIVE,$key[0]),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
+							$keys_3 = array_keys($array[$key[0]][$keys[0]]);
+							$buttons = getKbd_3(7,count($keys_3),$keys_3,$payload);//count($keys_2)
+							array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL'])]);
+							array_push($buttons,[getBtn('<-- На пред. стр.', COLOR_NEGATIVE,'///'),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 							array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,CMD_BACK)]);
 							myLog("TEST ".json_encode($kbd, JSON_UNESCAPED_UNICODE));
 							$kbd = [
