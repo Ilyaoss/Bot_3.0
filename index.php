@@ -192,7 +192,7 @@ switch ($type) {
 				];*/
 				break;
 			case CMD_CAT:
-
+				$msg = 'Список категорий 1-го уровня. Нажми для открытия подкатегорий.'
 				$buttons = getKbd(0,9,$keys_1);
 				array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('Далее-->', COLOR_POSITIVE,CMD_NEXT)]);
 				//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
@@ -279,9 +279,7 @@ switch ($type) {
 					myLog( $e->getCode().' '.$e->getMessage() );
 				}
 				break;*/
-			default:
-				myLog("CUR_LVL: $cur_lvl");
-				/*if($cur_lvl == 1)/*Перешли с 1-го уровня
+			default:	
 				{
 					$cur_lvl = 2;
 					myLog("CUR_LVL: $cur_lvl");
@@ -311,6 +309,7 @@ switch ($type) {
 					];
 				}*/
 				if(is_array($payload)){
+					
 					$key = array_keys($payload);
 					if(is_array($payload[$key[0]]))
 					{
@@ -409,6 +408,7 @@ switch ($type) {
 						}
 						/*3-й уровень кнопок:*/
 						else{
+							$msg = "Список подкатегорий в $key[0].".$payload[$key[0]]". Нажми для чтобы подписаться.\n";
 							$keys_3 = $array[$key[0]][$payload[$key[0]]];
 							/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)*/
 							if(count($keys_3)<9)
@@ -445,6 +445,7 @@ switch ($type) {
 				}
 				else/* Второй уровень*/
 				{
+					$msg = "Список подкатегорий в $payload. Нажми для открытия подкатегорий.\n";
 					$keys_2 = array_keys($array[$payload]);
 					/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)*/
 					if(count($keys_2)<9)
