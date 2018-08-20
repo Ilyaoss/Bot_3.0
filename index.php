@@ -325,7 +325,7 @@ switch ($type) {
 						file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
 						unset($data);
 						
-						$msg = "Вы успешно поддписались на $str".$payload[$key[0]][$keys[0]]);
+						$msg = "Вы успешно поддписались на $str".$payload[$key[0]][$keys[0]];
 						
 					}
 					else
