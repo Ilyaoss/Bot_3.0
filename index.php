@@ -429,14 +429,14 @@ switch ($type) {
 							{
 								$buttons = getKbd_3(0,count($keys_3),$keys_3,$payload);
 								array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,'SUBS_ALL')]);//[$payload=>'SA']   [$k[0]=>[$prev[$k[0]]=>$key]]
-								array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,[$key[0]=>$payload[$key[0]]]),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
+								array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,$key[0]),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 							}
 							else
 							{
 								$buttons = getKbd_3(0,7,$keys_3,$payload);//count($keys_2)
 								array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL'])]);
 								array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[$key[0]=>[$payload[$key[0]]=>CMD_NEXT]])]);//[$k[0]=>[$prev[$k[0]]=>$key]]
-								array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,[$key[0]=>$payload[$key[0]]])]);
+								array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,$key[0])]);
 							}
 							myLog("Keys3: ".json_encode($keys_3,JSON_UNESCAPED_UNICODE));
 							//buttons = getKbd_2(0,count($keys_2),$keys_2,$payload);//count($keys_2)
