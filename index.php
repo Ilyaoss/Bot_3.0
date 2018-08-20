@@ -320,7 +320,7 @@ switch ($type) {
 						$data = json_decode($file,TRUE);        // Декодировать в массив 						
 						unset($file);                               // Очистить переменную $file		   
 						$str = "$key[0].$keys[0]"//$payload[$key[0]][$keys[0]]";
-						myLog("str: $str");
+						myLog("str: ".$str);
 						$data[$userId][]=$str;        // Добавить подписку
 						file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
 						unset($data);
