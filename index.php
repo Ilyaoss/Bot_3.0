@@ -398,7 +398,7 @@ switch ($type) {
 							$buttons = getKbd_3(7,count($keys_2),$keys_2,$key[0]);//count($keys_2)
 							array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0]=>'SUBS_ALL'])]);
 							array_push($buttons,[getBtn('<-- На пред. стр.', COLOR_NEGATIVE,$key[0]),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-							array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,CMD_BACK)]);
+							array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,[$key[0]=>$payload[$key[0]]])]);
 							myLog("TEST ".json_encode($kbd, JSON_UNESCAPED_UNICODE));
 							$kbd = [
 								'one_time' => false,
