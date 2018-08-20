@@ -75,8 +75,9 @@ function getKbd_2($start, $end, $keys, $prev){
 		$key = $keys[$i];
 		if(is_array($prev))
 		{
+			myLog("CATCH");
 			$k = array_keys($prev);
-			array_push($buttons_temp,getBtn($key, COLOR_DEFAULT,[$prev[$k[0]]=>$key]));//getBtn2
+			array_push($buttons_temp,getBtn($key, COLOR_DEFAULT,[$k[0]=>$prev[$k[0]]=>$key]));//getBtn2
 		}
 		else
 		{
@@ -311,7 +312,7 @@ switch ($type) {
 					$key = array_keys($payload);
 					if(is_array($payload[$key[0]]))
 					{
-						myLog("MSG: ".$body." PAYLOAD_val:".json_encode($payload[$key[0]],JSON_UNESCAPED_UNICODE));
+						myLog("MSG: ".$body." PAYLOAD_val1:".json_encode($payload[$key[0]],JSON_UNESCAPED_UNICODE));
 					}
 					else
 					{
