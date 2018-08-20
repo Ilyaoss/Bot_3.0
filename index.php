@@ -91,6 +91,28 @@ function getKbd_2($start, $end, $keys, $prev){
 	}
 	return $buttons;
 }
+
+function getKbd_3($start, $end, $keys, $prev){
+	$buttons = [];
+
+	for($i=$start;$i<$end;++$i) {
+		$key = $keys[$i];
+		if(is_array($prev))
+		{
+			myLog("CATCH");
+			$k = array_keys($prev);
+			array_push($buttons,getBtn($key, COLOR_DEFAULT,[$k[0]=>[$prev[$k[0]]=>$key]]));//getBtn2
+		}
+		else
+		{
+			array_push($buttons,[getBtn($key, COLOR_DEFAULT,[$prev=>$key])]);//getBtn2
+		}
+		//array_push($buttons_temp,getBtn($key, COLOR_DEFAULT,[$prev=>$key]));//getBtn2
+
+	}
+	return $buttons;
+}
+
 function myLog($str) {
     file_put_contents("php://stdout", "$str\n");
 }
@@ -318,7 +340,7 @@ switch ($type) {
 						'buttons' => $buttons
 					];
 				}*/
-				if(is_array($payload)){
+				if(is_array($payload)){/*3 уровень*/
 					$key = array_keys($payload);
 					if(is_array($payload[$key[0]]))
 					{
@@ -359,9 +381,23 @@ switch ($type) {
 						}
 					}
 				}
-				else
+				else/* Второй уровень*/
 				{
 					$keys_2 = array_keys($array[$payload]);
+					/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)*/
+					if(count($keys_2)<9)
+					{
+						$buttons = getKbd_3(0,count($keys_2),$keys_2,$payload);//count($keys_2)
+						array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL'])]);
+						array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,[$payload=>CMD_BACK]),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
+					}
+					else
+					{
+						$buttons = getKbd_3(0,7,$keys_2,$payload);//count($keys_2)
+						array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL'])]);
+						array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[$payload=>CMD_NEXT])]);
+						array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,CMD_BACK)]);
+					}
 					myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
 					$buttons = getKbd_2(0,count($keys_2),$keys_2,$payload);//count($keys_2)
 					array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,[$payload=>CMD_BACK])]);
