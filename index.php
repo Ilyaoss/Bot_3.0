@@ -40,7 +40,7 @@ function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
     ];
 }
 
-function getBtn2($label, $color = COLOR_DEFAULT, $payload = '', $prev) {
+/*function getBtn2($label, $color = COLOR_DEFAULT, $payload = '', $prev) {
     return [
         'action' => [
             'type' => 'text',
@@ -49,7 +49,7 @@ function getBtn2($label, $color = COLOR_DEFAULT, $payload = '', $prev) {
         ],
         'color' => $color
     ];
-}
+}*/
 
 /*Цикл вывода в 2 ряда*/
 /*for($i=0;$i<9;++$i) {
@@ -73,7 +73,7 @@ function getKbd_2($start, $end, $keys, $prev){
 	$buttons_temp = [];
 	for($i=$start;$i<$end;++$i) {
 		$key = $keys[$i];
-		array_push($buttons_temp,getBtn($key, COLOR_DEFAULT,[$prev=>$key]));
+		array_push($buttons_temp,getBtn($key, COLOR_DEFAULT,[$prev=>$key]));//getBtn2
 		if($i%2>0) {
 			array_push($buttons,$buttons_temp);
 			$buttons_temp = [];
@@ -300,9 +300,17 @@ switch ($type) {
 				}*/
 				if(is_array($payload)){
 					$key = array_keys($payload);
-					myLog("MSG: ".$body." PAYLOAD_val:".$payload[$key[0]]);
+					if(is_array($payload[$key[0]]))
+					{
+						myLog("MSG: ".$body." PAYLOAD_val:".json_encode($payload[$key[0]],JSON_UNESCAPED_UNICODE));
+					}
+					else
+					{
+						myLog("MSG: ".$body." PAYLOAD_val:".$payload[$key[0]]);
+					}
+					//myLog("MSG: ".$body." PAYLOAD_val:".$payload[$key[0]]);
 					$keys_3 = $array[$key[0]][$payload[$key[0]]];
-					$buttons = getKbd(0,count($keys_3),$keys_3);
+					$buttons = getKbd_2(0,count($keys_3),$keys_3,$payload);
 					myLog("CHECK THIS OUT: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
 					$kbd = [
 						'one_time' => false,
