@@ -399,8 +399,8 @@ switch ($type) {
 						array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,CMD_BACK)]);
 					}
 					myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
-					/*$buttons = getKbd_2(0,count($keys_2),$keys_2,$payload);//count($keys_2)
-					array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,[$payload=>CMD_BACK])]);
+					//buttons = getKbd_2(0,count($keys_2),$keys_2,$payload);//count($keys_2)
+					//array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,[$payload=>CMD_BACK])]);
 					//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 					$kbd = [
 						'one_time' => false,
