@@ -377,7 +377,7 @@ switch ($type) {
 						{
 							myLog("???");
 							$keys_2 = array_keys($array[$key[0]]);
-							$buttons = getKbd_3(7,count($keys_2),$keys_2,$payload);//count($keys_2)
+							$buttons = getKbd_3(7,count($keys_2),$keys_2,$key[0]);//count($keys_2)
 							array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0]=>'SUBS_ALL'])]);
 							array_push($buttons,[getBtn('<-- На пред. стр.', COLOR_NEGATIVE,$key[0]),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 							array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,CMD_BACK)]);
