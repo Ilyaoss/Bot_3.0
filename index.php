@@ -314,18 +314,18 @@ switch ($type) {
 					{
 						myLog("MSG: ".$body." PAYLOAD_val1:".json_encode($payload[$key[0]],JSON_UNESCAPED_UNICODE));
 						$keys = array_keys($payload[$key[0]]);
-						$str = "$key[0].$keys[0]";// $payload[$key[0]][$keys[0]]
-						myLog("str: $str".$payload[$key[0]][$keys[0]]);
+						$str = "$key[0].$keys[0].".$payload[$key[0]][$keys[0]];
+						myLog("str: $str");//.$payload[$key[0]][$keys[0]]);
 						
 						$file = file_get_contents(__DIR__ . '/data.json');  // Открыть файл data.json
 						myLog("file: $file");
 						$data = json_decode($file,TRUE);        // Декодировать в массив 						
 						unset($file);                               // Очистить переменную $file		   
-						$data[$userId][]="$str".$payload[$key[0]][$keys[0]];       // Добавить подписку
+						$data[$userId][]="$str";//.$payload[$key[0]][$keys[0]];       // Добавить подписку
 						file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
 						unset($data);
 						
-						$msg = "Вы успешно поддписались на $str".$payload[$key[0]][$keys[0]];
+						$msg = "Вы успешно поддписались на $str");//.$payload[$key[0]][$keys[0]];
 						
 					}
 					else
