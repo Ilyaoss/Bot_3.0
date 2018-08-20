@@ -344,21 +344,39 @@ switch ($type) {
 					$key = array_keys($payload);
 					if(is_array($payload[$key[0]]))
 					{
+						
 						/*4-й уровень - подписка оформляется*/
 						myLog("MSG: ".$body." PAYLOAD_val1:".json_encode($payload[$key[0]],JSON_UNESCAPED_UNICODE));
 						$keys = array_keys($payload[$key[0]]);
-						$str = "$key[0].$keys[0].".$payload[$key[0]][$keys[0]];
-						myLog("str: $str");//.$payload[$key[0]][$keys[0]]);
 						
-						$file = file_get_contents(__DIR__ . '/data.json');  // Открыть файл data.json
-						myLog("file: $file");
-						$data = json_decode($file,TRUE);        // Декодировать в массив 						
-						unset($file);                               // Очистить переменную $file		   
-						$data[$userId][]="$str";//.$payload[$key[0]][$keys[0]];       // Добавить подписку
-						file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
-						unset($data);
-						
-						$msg = "Вы успешно поддписались на $str";//.$payload[$key[0]][$keys[0]];
+						if($payload[$key[0]][$keys[0]]==CMD_NEXT)
+						{
+							$keys_2 = array_keys($array[$key[0]]);
+							$buttons = getKbd_3(7,count($keys_2),$keys_2,$key[0]);//count($keys_2)
+							array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0]=>'SUBS_ALL'])]);
+							array_push($buttons,[getBtn('<-- На пред. стр.', COLOR_NEGATIVE,$key[0]),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
+							array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,CMD_BACK)]);
+							myLog("TEST ".json_encode($kbd, JSON_UNESCAPED_UNICODE));
+							$kbd = [
+								'one_time' => false,
+								'buttons' => $buttons
+							];
+						}
+						else{
+							
+							$str = "$key[0].$keys[0].".$payload[$key[0]][$keys[0]];
+							myLog("str: $str");//.$payload[$key[0]][$keys[0]]);
+							
+							$file = file_get_contents(__DIR__ . '/data.json');  // Открыть файл data.json
+							myLog("file: $file");
+							$data = json_decode($file,TRUE);        // Декодировать в массив 						
+							unset($file);                               // Очистить переменную $file		   
+							$data[$userId][]="$str";//.$payload[$key[0]][$keys[0]];       // Добавить подписку
+							file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
+							unset($data);
+							
+							$msg = "Вы успешно поддписались на $str";//.$payload[$key[0]][$keys[0]];
+						}
 						
 					}
 					else
@@ -374,6 +392,7 @@ switch ($type) {
 						/* */
 						elseif($payload[$key[0]]== CMD_NEXT)
 						{
+
 							myLog("???");
 							$keys_2 = array_keys($array[$key[0]]);
 							$buttons = getKbd_3(7,count($keys_2),$keys_2,$key[0]);//count($keys_2)
@@ -385,6 +404,22 @@ switch ($type) {
 								'one_time' => false,
 								'buttons' => $buttons
 							];
+						}
+						/*C 2-го уровня пришла ком. SUBS ALL*/
+						elseif($payload[$key[0]]== 'SUBS_ALL')
+						{
+							/*------------DK-------------*/
+							$str = $key[0];
+							$file = file_get_contents(__DIR__ . '/data.json');  // Открыть файл data.json
+							myLog("file: $file");
+							$data = json_decode($file,TRUE);        // Декодировать в массив 						
+							unset($file);                               // Очистить переменную $file		   
+							$data[$userId][]="$str";//.$payload[$key[0]][$keys[0]];       // Добавить подписку
+							file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
+							unset($data);
+							
+							$msg = "Вы успешно поддписались на $str";//.$payload[$key[0]][$keys[0]];
+							/*-------------DK-----------*/
 						}
 						/*3-й уровень кнопок:*/
 						else{
@@ -400,7 +435,7 @@ switch ($type) {
 							{
 								$buttons = getKbd_3(0,7,$keys_3,$payload);//count($keys_2)
 								array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL'])]);
-								array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[$payload=>CMD_NEXT])]);
+								array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[$key[0]=>[$payload[$key[0]]=>CMD_NEXT]])]);//[$k[0]=>[$prev[$k[0]]=>$key]]
 								array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,CMD_BACK)]);
 							}
 							myLog("Keys3: ".json_encode($keys_3,JSON_UNESCAPED_UNICODE));
