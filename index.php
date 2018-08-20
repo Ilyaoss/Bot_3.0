@@ -313,7 +313,7 @@ switch ($type) {
 					if(is_array($payload[$key[0]]))
 					{
 						myLog("MSG: ".$body." PAYLOAD_val1:".json_encode($payload[$key[0]],JSON_UNESCAPED_UNICODE));
-						$keys = array_keys($payload[$key[0]]));
+						$keys = array_keys($payload[$key[0]]);
 						
 						$file = file_get_contents(__DIR__ . '/data.json');  // Открыть файл data.json
 						$data = json_decode($file,TRUE);        // Декодировать в массив 						
