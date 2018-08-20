@@ -375,6 +375,7 @@ switch ($type) {
 						/* */
 						elseif($payload[$key[0]]== CMD_NEXT)
 						{
+							myLog("???");
 							$keys_2 = array_keys($array[$key[0]]);
 							$buttons = getKbd_3(7,count($keys_2),$keys_2,$payload);//count($keys_2)
 							array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0]=>'SUBS_ALL'])]);
