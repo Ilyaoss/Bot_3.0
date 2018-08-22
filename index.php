@@ -249,7 +249,6 @@ switch ($type) {
 					$buttons = getKbd(0,count($user_data),$user_data);
 					array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,'UNSUBS_ALL')]);
 					array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_BACK)]);
-					
 				}
 				else
 				{
