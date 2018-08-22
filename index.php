@@ -142,9 +142,10 @@ function read_file()
 
 function delete_from_file($idx, $userId)
 {
-	$msg = "Вы успешно отписались от  ".$data[$userId][$idx];
 	$data = read_file($userId);		   
+	$msg = "Вы успешно отписались от  ".$data[$userId][$idx];
 	unset($data[$userId][$idx]);	// Удалить подписку
+	$data[$userId] = array_values($data[$userId]);
 	file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
 	unset($data);
 	return $msg;
