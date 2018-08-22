@@ -129,7 +129,7 @@ function add_to_file($str, $userId)
 	$data = read_file($userId);
 	foreach($data[$userId] as $user_data)
 	{
-		if(strpos($user_data,$str)===0)
+		if(strpos($str,$user_data)===0)
 		{
 			return 'Вы уже пописаны на эту катогрею или на родительскую категорию';
 		}
