@@ -199,6 +199,7 @@ switch ($type) {
 					'buttons' => $buttons//,$buttons2]
 				];*/
 				break;
+			case '':
 			case CMD_CAT:
 				$msg = 'Список категорий 1-го уровня. Нажми для открытия подкатегорий.';
 				$buttons = getKbd(0,9,$keys_1);
