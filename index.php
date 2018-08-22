@@ -127,11 +127,18 @@ function getKbd_3($start, $end, $keys, $prev){
 function add_to_file($str, $userId)
 {
 	$data = read_file($userId);
-	foreach($data[$userId] as $user_data)
+	for($i=0;$i<count($data[$userId]);++$i)
 	{
-		if(strpos($str,$user_data)===0)
+		$user_data = $data[$userId][$i];
+		/*Если наша категория является подкатегорией, то есть родительская входит в неё в начало*/
+		if(strpos($str,$user_data) === 0)
 		{
 			return 'Вы уже пописаны на эту катогрею или на родительскую категорию';
+		}
+		/*Если наша категория является родительской, то мы убираем всех её детей и добавляем её*/
+		if(strpos($user_data,$str) === 0)
+		{
+			delete_from_file($i, $userId);
 		}
 	}
 	$data[$userId][]="$str";	// Добавить подписку
