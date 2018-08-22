@@ -179,7 +179,7 @@ switch ($type) {
 			'one_time' => false,
 			'buttons' => $buttons//,$buttons2]
 		];
-		$msg = "Список подкатегорий 1-го уровня, нажми для перехода во 2 уровень";
+		$msg = "Список подкатегорий 1-го уровня, нажмите для перехода во 2 уровень";
 
 		switch($payload){
 			case '':
@@ -194,7 +194,7 @@ switch ($type) {
 				];
 				break;
 			case CMD_CAT:
-				$msg = 'Список категорий 1-го уровня. Нажми для открытия подкатегорий.';
+				$msg = 'Список категорий 1-го уровня. Нажмите для открытия подкатегорий.';
 				$buttons = getKbd(0,9,$keys_1);
 				array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('Далее-->', COLOR_POSITIVE,CMD_NEXT)]);
 				//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
@@ -348,7 +348,7 @@ switch ($type) {
 						myLog("MSG: ".$body." PAYLOAD_val:".$payload[$key[0]]);
 						if($payload[$key[0]]== CMD_NEXT)
 						{
-
+							$msg = "Список подкатегорий в $key[0]. Нажми для открытия подкатегорий.\n";
 							myLog("???");
 							$keys_2 = array_keys($array[$key[0]]);
 							$buttons = getKbd_3(7,count($keys_2),$keys_2,$key[0]);//count($keys_2)
