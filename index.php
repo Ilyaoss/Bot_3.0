@@ -22,6 +22,8 @@ const CMD_MAIN = 'MAIN';
 const CMD_MY = 'MY_SUBS';
 const CMD_SUBS = 'SUBS';
 const CMD_UNSUBS = 'UNSUBS';
+const CMD_UNSUBS_ALL = 'UNSUBS_ALL';
+const CMD_YES = 'YES';
 
 const VK_TOKEN = '887f275780153f8d0a42339e542ecb1f1b6a47bce9385aea12ada07d3a459095800074da66b418d5911c9';
 //'0f0567f6ffa539268e0b6558d7622d375e6232283542932eadc135443d88109330c37b64bbb8c26bf525a';
@@ -269,16 +271,36 @@ switch ($type) {
 				{
 					myLog("&&");
 					$buttons = getKbd_test(0,count($user_data),$user_data);
-					array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,'UNSUBS_ALL')]);
+					array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,CMD_UNSUBS_ALL)]);
 					array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_BACK)]);
 				}
 				else
 				{
 					$buttons = getKbd_test(0,8,$user_data);//count($keys_2)
-					array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,'UNSUBS_ALL')]);
+					array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,CMD_UNSUBS_ALL)]);
 					array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[CMD_UNSUBS=>1])]);//[$k[0]=>[$prev[$k[0]]=>$key]]
 				}
 				myLog("buttons: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
+				$kbd = [
+					'one_time' => false,
+					'buttons' => $buttons
+				];
+				break;
+			case CMD_UNSUBS_ALL:
+				$msg = 'Вы точно хотите от всего отписаться?';
+				array_push($buttons,[getBtn('Да', COLOR_POSITIVE,CMD_YES]);
+				array_push($buttons,[getBtn('Нет',COLOR_NEGATIVE,CMD_UNSUBS)]);
+				$kbd = [
+					'one_time' => false,
+					'buttons' => $buttons
+				];
+				break;
+			case CMD_YES:
+				$data = read_file($userId);		   
+				$data[$userId] = [];
+				file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
+				unset($data);
+				$msg = 'Все подписки отменены';
 				$kbd = [
 					'one_time' => false,
 					'buttons' => $buttons
