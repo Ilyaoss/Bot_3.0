@@ -383,7 +383,7 @@ switch ($type) {
 					{	
 						/*Пришло сообщение от 2 уровня*/
 						myLog("MSG: ".$body." PAYLOAD_val:".$payload[$key[0]]);
-						if($payload[$key[0]]== CMD_NEXT)
+						if($payload[$key[0]]=== CMD_NEXT)
 						{
 							$msg = "Список подкатегорий в $key[0].\nНажмите для открытия подкатегорий.\n";
 							myLog("???");
