@@ -65,7 +65,7 @@ function getKbd_test($start, $end, $keys){
 	$buttons = [];
 	for($i=$start;$i<$end;++$i) {
 		$key = $keys[$i];
-		array_push($buttons,[getBtn($key, COLOR_DEFAULT,[CMD_SUBS=>'_'.$i])]);
+		array_push($buttons,[getBtn($key, COLOR_DEFAULT,[CMD_UNSUBS=>'_'.$i])]);
 	}
 	return $buttons;
 }
@@ -449,11 +449,11 @@ switch ($type) {
 						/*след страница отписок*/
 						elseif($key[0]===CMD_UNSUBS)
 						{
-							$s = substr($payload[$key[0]],-2,1);
+							$s = substr($payload[$key[0]],0,1);
 							myLog("s: ".$S);
 							if($s==='_')
 							{
-								$s = substr($payload[$key[0]],-1);
+								$s = substr($payload[$key[0]],1);
 
 								$msg = delete_from_file($s,$userId);
 							}
