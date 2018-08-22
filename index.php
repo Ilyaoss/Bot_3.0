@@ -288,7 +288,7 @@ switch ($type) {
 				break;
 			case CMD_UNSUBS_ALL:
 				$msg = 'Вы точно хотите от всего отписаться?';
-				array_push($buttons,[getBtn('Да', COLOR_POSITIVE,CMD_YES]);
+				array_push($buttons,[getBtn('Да', COLOR_POSITIVE,CMD_YES)]);
 				array_push($buttons,[getBtn('Нет',COLOR_NEGATIVE,CMD_UNSUBS)]);
 				$kbd = [
 					'one_time' => false,
