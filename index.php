@@ -179,7 +179,7 @@ switch ($type) {
 			'one_time' => false,
 			'buttons' => $buttons//,$buttons2]
 		];
-		$msg = "Список подкатегорий 1-го уровня, нажмите для перехода во 2 уровень";
+		$msg = "Список подкатегорий 1-го уровня, нажмитете для перехода во 2 уровень";
 
 		switch($payload){
 			case '':
@@ -292,6 +292,7 @@ switch ($type) {
 						
 						if($payload[$key[0]][$keys[0]]==CMD_NEXT)
 						{
+							$msg = "Список подкатегорий в $key[0].$keys[0].\nНажмите для чтобы подписаться.\n";
 							$keys_3 = $array[$key[0]][$keys[0]];
 							$buttons = getKbd_3(7,count($keys_3),$keys_3,$payload);//count($keys_2)
 							array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL'])]);
@@ -348,7 +349,7 @@ switch ($type) {
 						myLog("MSG: ".$body." PAYLOAD_val:".$payload[$key[0]]);
 						if($payload[$key[0]]== CMD_NEXT)
 						{
-							$msg = "Список подкатегорий в $key[0]. Нажми для открытия подкатегорий.\n";
+							$msg = "Список подкатегорий в $key[0].\nНажмите для открытия подкатегорий.\n";
 							myLog("???");
 							$keys_2 = array_keys($array[$key[0]]);
 							$buttons = getKbd_3(7,count($keys_2),$keys_2,$key[0]);//count($keys_2)
@@ -375,7 +376,7 @@ switch ($type) {
 						}
 						/*3-й уровень кнопок:*/
 						else{
-							$msg = "Список подкатегорий в $key[0].".$payload[$key[0]].". Нажми для чтобы подписаться.\n";
+							$msg = "Список подкатегорий в $key[0].".$payload[$key[0]].".\nНажмите для чтобы подписаться.\n";
 							$keys_3 = $array[$key[0]][$payload[$key[0]]];
 							/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)*/
 							if(count($keys_3)<9)
@@ -403,14 +404,14 @@ switch ($type) {
 				}
 				else/* Второй уровень*/
 				{
-					$msg = "Список подкатегорий в $payload. Нажми для открытия подкатегорий.\n";
+					$msg = "Список подкатегорий в $payload.\nНажмите для открытия подкатегорий.\n";
 					$keys_2 = array_keys($array[$payload]);
 					/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)*/
 					if(count($keys_2)<9)
 					{
 						if($payload=='Прочее')
 						{
-							$msg = "Список подкатегорий в $payload. Нажми чтобы подписаться.\n";
+							$msg = "Список подкатегорий в $payload.\nНажмите чтобы подписаться.\n";
 						}
 						$buttons = getKbd_3(0,count($keys_2),$keys_2,$payload);//count($keys_2)
 						array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL'])]);
