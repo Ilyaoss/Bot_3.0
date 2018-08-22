@@ -61,6 +61,15 @@ function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
 		$buttons1 = [];
 	}
 }*/
+function getKbd_test($start, $end, $keys){
+	$buttons = [];
+	for($i=$start;$i<$end;++$i) {
+		$key = $keys[$i];
+		array_push($buttons,[getBtn($key, COLOR_DEFAULT,'')]);
+	}
+	return $buttons;
+}
+
 function getKbd($start, $end, $keys){
 	$buttons = [];
 	for($i=$start;$i<$end;++$i) {
@@ -246,7 +255,7 @@ switch ($type) {
 				if(count($user_data)<9)
 				{
 					myLog("&&");
-					$buttons = getKbd(0,count($user_data),$user_data);
+					$buttons = getKbd_test(0,count($user_data),$user_data);
 					array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,'UNSUBS_ALL')]);
 					array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_BACK)]);
 				}
