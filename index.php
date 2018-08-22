@@ -267,6 +267,11 @@ switch ($type) {
 			case CMD_UNSUBS:
 				$data = read_file();
 				$user_data = $data[$userId];
+				myLog("userdata: $user_data");
+				/*if($user_data==null)
+				{
+					
+				}*/
 				if(count($user_data)<9)
 				{
 					myLog("&&");
