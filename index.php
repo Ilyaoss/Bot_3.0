@@ -129,20 +129,22 @@ function myLog($str) {
     file_put_contents("php://stdout", "$str\n");
 }
 
+/*--Парсим xls с категориями--*/
 $xls = PHPExcel_IOFactory::load(__DIR__ . '/categories.xlsx');
 
 // Первый лист
 $xls->setActiveSheetIndex(0);
 $sheet = $xls->getActiveSheet();
+$def_mas = $sheet->toArray();
 
 $json = file_get_contents('php://input');
 myLog($json);
+/*--*/
 $data = json_decode($json, true);
 $type = $data['type'] ?? '';
 $vk = new VKApiClient('5.80', VKLanguage::RUSSIAN);
 $catigories = [];
-$def_mas = $sheet->toArray();
-myLog("Выводит?".$def_mas[0][1]);
+
 /*--Создаём ассоц. массив--*/
 $array = array();
 for($i=1;$i<count($def_mas);++$i) {
@@ -162,13 +164,6 @@ $kbd = [
 
 $keys_2 = array_unique(array_column($def_mas, 1),SORT_REGULAR);
 $keys_3 = array_column($def_mas, 2);
-
-/*myLog("Keyboard1: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
-myLog("Keys: ".json_encode($keys_1[0],JSON_UNESCAPED_UNICODE));
-myLog("Array: ".json_encode($array),JSON_UNESCAPED_UNICODE);
-myLog("Test: $array[0]\n count: ".count($array)."\n c1 ".$array['Комм и маркетинг']['Медиа'][0]);
-myLog("Ключ 1: $keys_1[2] Ключ 2: $keys_2[6] Ключ 3: $keys_3[3]");
-//myLog("Ключ 1: ".count($keys_1)."Ключ 2: ".count($keys_2)."Ключ 3: ".count($keys_3));*/
 
 switch ($type) {
 	case 'message_new':
@@ -292,22 +287,7 @@ switch ($type) {
 					myLog( $e->getCode().' '.$e->getMessage() );
 				}
 				break;*/
-			default:	
-				/*{
-					$cur_lvl = 2;
-					myLog("CUR_LVL: $cur_lvl");
-					$cur_mas = $array[$payload];
-					$keys_2 = array_keys($array[$payload]);
-					myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
-					$buttons = getKbd_2(0,count($keys_2),$keys_2,$payload);//count($keys_2)
-					array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK)]);
-					//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-					$kbd = [
-						'one_time' => false,
-						'buttons' => $buttons
-					];
-				}*/
-
+			default:
 				if(is_array($payload)){
 					$key = array_keys($payload);
 					if(is_array($payload[$key[0]]))
@@ -372,14 +352,7 @@ switch ($type) {
 					{	
 						/*Пришло сообщение от 2 уровня*/
 						myLog("MSG: ".$body." PAYLOAD_val:".$payload[$key[0]]);
-						/*------------Дублирую код----------*/
-						/*if($payload[$key[0]]==CMD_BACK)
-						{
-							$buttons = getKbd(0,9,$keys_1);
-							array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('Далее-->', COLOR_POSITIVE,CMD_NEXT)]);
-						}/*------------Закончил Дублировать код----------*/
-						/* */
-						/*else*/if($payload[$key[0]]== CMD_NEXT)
+						if($payload[$key[0]]== CMD_NEXT)
 						{
 
 							myLog("???");
@@ -397,17 +370,14 @@ switch ($type) {
 						/*C 2-го уровня пришла ком. SUBS ALL*/
 						elseif($payload[$key[0]]== 'SUBS_ALL')
 						{
-							/*------------DK-------------*/
 							$str = $key[0];
 							$msg = write_to_file($str, $userId);
-							/*-------------DK-----------*/
 						}
 						/*прочее*/
 						elseif($payload[$key[0]]=='Прочее')
 						{
 							$str = "$key[0].".$payload[$key[0]];
 							$msg = write_to_file($str, $userId);
-							
 						}
 						/*3-й уровень кнопок:*/
 						else{
@@ -428,17 +398,12 @@ switch ($type) {
 								array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,$key[0])]);
 							}
 							myLog("Keys3: ".json_encode($keys_3,JSON_UNESCAPED_UNICODE));
-							//buttons = getKbd_2(0,count($keys_2),$keys_2,$payload);//count($keys_2)
-							//array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,[$payload=>CMD_BACK])]);
-							//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
+							myLog("CHECK THIS OUT: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
+							
 							$kbd = [
 								'one_time' => false,
 								'buttons' => $buttons
 							];
-							/*$keys_3 = $array[$key[0]][$payload[$key[0]]];
-							$buttons = getKbd_2(0,count($keys_3),$keys_3,$payload);
-							array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK)]);*/
-							myLog("CHECK THIS OUT: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
 						}
 					}
 				}
@@ -465,10 +430,8 @@ switch ($type) {
 						array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,CMD_BACK)]);
 					}
 					myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
-					//buttons = getKbd_2(0,count($keys_2),$keys_2,$payload);//count($keys_2)
-					//array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,[$payload=>CMD_BACK])]);
-					//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 					myLog("CHECK THIS OUT: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
+					
 					$kbd = [
 						'one_time' => false,
 						'buttons' => $buttons
