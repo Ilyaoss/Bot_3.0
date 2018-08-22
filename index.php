@@ -399,7 +399,7 @@ switch ($type) {
 							];
 						}
 						/*C 2-го уровня пришла ком. SUBS ALL*/
-						elseif($payload[$key[0]]== 'SUBS_ALL')
+						elseif($payload[$key[0]]=== 'SUBS_ALL')
 						{
 							$str = $key[0];
 							$msg = write_to_file($str, $userId);
@@ -429,13 +429,13 @@ switch ($type) {
 							/*---------ДК------*/
 						}
 						/*прочее*/
-						elseif($payload[$key[0]]=='Прочее')
+						elseif($payload[$key[0]]==='Прочее')
 						{
 							$str = "$key[0].".$payload[$key[0]];
 							$msg = write_to_file($str, $userId);
 						}
 						/*след страница отписок*/
-						elseif($key[0]==CMD_UNSUBS)
+						elseif($key[0]===CMD_UNSUBS)
 						{
 							$data = read_file();
 							$user_data = $data[$userId];
