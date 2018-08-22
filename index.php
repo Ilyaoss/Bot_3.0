@@ -245,9 +245,11 @@ switch ($type) {
 				$user_data = $data[$userId];
 				if(count($user_data)<9)
 				{
+					myLog("&&");
 					$buttons = getKbd(0,count($user_data),$user_data);
 					array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,'UNSUBS_ALL')]);
 					array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_BACK)]);
+					myLog("CHECK THIS OUT: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
 				}
 				else
 				{
