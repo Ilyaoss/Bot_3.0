@@ -247,18 +247,19 @@ switch ($type) {
 				if($msg=="Список моих подписок:\n")
 				{
 					$msg = 'Нет активных подписок';
-					/*----------------*/
-					$buttons = [];
-					array_push($buttons,[getBtn('Подписаться на категории', COLOR_DEFAULT,CMD_CAT)]);
-					array_push($buttons,[getBtn('Мои подписки', COLOR_DEFAULT,CMD_MY)]);
-					array_push($buttons,[getBtn('Отписаться', COLOR_DEFAULT,CMD_UNSUBS)]);
-					$kbd = [
-						'one_time' => false,
-						'buttons' => $buttons
-					];
-					/*----------------*/
+					
 					break;
 				}
+				/*----------------*/
+				$buttons = [];
+				array_push($buttons,[getBtn('Подписаться на категории', COLOR_DEFAULT,CMD_CAT)]);
+				array_push($buttons,[getBtn('Мои подписки', COLOR_DEFAULT,CMD_MY)]);
+				array_push($buttons,[getBtn('Отписаться', COLOR_DEFAULT,CMD_UNSUBS)]);
+				$kbd = [
+					'one_time' => false,
+					'buttons' => $buttons
+				];
+				/*----------------*/
 				break;
 			case CMD_BACK:
 				$buttons = getKbd(0,9,$keys_1);
@@ -332,6 +333,16 @@ switch ($type) {
 				file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
 				unset($data);
 				$msg = 'Все подписки отменены';
+				/*----------------*/
+				$buttons = [];
+				array_push($buttons,[getBtn('Подписаться на категории', COLOR_DEFAULT,CMD_CAT)]);
+				array_push($buttons,[getBtn('Мои подписки', COLOR_DEFAULT,CMD_MY)]);
+				array_push($buttons,[getBtn('Отписаться', COLOR_DEFAULT,CMD_UNSUBS)]);
+				$kbd = [
+					'one_time' => false,
+					'buttons' => $buttons
+				];
+				/*----------------*/
 				$kbd = [
 					'one_time' => false,
 					'buttons' => $buttons
@@ -532,8 +543,17 @@ switch ($type) {
 							if($s==='_')
 							{
 								$s = substr($payload[$key[0]],1);
-
 								$msg = delete_from_file($s,$userId);
+								/*----------------*/
+								$buttons = [];
+								array_push($buttons,[getBtn('Подписаться на категории', COLOR_DEFAULT,CMD_CAT)]);
+								array_push($buttons,[getBtn('Мои подписки', COLOR_DEFAULT,CMD_MY)]);
+								array_push($buttons,[getBtn('Отписаться', COLOR_DEFAULT,CMD_UNSUBS)]);
+								$kbd = [
+									'one_time' => false,
+									'buttons' => $buttons
+								];
+								/*----------------*/
 							}
 							else
 							{
