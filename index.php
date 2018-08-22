@@ -403,6 +403,30 @@ switch ($type) {
 						{
 							$str = $key[0];
 							$msg = write_to_file($str, $userId);
+							/*---------ДК------*/
+							$keys_2 = array_keys($array[$key[0]]);
+							/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)*/
+							if(count($keys_2)<9)
+							{
+								$buttons = getKbd_3(0,count($keys_2),$keys_2,$key[0]);//count($keys_2)
+								array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0]=>'SUBS_ALL'])]);
+								array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
+							}
+							else
+							{
+								$buttons = getKbd_3(0,7,$keys_2,$payload);//count($keys_2)
+								array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0]=>'SUBS_ALL'])]);
+								array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[$key[0]=>CMD_NEXT])]);
+								array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,CMD_BACK)]);
+							}
+							myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
+							myLog("CHECK THIS OUT: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
+							
+							$kbd = [
+								'one_time' => false,
+								'buttons' => $buttons
+							];
+							/*---------ДК------*/
 						}
 						/*прочее*/
 						elseif($payload[$key[0]]=='Прочее')
@@ -440,6 +464,10 @@ switch ($type) {
 								array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,'UNSUBS_ALL')]);
 								array_push($buttons,[$b_prev,$b_main]);
 							}
+							$kbd = [
+								'one_time' => false,
+								'buttons' => $buttons
+							];
 						}
 						/*3-й уровень кнопок:*/
 						else{
