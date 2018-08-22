@@ -255,7 +255,11 @@ switch ($type) {
 					array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,'UNSUBS_ALL')]);
 					array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[CMD_UNSUBS=>1])]);//[$k[0]=>[$prev[$k[0]]=>$key]]
 				}
-				
+				$kbd = [
+					'one_time' => false,
+					'buttons' => $buttons
+				];
+				break;
 			/*case CMD_CAT:
 				try {
 
