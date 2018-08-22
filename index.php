@@ -257,7 +257,7 @@ switch ($type) {
 					array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,'UNSUBS_ALL')]);
 					array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[CMD_UNSUBS=>1])]);//[$k[0]=>[$prev[$k[0]]=>$key]]
 				}
-				myLog("CHECK THIS OUT: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
+				myLog("buttons: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
 				$kbd = [
 					'one_time' => false,
 					'buttons' => $buttons
@@ -494,6 +494,7 @@ switch ($type) {
 		}
 		try {
 			if ($msg !== null) {
+				myLog("kbd: ".json_encode($kbd,JSON_UNESCAPED_UNICODE));
 				$response = $vk->messages()->send(VK_TOKEN, [
 					'peer_id' => $userId,
 					'message' => $msg,
