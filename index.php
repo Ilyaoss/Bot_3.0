@@ -243,7 +243,7 @@ switch ($type) {
 			case CMD_UNSUBS:
 				$data = read_file();
 				$user_data = $data[$userId];
-				if(count($keys_3)<9)
+				if(count($user_data)<9)
 				{
 					$buttons = getKbd(0,count($user_data),$user_data);
 					array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,'UNSUBS_ALL')]);
