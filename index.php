@@ -244,6 +244,21 @@ switch ($type) {
 					$msg = $msg."-$item\n";
 				}
 				unset($data);
+				if($msg=="Список моих подписок:\n")
+				{
+					$msg = 'Нет активных подписок';
+					/*----------------*/
+					$buttons = [];
+					array_push($buttons,[getBtn('Подписаться на категории', COLOR_DEFAULT,CMD_CAT)]);
+					array_push($buttons,[getBtn('Мои подписки', COLOR_DEFAULT,CMD_MY)]);
+					array_push($buttons,[getBtn('Отписаться', COLOR_DEFAULT,CMD_UNSUBS)]);
+					$kbd = [
+						'one_time' => false,
+						'buttons' => $buttons
+					];
+					/*----------------*/
+					break;
+				}
 				break;
 			case CMD_BACK:
 				$buttons = getKbd(0,9,$keys_1);
@@ -268,10 +283,21 @@ switch ($type) {
 				$data = read_file();
 				$user_data = $data[$userId];
 				myLog("userdata: ".json_encode($user_data));
-				/*if($user_data==null)
+				if($user_data==null)
 				{
-					
-				}*/
+					$msg = 'Нет активных подписок';
+					/*----------------*/
+					$buttons = [];
+					array_push($buttons,[getBtn('Подписаться на категории', COLOR_DEFAULT,CMD_CAT)]);
+					array_push($buttons,[getBtn('Мои подписки', COLOR_DEFAULT,CMD_MY)]);
+					array_push($buttons,[getBtn('Отписаться', COLOR_DEFAULT,CMD_UNSUBS)]);
+					$kbd = [
+						'one_time' => false,
+						'buttons' => $buttons
+					];
+					/*----------------*/
+					break;
+				}
 				if(count($user_data)<9)
 				{
 					myLog("&&");
