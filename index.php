@@ -153,17 +153,10 @@ for($i=1;$i<count($def_mas);++$i) {
 }
 
 $keys_1 = array_keys($array); /*Кнопки 1-го уровня*/
-
-$buttons = [];
-array_push($buttons,[getBtn('Подписаться на категории', COLOR_DEFAULT,CMD_CAT)]);
-array_push($buttons,[getBtn('Мои подписки', COLOR_DEFAULT,CMD_MY)]);
-$kbd = [
-	'one_time' => false,
-	'buttons' => $buttons//,$buttons2]
-];
-
 $keys_2 = array_unique(array_column($def_mas, 1),SORT_REGULAR);
 $keys_3 = array_column($def_mas, 2);
+
+$buttons = [];
 
 switch ($type) {
 	case 'message_new':
@@ -189,6 +182,7 @@ switch ($type) {
 		$msg = "Список подкатегорий 1-го уровня, нажми для перехода во 2 уровень";
 
 		switch($payload){
+			case '':
 			case CMD_MAIN:
 				
 				/*$buttons = [];
@@ -199,7 +193,6 @@ switch ($type) {
 					'buttons' => $buttons//,$buttons2]
 				];*/
 				break;
-			case '':
 			case CMD_CAT:
 				$msg = 'Список категорий 1-го уровня. Нажми для открытия подкатегорий.';
 				$buttons = getKbd(0,9,$keys_1);
