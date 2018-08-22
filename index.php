@@ -405,7 +405,7 @@ switch ($type) {
 							$b_main = getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN);
 							$b_next = getBtn('На след. стр. -->', COLOR_POSITIVE,[CMD_UNSUBS=>$idx+1]);
 							$b_prev = getBtn('<-- На пред. стр.', COLOR_NEGATIVE,[CMD_UNSUBS=>$idx-1]);
-							if(8+*($idx+1)<count($user_data))
+							if(8*($idx+1)<count($user_data))
 							{
 								$buttons = getKbd(8*$idx,8+*($idx+1),$user_data);
 								array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,'UNSUBS_ALL')]);
