@@ -126,7 +126,14 @@ function getKbd_3($start, $end, $keys, $prev){
 
 function add_to_file($str, $userId)
 {
-	$data = read_file($userId);		   
+	$data = read_file($userId);
+	foreach($data[$userId] as $user_data)
+	{
+		if(strpos($user_data,$str)===0)
+		{
+			return 'Вы уже пописаны на эту катогрею или на родительскую категорию';
+		}
+	}
 	$data[$userId][]="$str";	// Добавить подписку
 	file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
 	unset($data);
