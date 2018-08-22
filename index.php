@@ -309,11 +309,9 @@ switch ($type) {
 					];
 				}*/
 				if(is_array($payload)){
-					
 					$key = array_keys($payload);
 					if(is_array($payload[$key[0]]))
 					{
-						
 						/*4-й уровень - подписка оформляется*/
 						myLog("MSG: ".$body." PAYLOAD_val1:".json_encode($payload[$key[0]],JSON_UNESCAPED_UNICODE));
 						$keys = array_keys($payload[$key[0]]);
@@ -430,6 +428,20 @@ switch ($type) {
 							$msg = "Вы успешно поддписались на $str";//.$payload[$key[0]][$keys[0]];
 							/*-------------DK-----------*/
 						}
+						/*прочее*/
+						elseif($payload[$key[0]]=='Прочее')
+						{
+							$str = "$key[0].$payload[$key[0]]";
+							$file = file_get_contents(__DIR__ . '/data.json');  // Открыть файл data.json
+							myLog("file: $file");
+							$data = json_decode($file,TRUE);        // Декодировать в массив 						
+							unset($file);                               // Очистить переменную $file		   
+							$data[$userId][]="$str";//.$payload[$key[0]][$keys[0]];       // Добавить подписку
+							file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
+							unset($data);
+							
+							$msg = "Вы успешно поддписались на $str";
+						}
 						/*3-й уровень кнопок:*/
 						else{
 							$msg = "Список подкатегорий в $key[0].".$payload[$key[0]].". Нажми для чтобы подписаться.\n";
@@ -474,6 +486,10 @@ switch ($type) {
 					/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)*/
 					if(count($keys_2)<9)
 					{
+						if($payload=='Прочее')
+						{
+							$msg = "Список подкатегорий в $payload. Нажми чтобы подписаться.\n";
+						}
 						$buttons = getKbd_3(0,count($keys_2),$keys_2,$payload);//count($keys_2)
 						array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL'])]);
 						array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
