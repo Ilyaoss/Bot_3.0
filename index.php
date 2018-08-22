@@ -112,6 +112,19 @@ function getKbd_3($start, $end, $keys, $prev){
 	return $buttons;
 }
 
+function write_to_file($str, $userId)
+{
+	$file = file_get_contents(__DIR__ . '/data.json');  // Открыть файл data.json
+	myLog("file: $file");
+	$data = json_decode($file,TRUE);        // Декодировать в массив 						
+	unset($file);                               // Очистить переменную $file		   
+	$data[$userId][]="$str";//.$payload[$key[0]][$keys[0]];       // Добавить подписку
+	file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
+	unset($data);
+	
+	return $msg = "Вы успешно поддписались на $str";//.$payload[$key[0]][$keys[0]];
+}
+
 function myLog($str) {
     file_put_contents("php://stdout", "$str\n");
 }
@@ -280,7 +293,7 @@ switch ($type) {
 				}
 				break;*/
 			default:	
-				{
+				/*{
 					$cur_lvl = 2;
 					myLog("CUR_LVL: $cur_lvl");
 					$cur_mas = $array[$payload];
@@ -293,21 +306,8 @@ switch ($type) {
 						'one_time' => false,
 						'buttons' => $buttons
 					];
-				}
-				if($cur_lvl == 2)/*Перешли с 2-го уровня
-				{
-					$cur_lvl = 3;
-					myLog("CUR_LVL: $cur_lvl");
-					$keys_3 = $cur_mas[$payload];
-					myLog("Keys3: ".json_encode($keys_3,JSON_UNESCAPED_UNICODE));
-					$buttons = getKbd(0,count($keys_3),$keys_3);//count($keys_2)
-					array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK)]);
-					//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-					$kbd = [
-						'one_time' => false,
-						'buttons' => $buttons
-					];
 				}*/
+
 				if(is_array($payload)){
 					$key = array_keys($payload);
 					if(is_array($payload[$key[0]]))
@@ -334,32 +334,14 @@ switch ($type) {
 						{
 							/*------------DK-------------*/
 							$str = "$key[0].$keys[0]";
-							$file = file_get_contents(__DIR__ . '/data.json');  // Открыть файл data.json
-							myLog("file: $file");
-							$data = json_decode($file,TRUE);        // Декодировать в массив 						
-							unset($file);                               // Очистить переменную $file		   
-							$data[$userId][]="$str";//.$payload[$key[0]][$keys[0]];       // Добавить подписку
-							file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
-							unset($data);
-							
-							$msg = "Вы успешно поддписались на $str";//.$payload[$key[0]][$keys[0]];
+							$msg = write_to_file($str, $userId);
 							/*-------------DK-----------*/
 						}
 						else{
 							
 							$str = "$key[0].$keys[0].".$payload[$key[0]][$keys[0]];
-							myLog("str: $str");//.$payload[$key[0]][$keys[0]]);
-							
-							$file = file_get_contents(__DIR__ . '/data.json');  // Открыть файл data.json
-							myLog("file: $file");
-							$data = json_decode($file,TRUE);        // Декодировать в массив 						
-							unset($file);                               // Очистить переменную $file		   
-							$data[$userId][]="$str";//.$payload[$key[0]][$keys[0]];       // Добавить подписку
-							file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
-							unset($data);
-							
-							$msg = "Вы успешно поддписались на $str";//.$payload[$key[0]][$keys[0]];
-							
+							$msg = write_to_file($str, $userId);
+							/*Отправляем клавиатуру*/
 							$keys_3 = $array[$key[0]][$keys[0]];
 							/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)*/
 							if(count($keys_3)<9)
@@ -391,13 +373,13 @@ switch ($type) {
 						/*Пришло сообщение от 2 уровня*/
 						myLog("MSG: ".$body." PAYLOAD_val:".$payload[$key[0]]);
 						/*------------Дублирую код----------*/
-						if($payload[$key[0]]==CMD_BACK)
+						/*if($payload[$key[0]]==CMD_BACK)
 						{
 							$buttons = getKbd(0,9,$keys_1);
 							array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('Далее-->', COLOR_POSITIVE,CMD_NEXT)]);
 						}/*------------Закончил Дублировать код----------*/
 						/* */
-						elseif($payload[$key[0]]== CMD_NEXT)
+						/*else*/if($payload[$key[0]]== CMD_NEXT)
 						{
 
 							myLog("???");
@@ -417,30 +399,15 @@ switch ($type) {
 						{
 							/*------------DK-------------*/
 							$str = $key[0];
-							$file = file_get_contents(__DIR__ . '/data.json');  // Открыть файл data.json
-							myLog("file: $file");
-							$data = json_decode($file,TRUE);        // Декодировать в массив 						
-							unset($file);                               // Очистить переменную $file		   
-							$data[$userId][]="$str";//.$payload[$key[0]][$keys[0]];       // Добавить подписку
-							file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
-							unset($data);
-							
-							$msg = "Вы успешно поддписались на $str";//.$payload[$key[0]][$keys[0]];
+							$msg = write_to_file($str, $userId);
 							/*-------------DK-----------*/
 						}
 						/*прочее*/
 						elseif($payload[$key[0]]=='Прочее')
 						{
 							$str = "$key[0].".$payload[$key[0]];
-							$file = file_get_contents(__DIR__ . '/data.json');  // Открыть файл data.json
-							myLog("file: $file");
-							$data = json_decode($file,TRUE);        // Декодировать в массив 						
-							unset($file);                               // Очистить переменную $file		   
-							$data[$userId][]="$str";//.$payload[$key[0]][$keys[0]];       // Добавить подписку
-							file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
-							unset($data);
+							$msg = write_to_file($str, $userId);
 							
-							$msg = "Вы успешно поддписались на $str";
 						}
 						/*3-й уровень кнопок:*/
 						else{
@@ -472,10 +439,6 @@ switch ($type) {
 							$buttons = getKbd_2(0,count($keys_3),$keys_3,$payload);
 							array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK)]);*/
 							myLog("CHECK THIS OUT: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
-							$kbd = [
-								'one_time' => false,
-								'buttons' => $buttons
-							];
 						}
 					}
 				}
