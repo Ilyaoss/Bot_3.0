@@ -65,7 +65,7 @@ function getKbd_test($start, $end, $keys){
 	$buttons = [];
 	for($i=$start;$i<$end;++$i) {
 		$key = $keys[$i];
-		array_push($buttons,[getBtn($key, COLOR_DEFAULT,'')]);
+		array_push($buttons,[getBtn($key, COLOR_DEFAULT,$i)]);
 	}
 	return $buttons;
 }
