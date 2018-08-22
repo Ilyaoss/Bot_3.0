@@ -267,7 +267,7 @@ switch ($type) {
 			case CMD_UNSUBS:
 				$data = read_file();
 				$user_data = $data[$userId];
-				myLog("userdata: $user_data");
+				myLog("userdata: ".json_encode($user_data));
 				/*if($user_data==null)
 				{
 					
@@ -277,7 +277,7 @@ switch ($type) {
 					myLog("&&");
 					$buttons = getKbd_test(0,count($user_data),$user_data);
 					array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,CMD_UNSUBS_ALL)]);
-					array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_BACK)]);
+					array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 				}
 				else
 				{
