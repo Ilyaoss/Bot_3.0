@@ -431,7 +431,7 @@ switch ($type) {
 						/*прочее*/
 						elseif($payload[$key[0]]=='Прочее')
 						{
-							$str = "$key[0].$payload[$key[0]]";
+							$str = "$key[0]."$payload[$key[0]];
 							$file = file_get_contents(__DIR__ . '/data.json');  // Открыть файл data.json
 							myLog("file: $file");
 							$data = json_decode($file,TRUE);        // Декодировать в массив 						
