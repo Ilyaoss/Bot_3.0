@@ -450,7 +450,7 @@ switch ($type) {
 						elseif($key[0]===CMD_UNSUBS)
 						{
 							$s = substr($payload[$key[0]],-2,1);
-							myLog("s: ".$S)
+							myLog("s: ".$S);
 							if($s==='_')
 							{
 								$s = substr($payload[$key[0]],-1);
