@@ -184,14 +184,14 @@ switch ($type) {
 		switch($payload){
 			case '':
 			case CMD_MAIN:
-				
-				/*$buttons = [];
+				$msg = "Нажмите любую кнопку";
+				$buttons = [];
 				array_push($buttons,[getBtn('Подписаться на категории', COLOR_DEFAULT,CMD_CAT)]);
 				array_push($buttons,[getBtn('Мои подписки', COLOR_DEFAULT,CMD_MY)]);
 				$kbd = [
 					'one_time' => false,
 					'buttons' => $buttons//,$buttons2]
-				];*/
+				];
 				break;
 			case CMD_CAT:
 				$msg = 'Список категорий 1-го уровня. Нажми для открытия подкатегорий.';
