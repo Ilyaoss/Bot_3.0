@@ -273,7 +273,7 @@ switch ($type) {
 				}
 				else
 				{
-					$buttons = getKbd(0,8,$user_data);//count($keys_2)
+					$buttons = getKbd_test(0,8,$user_data);//count($keys_2)
 					array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,'UNSUBS_ALL')]);
 					array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[CMD_UNSUBS=>1])]);//[$k[0]=>[$prev[$k[0]]=>$key]]
 				}
@@ -468,7 +468,7 @@ switch ($type) {
 								$b_prev = getBtn('<-- На пред. стр.', COLOR_NEGATIVE,[CMD_UNSUBS=>$idx-1]);
 								if(8*($idx+1)<count($user_data))
 								{
-									$buttons = getKbd(8*$idx,8*($idx+1),$user_data);
+									$buttons = getKbd_test(8*$idx,8*($idx+1),$user_data);
 									array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,'UNSUBS_ALL')]);
 									if($idx > 0)
 									{
@@ -482,7 +482,7 @@ switch ($type) {
 								}
 								else
 								{
-									$buttons = getKbd(8*$idx,count($user_data),$user_data);
+									$buttons = getKbd_test(8*$idx,count($user_data),$user_data);
 									array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,'UNSUBS_ALL')]);
 									array_push($buttons,[$b_prev,$b_main]);
 								}
