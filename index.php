@@ -65,7 +65,7 @@ function getKbd_test($start, $end, $keys){
 	$buttons = [];
 	for($i=$start;$i<$end;++$i) {
 		$key = $keys[$i];
-		array_push($buttons,[getBtn($key, COLOR_DEFAULT,$i)]);
+		array_push($buttons,[getBtn($key, COLOR_DEFAULT,[CMD_SUBS=>'_'.$i])]);
 	}
 	return $buttons;
 }
@@ -122,14 +122,15 @@ function getKbd_3($start, $end, $keys, $prev){
 	return $buttons;
 }
 
-function write_to_file($str, $userId)
+function add_to_file($str, $userId)
 {
 	$data = read_file($userId);		   
 	$data[$userId][]="$str";	// Добавить подписку
 	file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
 	unset($data);
-	return $msg = "Вы успешно поддписались на $str";//.$payload[$key[0]][$keys[0]];
+	return $msg = "Вы успешно подписались на $str";//.$payload[$key[0]][$keys[0]];
 }
+
 function read_file()
 {
 	$file = file_get_contents(__DIR__ . '/data.json');  // Открыть файл data.json
@@ -138,6 +139,17 @@ function read_file()
 	unset($file);                               // Очистить переменную $file		   
 	return $data;
 }
+
+function delete_from_file($idx, $userId)
+{
+	$msg = "Вы успешно отписались от  ".$data[$userId][$idx];
+	$data = read_file($userId);		   
+	unset($data[$userId][$idx]);	// Удалить подписку
+	file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
+	unset($data);
+	return $msg;
+}
+
 function myLog($str) {
     file_put_contents("php://stdout", "$str\n");
 }
@@ -345,13 +357,13 @@ switch ($type) {
 						{
 							/*------------DK-------------*/
 							$str = "$key[0].$keys[0]";
-							$msg = write_to_file($str, $userId);
+							$msg = add_to_file($str, $userId);
 							/*-------------DK-----------*/
 						}
 						else{
 							
 							$str = "$key[0].$keys[0].".$payload[$key[0]][$keys[0]];
-							$msg = write_to_file($str, $userId);
+							$msg = add_to_file($str, $userId);
 							/*Отправляем клавиатуру*/
 							$keys_3 = $array[$key[0]][$keys[0]];
 							/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)*/
@@ -402,7 +414,7 @@ switch ($type) {
 						elseif($payload[$key[0]]=== 'SUBS_ALL')
 						{
 							$str = $key[0];
-							$msg = write_to_file($str, $userId);
+							$msg = add_to_file($str, $userId);
 							/*---------ДК------*/
 							$keys_2 = array_keys($array[$key[0]]);
 							/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)*/
@@ -432,42 +444,53 @@ switch ($type) {
 						elseif($payload[$key[0]]==='Прочее')
 						{
 							$str = "$key[0].".$payload[$key[0]];
-							$msg = write_to_file($str, $userId);
+							$msg = add_to_file($str, $userId);
 						}
 						/*след страница отписок*/
 						elseif($key[0]===CMD_UNSUBS)
 						{
-							$data = read_file();
-							$user_data = $data[$userId];
-							$idx = $payload[$key[0]];
-							
-							$b_main = getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN);
-							$b_next = getBtn('На след. стр. -->', COLOR_POSITIVE,[CMD_UNSUBS=>$idx+1]);
-							$b_prev = getBtn('<-- На пред. стр.', COLOR_NEGATIVE,[CMD_UNSUBS=>$idx-1]);
-							if(8*($idx+1)<count($user_data))
+							$s = substr($payload[$key[0]],-2,1);
+							myLog("s: ".$S)
+							if($s==='_')
 							{
-								$buttons = getKbd(8*$idx,8*($idx+1),$user_data);
-								array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,'UNSUBS_ALL')]);
-								if($idx > 0)
-								{
-									array_push($buttons,[$b_prev,$b_main,$b_next]);
-								}
-								else
-								{
-									array_push($buttons,[$b_main,$b_next]);
-								}
-								
+								$s = substr($payload[$key[0]],-1);
+
+								$msg = delete_from_file($s,$userId);
 							}
 							else
 							{
-								$buttons = getKbd(8*$idx,count($user_data),$user_data);
-								array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,'UNSUBS_ALL')]);
-								array_push($buttons,[$b_prev,$b_main]);
+								$data = read_file();
+								$user_data = $data[$userId];
+								$idx = $payload[$key[0]];
+								
+								$b_main = getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN);
+								$b_next = getBtn('На след. стр. -->', COLOR_POSITIVE,[CMD_UNSUBS=>$idx+1]);
+								$b_prev = getBtn('<-- На пред. стр.', COLOR_NEGATIVE,[CMD_UNSUBS=>$idx-1]);
+								if(8*($idx+1)<count($user_data))
+								{
+									$buttons = getKbd(8*$idx,8*($idx+1),$user_data);
+									array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,'UNSUBS_ALL')]);
+									if($idx > 0)
+									{
+										array_push($buttons,[$b_prev,$b_main,$b_next]);
+									}
+									else
+									{
+										array_push($buttons,[$b_main,$b_next]);
+									}
+									
+								}
+								else
+								{
+									$buttons = getKbd(8*$idx,count($user_data),$user_data);
+									array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,'UNSUBS_ALL')]);
+									array_push($buttons,[$b_prev,$b_main]);
+								}
+								$kbd = [
+									'one_time' => false,
+									'buttons' => $buttons
+								];
 							}
-							$kbd = [
-								'one_time' => false,
-								'buttons' => $buttons
-							];
 						}
 						/*3-й уровень кнопок:*/
 						else{
