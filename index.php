@@ -204,6 +204,7 @@ switch ($type) {
 
 		switch($payload){
 			case '':
+				$msg = null;
 				break;
 			case CMD_MAIN:
 				$msg = "Нажмите любую кнопку";
