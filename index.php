@@ -130,6 +130,7 @@ function add_to_file($str, $userId)
 	for($i=0;$i<count($data[$userId]);++$i)
 	{
 		$user_data = $data[$userId][$i];
+		myLog("us_d: $user_data str: $str strpos:".strpos($user_data,$str));
 		/*Если наша категория является подкатегорией, то есть родительская входит в неё в начало*/
 		if(strpos($str,$user_data) === 0)
 		{
@@ -138,6 +139,7 @@ function add_to_file($str, $userId)
 		/*Если наша категория является родительской, то мы убираем всех её детей и добавляем её*/
 		if(strpos($user_data,$str) === 0)
 		{
+			
 			delete_from_file($i, $userId);
 		}
 	}
