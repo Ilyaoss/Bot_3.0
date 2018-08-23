@@ -350,7 +350,7 @@ switch ($type) {
 				file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
 				unset($data);
 				$msg = 'Все подписки отменены';
-				$kbd = get_Butt_level(0)
+				$kbd = get_Butt_level(0);
 				break;
 			case CMD_FEEDBACK:
 				$msg = 'Опиши и отправь мне проблему с которой ты столкнулся';
