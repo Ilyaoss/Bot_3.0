@@ -105,7 +105,7 @@ function get_Butt_level($lvl,$keys,$payload)
 			if($CMD_NEXT)
 			{
 				$buttons = getKbd(10,count($keys),$keys);
-				array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK),$b_main)]);
+				array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK),$b_main]);
 			}
 			else
 			{
