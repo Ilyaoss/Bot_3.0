@@ -36,8 +36,8 @@ $confirmation_token = 'd18ce045';
 function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
 	if(strlen($label)>MAX_LENGHT)
 	{
-		$start = MAX_LENGHT/2 - 5;
-		$end = MAX_LENGHT/2 + 5;
+		$start = MAX_LENGHT/2 - 2;
+		$end = MAX_LENGHT/2 + 3;
 		myLog("Lab bef: $label count:".strlen($label));
 		$label = substr($label,0,$start).'.. ..'.substr($label,-(MAX_LENGHT-$end));
 		myLog("Lab aft: $label count:".strlen($label));
