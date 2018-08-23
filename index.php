@@ -37,7 +37,7 @@ function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
         'action' => [
             'type' => 'text',
             'payload' => json_encode($payload, JSON_UNESCAPED_UNICODE),
-            'label' => 'Список подкатегорий 1-го уровня, нажмитете для перехода в'//$label
+            'label' => 'Список подкатегорий 1-го уровня, нажмитете для перехода1'//$label
         ],
         'color' => $color
     ];
