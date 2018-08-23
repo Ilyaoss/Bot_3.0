@@ -58,6 +58,7 @@ function getKbd_unsub($start, $end, $keys){
 		$key = $keys[$i];
 		array_push($buttons,[getBtn($key, COLOR_DEFAULT,[CMD_UNSUBS=>'_'.$i])]);
 	}
+	myLog("buttons: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
 	return $buttons;
 }
 
@@ -257,7 +258,7 @@ switch ($type) {
 		}
 		myLog("MSG: ".$body." PAYLOAD:".$payload);
 		$msg = "Список подкатегорий 1-го уровня, нажмитете для перехода во 2 уровень";
-
+	
 		switch($payload){
 			case 'stop':
 				$msg = null;
