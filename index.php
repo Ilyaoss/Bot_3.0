@@ -35,9 +35,9 @@ $cur_mas = [];
 function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
     if(strlen($label)>MAX_LENGHT)
 	{
-		myLog('Lab bef: $label count:'strlen($label));
+		myLog('Lab bef: $label count:'.strlen($label));
 		$label = substr($label,0,MAX_LENGHT/2-5).'... ...'.substr($label,MAX_LENGHT/2+6,MAX_LENGHT);
-		myLog('Lab aft: $label count:'strlen($label));
+		myLog('Lab aft: $label count:'.strlen($label));
 	}
 	return [
         'action' => [
