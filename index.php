@@ -28,7 +28,7 @@ const MAX_LENGHT = 73;
 //const MAX_LENGHT  = strlen('Список подкатегорий 1-го уровня, нажмите');
 const VK_TOKEN = '887f275780153f8d0a42339e542ecb1f1b6a47bce9385aea12ada07d3a459095800074da66b418d5911c9';
 //'0f0567f6ffa539268e0b6558d7622d375e6232283542932eadc135443d88109330c37b64bbb8c26bf525a';
-
+ 
 //Строка для подтверждения адреса сервера из настроек Callback API 
 $confirmation_token = 'd18ce045'; 
  
