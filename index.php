@@ -24,6 +24,7 @@ const CMD_SUBS = 'SUBS';
 const CMD_UNSUBS = 'UNSUBS';
 const CMD_UNSUBS_ALL = 'UNSUBS_ALL';
 const CMD_YES = 'YES';
+const CMD_FEEDBACK = 'FEEDBACK';
 const MAX_LENGHT = 73;
 //const MAX_LENGHT  = strlen('Список подкатегорий 1-го уровня, нажмите');
 const VK_TOKEN = '887f275780153f8d0a42339e542ecb1f1b6a47bce9385aea12ada07d3a459095800074da66b418d5911c9';
@@ -40,6 +41,7 @@ function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
 		myLog("Lab bef: $label count:".strlen($label));
 		$label = substr($label,0,$start).'.. ..'.substr($label,-($MAX_LENGHT-$end));
 		myLog("Lab aft: $label count:".strlen($label));
+		myLog(substr($label,-($MAX_LENGHT-$end)));
 	}
 	return [
         'action' => [
