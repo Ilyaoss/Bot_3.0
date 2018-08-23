@@ -139,11 +139,11 @@ function add_to_file($str, $userId)
 		/*Если наша категория является родительской, то мы убираем всех её детей и добавляем её*/
 		if(strpos($user_data,$str) === 0)
 		{
-			
-			delete_from_file($i, $userId);
+			unset($data[$userId][$idx]);	// Удалить подписку
 		}
 	}
 	$data[$userId][]="$str";	// Добавить подписку
+	$data[$userId] = array_values($data[$userId]);
 	file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
 	unset($data);
 	return $msg = "Вы успешно подписались на $str";//.$payload[$key[0]][$keys[0]];
