@@ -52,54 +52,11 @@ function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
     ];
 }
 
-/*function getBtn2($label, $color = COLOR_DEFAULT, $payload = '', $prev) {
-    return [
-        'action' => [
-            'type' => 'text',
-            'payload' => json_encode([$prev=>$payload], JSON_UNESCAPED_UNICODE),
-            'label' => $label
-        ],
-        'color' => $color
-    ];
-}*/
-
-function getKbd_test($start, $end, $keys){
+function getKbd_unsub($start, $end, $keys){
 	$buttons = [];
 	for($i=$start;$i<$end;++$i) {
 		$key = $keys[$i];
 		array_push($buttons,[getBtn($key, COLOR_DEFAULT,[CMD_UNSUBS=>'_'.$i])]);
-	}
-	return $buttons;
-}
-/*origin*/
-function getKbd_($start, $end, $keys){
-	$buttons = [];
-	for($i=$start;$i<$end;++$i) {
-		$key = $keys[$i];
-		array_push($buttons,[getBtn($key, COLOR_DEFAULT,$key)]);
-	}
-	return $buttons;
-}
-function getKbd_2($start, $end, $keys, $prev){
-	$buttons = [];
-	$buttons_temp = [];
-	for($i=$start;$i<$end;++$i) {
-		$key = $keys[$i];
-		if(is_array($prev))
-		{
-			myLog("CATCH");
-			$k = array_keys($prev);
-			array_push($buttons_temp,getBtn($key, COLOR_DEFAULT,[$k[0]=>[$prev[$k[0]]=>$key]]));//getBtn2
-		}
-		else
-		{
-			array_push($buttons_temp,getBtn($key, COLOR_DEFAULT,[$prev=>$key]));//getBtn2
-		}
-		//array_push($buttons_temp,getBtn($key, COLOR_DEFAULT,[$prev=>$key]));//getBtn2
-		if($i%2>0) {
-			array_push($buttons,$buttons_temp);
-			$buttons_temp = [];
-		}
 	}
 	return $buttons;
 }
@@ -220,7 +177,7 @@ switch ($type) {
 		$userId = $message['from_id'] ?? 0; //user_id
 		$body = $message['body'] ?? '';
 		$payload = $message['payload'] ?? '';
-		$text = $message['payload'] ?? '';
+		$text = $message['text'] ?? '';
 		
 		/*$user_info = $vk->users()->get(VK_TOKEN,['user_ids'=>$userId,
 												'fields'=>'status']);*/
@@ -232,10 +189,6 @@ switch ($type) {
 			$payload = json_decode($payload, true);
 		}
 		myLog("MSG: ".$body." PAYLOAD:".$payload);
-		$kbd = [
-			'one_time' => false,
-			'buttons' => $buttons//,$buttons2]
-		];
 		$msg = "Список подкатегорий 1-го уровня, нажмитете для перехода во 2 уровень";
 
 		switch($payload){
@@ -332,13 +285,13 @@ switch ($type) {
 				if(count($user_data)<9)
 				{
 					myLog("&&");
-					$buttons = getKbd_test(0,count($user_data),$user_data);
+					$buttons = getKbd_unsub(0,count($user_data),$user_data);
 					array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,CMD_UNSUBS_ALL)]);
 					array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 				}
 				else
 				{
-					$buttons = getKbd_test(0,8,$user_data);//count($keys_2)
+					$buttons = getKbd_unsub(0,8,$user_data);//count($keys_2)
 					array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,CMD_UNSUBS_ALL)]);
 					array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[CMD_UNSUBS=>1])]);//[$k[0]=>[$prev[$k[0]]=>$key]]
 				}
@@ -619,7 +572,7 @@ switch ($type) {
 								$b_prev = getBtn('<-- На пред. стр.', COLOR_NEGATIVE,[CMD_UNSUBS=>$idx-1]);
 								if(8*($idx+1)<count($user_data))
 								{
-									$buttons = getKbd_test(8*$idx,8*($idx+1),$user_data);
+									$buttons = getKbd_unsub(8*$idx,8*($idx+1),$user_data);
 									array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,'UNSUBS_ALL')]);
 									if($idx > 0)
 									{
@@ -633,7 +586,7 @@ switch ($type) {
 								}
 								else
 								{
-									$buttons = getKbd_test(8*$idx,count($user_data),$user_data);
+									$buttons = getKbd_unsub(8*$idx,count($user_data),$user_data);
 									array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,'UNSUBS_ALL')]);
 									array_push($buttons,[$b_prev,$b_main]);
 								}
@@ -717,6 +670,19 @@ switch ($type) {
 		}
 		echo  "OK";
 		break;
+	case 'message_reply':
+	{
+		$message = $data['object'] ?? [];
+		$userId = $message['from_id'] ?? 0; //user_id
+		$body = $message['body'] ?? '';
+		$payload = $message['payload'] ?? '';
+		$text = $message['text'] ?? '';
+		myLog("message_reply: ".$text." PAYLOAD string:".$payload);
+		if ($payload) {
+			$payload = json_decode($payload, true);
+		}
+		myLog("message_reply: ".$text." PAYLOAD:".$payload);
+	}
 	case 'confirmation': 
 		//...отправляем строку для подтверждения 
 		echo $confirmation_token; 
