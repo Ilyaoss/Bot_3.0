@@ -238,7 +238,7 @@ $keys_2 = array_unique(array_column($def_mas, 1),SORT_REGULAR);
 $keys_3 = array_column($def_mas, 2);
 
 $buttons = [];
-
+$kbd = [];
 switch ($type) {
 	case 'message_new':
 		$message = $data['object'] ?? [];
