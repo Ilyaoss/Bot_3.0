@@ -382,7 +382,7 @@ switch ($type) {
 						{
 							$msg = "Список подкатегорий в $key[0].$keys[0].\nНажмите для чтобы подписаться.\n";
 							$keys_3 = $array[$key[0]][$keys[0]];
-							$kbd = get_Butt_level(3,$key_3,[$key[0]=>$keys[0]],true);
+							$kbd = get_Butt_level(3,$keys_3,[$key[0]=>$keys[0]],true);
 						}
 						/*C 3 уровня пришла комманда SUBS_ALL*/
 						elseif($payload[$key[0]][$keys[0]]== 'SUBS_ALL')
@@ -392,7 +392,7 @@ switch ($type) {
 							$msg = add_to_file($str, $userId);
 							/*-------------DK------------*/
 							$keys_3 = $array[$key[0]][$keys[0]];
-							$kbd = get_Butt_level(3,$key_3,[$key[0]=>$keys[0]]);
+							$kbd = get_Butt_level(3,$keys_3,[$key[0]=>$keys[0]]);
 							/*------------DK--------------*/
 						}
 						else{
@@ -401,7 +401,7 @@ switch ($type) {
 							$msg = add_to_file($str, $userId);
 							/*Отправляем клавиатуру*/
 							$keys_3 = $array[$key[0]][$keys[0]];
-							$kbd = get_Butt_level(3,$key_3,[$key[0]=>$keys[0]]);
+							$kbd = get_Butt_level(3,$keys_3,[$key[0]=>$keys[0]]);
 						}
 						
 					}
