@@ -89,7 +89,7 @@ function getKbd($start, $end, $keys, $prev = null){
 	return $buttons;
 }
 
-function get_Butt_level($lvl,$keys,$payload)
+function get_Butt_level($lvl,$keys = null,$payload = null,$CMD_NEXT = false)
 {	
 	$key = array_keys($payload);
 	$buttons = [];
