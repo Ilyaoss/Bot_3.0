@@ -63,6 +63,7 @@ function getKbd_unsub($start, $end, $keys){
 	return $buttons;
 }
 
+
 function getKbd($start, $end, $keys, $prev = null){
 	$buttons = [];
 
@@ -431,7 +432,7 @@ switch ($type) {
 							}
 							else
 							{
-								$buttons = getKbd(0,7,$keys_3,$payload);//count($keys_2)
+								$buttons = getKbd(0,7,$keys_3,[$key[0]=>$keys[0]]);//count($keys_2)
 								array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0] => [$keys[0]=>'SUBS_ALL']])]);
 								array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[$key[0]=>[$keys[0]=>CMD_NEXT]])]);//[$k[0]=>[$prev[$k[0]]=>$key]]
 								array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,$key[0])]);
