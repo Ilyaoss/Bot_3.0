@@ -35,8 +35,8 @@ $cur_mas = [];
 function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
     $MAX_LENGHT  = strlen('Список подкатегорий 1-го уровня, нажмите');
 	myLog("MAX_LEN $MAX_LENGHT");
-	$start = $MAX_LENGHT/2-5;
-	$end = $MAX_LENGHT/2+5;
+	$start = $MAX_LENGHT/2-1;
+	$end = $MAX_LENGHT/2+1;
 	if(strlen($label)>$MAX_LENGHT)
 	{
 		myLog("Lab bef: $label count:".strlen($label));
