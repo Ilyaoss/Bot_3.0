@@ -375,7 +375,7 @@ switch ($type) {
 						{
 							$msg = "Список подкатегорий в $key[0].$keys[0].\nНажмите для чтобы подписаться.\n";
 							$keys_3 = $array[$key[0]][$keys[0]];
-							$buttons = getKbd(7,count($keys_3),$keys_3,$payload);//count($keys_2)
+							$buttons = getKbd(7,count($keys_3),$keys_3,[$key[0]=>$keys[0]]);//count($keys_2)
 							array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL'])]);
 							array_push($buttons,[getBtn('<-- На пред. стр.', COLOR_NEGATIVE,[$key[0]=>$keys[0]]),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 							array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,CMD_BACK)]);
