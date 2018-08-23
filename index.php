@@ -24,7 +24,7 @@ const CMD_SUBS = 'SUBS';
 const CMD_UNSUBS = 'UNSUBS';
 const CMD_UNSUBS_ALL = 'UNSUBS_ALL';
 const CMD_YES = 'YES';
-
+const MAX_LENGHT  = strlen('Список подкатегорий 1-го уровня, нажмите');
 const VK_TOKEN = '887f275780153f8d0a42339e542ecb1f1b6a47bce9385aea12ada07d3a459095800074da66b418d5911c9';
 //'0f0567f6ffa539268e0b6558d7622d375e6232283542932eadc135443d88109330c37b64bbb8c26bf525a';
 
@@ -33,11 +33,17 @@ $confirmation_token = 'd18ce045';
 $cur_lvl = 0;
 $cur_mas = []; 
 function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
-    return [
+    if(strlen($label)>MAX_LENGHT)
+	{
+		myLog('Lab bef: $label count:'strlen($label));
+		$label = substr($label,0,MAX_LENGHT/2-5).'... ...'.substr($label,MAX_LENGHT/2+6,MAX_LENGHT);
+		myLog('Lab aft: $label count:'strlen($label));
+	}
+	return [
         'action' => [
             'type' => 'text',
             'payload' => json_encode($payload, JSON_UNESCAPED_UNICODE),
-            'label' => 'Список подкатегорий 1-го уровня, нажмите1'//$label
+            'label' => $label
         ],
         'color' => $color
     ];
