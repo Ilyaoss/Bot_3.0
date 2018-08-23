@@ -203,9 +203,10 @@ switch ($type) {
 		$msg = "Список подкатегорий 1-го уровня, нажмитете для перехода во 2 уровень";
 
 		switch($payload){
-			case '':
+			case 'stop':
 				$msg = null;
 				break;
+			case(''):
 			case CMD_MAIN:
 				$msg = "Нажмите любую кнопку";
 				$buttons = [];
@@ -216,7 +217,7 @@ switch ($type) {
 					'one_time' => false,
 					'buttons' => $buttons//,$buttons2]
 				];
-				$payload = '';
+				$payload = 'stop';
 				break;
 			case CMD_CAT:
 				$msg = 'Список категорий 1-го уровня. Нажмите для открытия подкатегорий.';
@@ -227,7 +228,7 @@ switch ($type) {
 					'one_time' => false,
 					'buttons' => $buttons
 				];
-				$payload = '';
+				$payload = 'stop';
 				break;
 			case CMD_MY:
 				$msg = "Список моих подписок:\n";
@@ -278,7 +279,7 @@ switch ($type) {
 					'one_time' => false,
 					'buttons' => $buttons
 				];
-				$payload = '';
+				$payload = 'stop';
 				break;
 			case CMD_UNSUBS:
 				$msg = 'Нажмите, чтобы отписаться';
@@ -320,7 +321,7 @@ switch ($type) {
 					'one_time' => false,
 					'buttons' => $buttons
 				];
-				$payload = '';
+				$payload = 'stop';
 				break;
 			case CMD_UNSUBS_ALL:
 				$msg = 'Вы точно хотите от всего отписаться?';
@@ -330,7 +331,7 @@ switch ($type) {
 					'one_time' => false,
 					'buttons' => $buttons
 				];
-				$payload = '';
+				$payload = 'stop';
 				break;
 			case CMD_YES:
 				$data = read_file($userId);		   
@@ -362,7 +363,7 @@ switch ($type) {
 					'one_time' => false,
 					'buttons' => $buttons
 				];
-				$payload = '';
+				$payload = 'stop';
 				break;
 				
 			/*case CMD_CAT:
