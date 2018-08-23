@@ -34,14 +34,14 @@ const VK_TOKEN = '887f275780153f8d0a42339e542ecb1f1b6a47bce9385aea12ada07d3a4590
 $confirmation_token = 'd18ce045'; 
  
 function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
-	if(strlen($label)>MAX_LENGHT)
+	/*if(strlen($label)>MAX_LENGHT)
 	{
 		$start = MAX_LENGHT/2 - 3;
 		$end = MAX_LENGHT/2 + 3;
 		myLog("Lab bef: $label count:".strlen($label));
 		$label = substr($label,0,$start).'.. ..'.substr($label,-(MAX_LENGHT-$end));
 		myLog("Lab aft: $label count:".strlen($label));
-	}
+	}*/
 	return [
         'action' => [
             'type' => 'text',
