@@ -204,7 +204,7 @@ switch ($type) {
 
 		switch($payload){
 			case '':
-				
+				break;
 			case CMD_MAIN:
 				$msg = "Нажмите любую кнопку";
 				$buttons = [];
@@ -215,6 +215,7 @@ switch ($type) {
 					'one_time' => false,
 					'buttons' => $buttons//,$buttons2]
 				];
+				$payload = '';
 				break;
 			case CMD_CAT:
 				$msg = 'Список категорий 1-го уровня. Нажмите для открытия подкатегорий.';
@@ -659,7 +660,7 @@ switch ($type) {
 					'peer_id' => $userId,
 					'message' => $msg,
 					'keyboard' => json_encode($kbd, JSON_UNESCAPED_UNICODE),
-					'payload' => $payload
+					'payload' => json_encode($payload, JSON_UNESCAPED_UNICODE)
 				]);
 			}
 		} catch (\Exception $e) {
