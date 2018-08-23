@@ -308,6 +308,7 @@ switch ($type) {
 				];
 				break;
 			case CMD_UNSUBS:
+				$msg = 'Нажмите, чтобы отписаться';
 				$data = read_file();
 				$user_data = $data[$userId];
 				myLog("userdata: ".json_encode($user_data,JSON_UNESCAPED_UNICODE));
