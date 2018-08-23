@@ -24,21 +24,19 @@ const CMD_SUBS = 'SUBS';
 const CMD_UNSUBS = 'UNSUBS';
 const CMD_UNSUBS_ALL = 'UNSUBS_ALL';
 const CMD_YES = 'YES';
+const MAX_LENGHT = 73;
 //const MAX_LENGHT  = strlen('Список подкатегорий 1-го уровня, нажмите');
 const VK_TOKEN = '887f275780153f8d0a42339e542ecb1f1b6a47bce9385aea12ada07d3a459095800074da66b418d5911c9';
 //'0f0567f6ffa539268e0b6558d7622d375e6232283542932eadc135443d88109330c37b64bbb8c26bf525a';
 
 //Строка для подтверждения адреса сервера из настроек Callback API 
 $confirmation_token = 'd18ce045'; 
-$cur_lvl = 0;
-$cur_mas = []; 
+ 
 function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
-    $MAX_LENGHT  = strlen('Список подкатегорий 1-го уровня, нажмите');
-	myLog("MAX_LEN $MAX_LENGHT");
-	$start = $MAX_LENGHT/2-3;
-	$end = $MAX_LENGHT/2+3;
 	if(strlen($label)>$MAX_LENGHT)
 	{
+		$start = MAX_LENGHT/2-3;
+		$end = MAX_LENGHT/2+3;
 		myLog("Lab bef: $label count:".strlen($label));
 		$label = substr($label,0,$start).'.. ..'.substr($label,-($MAX_LENGHT-$end));
 		myLog("Lab aft: $label count:".strlen($label));
@@ -563,6 +561,19 @@ switch ($type) {
 						{
 							$str = "$key[0].".$payload[$key[0]];
 							$msg = add_to_file($str, $userId);
+							/*---------ДК------*/
+							$keys_2 = array_keys($array[$key[0]]);
+							/*в прочем 1 кнопка поэтому не вставлял слишком большой кусок, но надо исправить*/
+							$buttons = getKbd_3(0,count($keys_2),$keys_2,$key[0]);//count($keys_2)
+							array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0]=>'SUBS_ALL'])]);
+							array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
+							
+							
+							$kbd = [
+								'one_time' => false,
+								'buttons' => $buttons
+							];
+							/*---------ДК------*/
 						}
 						/*след страница отписок*/
 						elseif($key[0]===CMD_UNSUBS)
