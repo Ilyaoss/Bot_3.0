@@ -1,0 +1,45 @@
+case CMD_CAT:
+	try {
+		$url = $vk->photos()->getMessagesUploadServer(VK_TOKEN,['peer_id'=>$userId]); //peer_id не понятно?
+		myLog("typeof".gettype($url));
+
+		myLog("server: ".gettype($url["upload_url"])." ".$url['upload_url']. 
+				'photo: '.gettype($url["album_id"])." ".$url['album_id']. 
+				'hash: '.gettype($url["group_id"])." ".$url['group_id'].
+				'count: '.count($url));
+				
+		$myCurl = curl_init();
+		$f=curl_file_create(dirname(__FILE__)."/test.jpg",'image/jpeg','test_name.jpg');
+		myLog($f->getFilename());
+		$data_file = ['photo'=> $f];
+		curl_setopt_array($myCurl, array(
+			CURLOPT_URL => $url['upload_url'],
+			CURLOPT_HTTPHEADER=>['Content-Type: multipart/form-data'],
+			CURLOPT_SSL_VERIFYPEER=> false,
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_POST => true,
+			CURLOPT_POSTFIELDS => $data_file
+		));
+		$response = curl_exec($myCurl);
+		curl_close($myCurl);
+
+		myLog("Ответ на Ваш запрос: ".$response);
+
+		$res_img = json_decode($response,true);
+
+		$uploadResult = $vk->photos()->saveMessagesPhoto(VK_TOKEN,['server'=>$res_img["server"],
+													  'photo'=>$res_img["photo"],
+													  'hash'=>$res_img["hash"]
+															]);
+		myLog("own_id ".$uploadResult[0]['owner_id']);
+		myLog("user_id ".$userId);
+		myLog('photo'.$uploadResult[0]['owner_id'].'_'.$uploadResult[0]['id']);
+		$res = $vk->messages()->send(VK_TOKEN, ['peer_id' => $userId,
+			'attachment' => 'photo'.$uploadResult[0]['owner_id'].'_'.$uploadResult[0]['id']
+		]);
+		$msg = null;
+		break;
+	} catch (\Exception $e) {
+		myLog( $e->getCode().' '.$e->getMessage() );
+	}
+	break;
