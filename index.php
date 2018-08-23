@@ -35,10 +35,12 @@ $cur_mas = [];
 function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
     $MAX_LENGHT  = strlen('Список подкатегорий 1-го уровня, нажмите');
 	myLog("MAX_LEN $MAX_LENGHT");
+	$start = $MAX_LENGHT/2-5;
+	$end = $MAX_LENGHT/2+6;
 	if(strlen($label)>$MAX_LENGHT)
 	{
 		myLog('Lab bef: $label count:'.strlen($label));
-		$label = substr($label,0,$MAX_LENGHT/2-5).'... ...'.substr($label,$MAX_LENGHT/2+6,$MAX_LENGHT);
+		$label = substr($label,0,$start).'... ...'.substr($label,$end,$MAX_LENGHT-$end);
 		myLog('Lab aft: $label count:'.strlen($label));
 	}
 	return [
@@ -310,7 +312,7 @@ switch ($type) {
 			case CMD_UNSUBS:
 				$data = read_file();
 				$user_data = $data[$userId];
-				myLog("userdata: ".json_encode($user_data));
+				myLog("userdata: ".json_encode($user_data,JSON_UNESCAPED_UNICODE));
 				if($user_data==null)
 				{
 					$msg = 'Нет активных подписок';
