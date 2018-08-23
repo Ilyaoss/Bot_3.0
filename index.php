@@ -298,7 +298,6 @@ switch ($type) {
 				$payload = CMD_MAIN;
 				break;
 			case CMD_NEXT:
-				ush($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 				
 				$kbd = get_Butt_level(1,$keys_1,null,true);
 

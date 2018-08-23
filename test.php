@@ -1,6 +1,6 @@
 <?php
 
-function get_Butt_level($lvl,$keys,$payload)
+function get_Butt_level($lvl,$keys = null,$payload = null,$CMD_NEXT = false)
 {	
 	$key = array_keys($payload);
 	$buttons = [];
@@ -16,12 +16,12 @@ function get_Butt_level($lvl,$keys,$payload)
 			if($CMD_NEXT)
 			{
 				$buttons = getKbd(10,count($keys),$keys);
-				array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
+				array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK),$b_main)]);
 			}
 			else
 			{
 				$buttons = getKbd(0,9,$keys);
-				array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('Далее-->', COLOR_POSITIVE,CMD_NEXT)]);
+				array_push($buttons,[$b_main,getBtn('Далее-->', COLOR_POSITIVE,CMD_NEXT)]);
 			}
 			break;
 		case 2:
@@ -32,15 +32,15 @@ function get_Butt_level($lvl,$keys,$payload)
 				{
 					$msg = "Список подкатегорий в $payload.\nНажмите чтобы подписаться.\n";
 				}
-				$buttons = getKbd(0,count($keys),$keys,$payload);//count($keys_2)
+				$buttons = getKbd(0,count($keys),$keys,$payload);
 				array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL'])]);
-				array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
+				array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK),$b_main]);
 			}
 			else
 			{
-				$buttons = getKbd(0,7,$keys,$payload);//count($keys_2)
+				$buttons = getKbd(0,7,$keys,$payload);
 				array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL'])]);
-				array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[$payload=>CMD_NEXT])]);
+				array_push($buttons,[$b_main,getBtn('На след стр. -->', COLOR_POSITIVE,[$payload=>CMD_NEXT])]);
 				array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,CMD_BACK)]);
 			}
 			break;
@@ -49,18 +49,15 @@ function get_Butt_level($lvl,$keys,$payload)
 			{
 				$buttons = getKbd(0,count($keys),$keys,$payload);
 				array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0] => [$payload[$key[0]]=>'SUBS_ALL']])]);//[$payload=>'SA']   [$k[0]=>[$prev[$k[0]]=>$key]]
-				array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,$key[0]),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
+				array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,$key[0]),$b_main]);
 			}
 			else
 			{
-				$buttons = getKbd(0,7,$keys,$payload);//count($keys_2)
+				$buttons = getKbd(0,7,$keys,$payload);
 				array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0] => [$payload[$key[0]]=>'SUBS_ALL']])]);
-				array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[$key[0]=>[$payload[$key[0]]=>CMD_NEXT]])]);//[$k[0]=>[$prev[$k[0]]=>$key]]
+				array_push($buttons,[$b_main,getBtn('На след стр. -->', COLOR_POSITIVE,[$key[0]=>[$payload[$key[0]]=>CMD_NEXT]])]);//[$k[0]=>[$prev[$k[0]]=>$key]]
 				array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,$key[0])]);
 			}
-			break;
-		case 4:
-			$key_2 = array_keys($payload[$key[0]]);
 			break;
 
 	}
