@@ -109,11 +109,6 @@ function getKbd($start, $end, $keys, $prev = null){
 
 	for($i=$start;$i<$end;++$i) {
 		$key = $keys[$i];
-		if(is_array($prev))
-		{
-			$k = array_keys($prev);
-			array_push($buttons,[getBtn($key, COLOR_DEFAULT,[$k[0]=>[$prev[$k[0]]=>$key]])]);//getBtn2
-		}
 		/*Если установлен*/
 		if(!is_null($prev))
 		{
