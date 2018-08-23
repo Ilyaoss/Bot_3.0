@@ -127,7 +127,8 @@ function getKbd_3($start, $end, $keys, $prev){
 function add_to_file($str, $userId)
 {
 	$data = read_file($userId);
-	for($i=0;$i<count($data[$userId]);++$i)
+	$length = count($data[$userId]);
+	for($i=0;$i<$length;++$i)
 	{
 		$user_data = $data[$userId][$i];
 		myLog("us_d: $user_data str: $str strpos:".strpos($user_data,$str));
@@ -140,6 +141,7 @@ function add_to_file($str, $userId)
 		if(strpos($user_data,$str) === 0)
 		{
 			unset($data[$userId][$i]);	// Удалить подписку
+			myLog("data: ".json_encode($data,JSON_UNESCAPED_UNICODE));
 		}
 	}
 	
