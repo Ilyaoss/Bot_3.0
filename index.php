@@ -545,7 +545,9 @@ switch ($type) {
 								'one_time' => false,
 								'buttons' => $buttons
 							];
+							
 							/*---------ДК------*/
+							$kbd = []
 							$payload = $key[0];
 						}
 						/*прочее*/
