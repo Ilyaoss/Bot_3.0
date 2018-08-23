@@ -682,6 +682,8 @@ switch ($type) {
 			$payload = json_decode($payload, true);
 		}
 		myLog("message_reply: ".$text." PAYLOAD:".$payload);
+		echo  "OK";
+		break;
 	}
 	case 'confirmation': 
 		//...отправляем строку для подтверждения 
