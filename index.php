@@ -89,6 +89,73 @@ function getKbd($start, $end, $keys, $prev = null){
 	return $buttons;
 }
 
+function get_Butt_level($lvl,$keys,$payload)
+{	
+	$key = array_keys($payload);
+	$buttons = [];
+	$b_main = getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN);
+	switch($lvl)
+	{
+		case 0:
+			array_push($buttons,[getBtn('Подписаться на категории', COLOR_DEFAULT,CMD_CAT)]);
+			array_push($buttons,[getBtn('Мои подписки', COLOR_DEFAULT,CMD_MY)]);
+			array_push($buttons,[getBtn('Отписаться', COLOR_DEFAULT,CMD_UNSUBS)]);
+			break;
+		case 1:
+			if($CMD_NEXT)
+			{
+				$buttons = getKbd(10,count($keys),$keys);
+				array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK),$b_main)]);
+			}
+			else
+			{
+				$buttons = getKbd(0,9,$keys);
+				array_push($buttons,[$b_main,getBtn('Далее-->', COLOR_POSITIVE,CMD_NEXT)]);
+			}
+			break;
+		case 2:
+			/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)*/
+			if(count($keys)<9)
+			{
+				if($payload=='Прочее')
+				{
+					$msg = "Список подкатегорий в $payload.\nНажмите чтобы подписаться.\n";
+				}
+				$buttons = getKbd(0,count($keys),$keys,$payload);
+				array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL'])]);
+				array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK),$b_main]);
+			}
+			else
+			{
+				$buttons = getKbd(0,7,$keys,$payload);
+				array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL'])]);
+				array_push($buttons,[$b_main,getBtn('На след стр. -->', COLOR_POSITIVE,[$payload=>CMD_NEXT])]);
+				array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,CMD_BACK)]);
+			}
+			break;
+		case 3:
+			if(count($keys)<9)
+			{
+				$buttons = getKbd(0,count($keys),$keys,$payload);
+				array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0] => [$payload[$key[0]]=>'SUBS_ALL']])]);//[$payload=>'SA']   [$k[0]=>[$prev[$k[0]]=>$key]]
+				array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,$key[0]),$b_main]);
+			}
+			else
+			{
+				$buttons = getKbd(0,7,$keys,$payload);
+				array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0] => [$payload[$key[0]]=>'SUBS_ALL']])]);
+				array_push($buttons,[$b_main,getBtn('На след стр. -->', COLOR_POSITIVE,[$key[0]=>[$payload[$key[0]]=>CMD_NEXT]])]);//[$k[0]=>[$prev[$k[0]]=>$key]]
+				array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,$key[0])]);
+			}
+			break;
+
+	}
+	return $kbd = [
+				'one_time' => false,
+				'buttons' => $buttons
+			];
+}
+
 function add_to_file($str, $userId)
 {
 	$data = read_file($userId);
@@ -142,424 +209,6 @@ function myLog($str) {
     file_put_contents("php://stdout", "$str\n");
 }
 
-function handlePayload($payload)
-{
-	switch($payload){
-		case(''):
-		case CMD_MAIN:
-			$msg = "Нажмите любую кнопку";
-			$buttons = [];
-			array_push($buttons,[getBtn('Подписаться на категории', COLOR_DEFAULT,CMD_CAT)]);
-			array_push($buttons,[getBtn('Мои подписки', COLOR_DEFAULT,CMD_MY)]);
-			array_push($buttons,[getBtn('Отписаться', COLOR_DEFAULT,CMD_UNSUBS)]);
-			$kbd = [
-				'one_time' => false,
-				'buttons' => $buttons//,$buttons2]
-			];
-			$payload = 'stop';
-			break;
-		case CMD_CAT:
-			$msg = 'Список категорий 1-го уровня. Нажмите для открытия подкатегорий.';
-			$buttons = getKbd(0,9,$keys_1);
-			array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('Далее-->', COLOR_POSITIVE,CMD_NEXT)]);
-			//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-			$kbd = [
-				'one_time' => false,
-				'buttons' => $buttons
-			];
-			$payload = 'stop';
-			break;
-		case CMD_MY:
-			$msg = "Список моих подписок:\n";
-			$file = file_get_contents(__DIR__ . '/data.json');  // Открыть файл data.json
-			myLog("file: $file");
-			$data = json_decode($file,TRUE);   // Декодировать в массив 						
-			unset($file);                      // Очистить переменную $file		   
-			$my_subs = $data[$userId];
-			foreach($my_subs as $item)
-			{
-				$msg = $msg."-$item\n";
-			}
-			unset($data);
-			if($msg=="Список моих подписок:\n")
-			{
-				$msg = 'Нет активных подписок';
-				
-			}
-			
-			/*----------------
-			$buttons = [];
-			array_push($buttons,[getBtn('Подписаться на категории', COLOR_DEFAULT,CMD_CAT)]);
-			array_push($buttons,[getBtn('Мои подписки', COLOR_DEFAULT,CMD_MY)]);
-			array_push($buttons,[getBtn('Отписаться', COLOR_DEFAULT,CMD_UNSUBS)]);
-			$kbd = [
-				'one_time' => false,
-				'buttons' => $buttons
-			];
-			/*----------------*/
-			$payload = CMD_MAIN;
-			break;
-		case CMD_BACK:
-			/*$buttons = getKbd(0,9,$keys_1);
-			array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('Далее-->', COLOR_POSITIVE,CMD_NEXT)]);
-			//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-			$kbd = [
-				'one_time' => false,
-				'buttons' => $buttons
-			];*/
-			$payload = CMD_MAIN;
-			break;
-		case CMD_NEXT:
-			$buttons = getKbd(10,count($keys_1),$keys_1);
-			array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-			//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-			
-			$kbd = [
-				'one_time' => false,
-				'buttons' => $buttons
-			];
-			$payload = 'stop';
-			break;
-		case CMD_UNSUBS:
-			$msg = 'Нажмите, чтобы отписаться';
-			$data = read_file();
-			$user_data = $data[$userId];
-			myLog("userdata: ".json_encode($user_data,JSON_UNESCAPED_UNICODE));
-			if(is_null($user_data))
-			{
-				$msg = 'Нет активных подписок';
-				/*----------------
-				$buttons = [];
-				array_push($buttons,[getBtn('Подписаться на категории', COLOR_DEFAULT,CMD_CAT)]);
-				array_push($buttons,[getBtn('Мои подписки', COLOR_DEFAULT,CMD_MY)]);
-				array_push($buttons,[getBtn('Отписаться', COLOR_DEFAULT,CMD_UNSUBS)]);
-				$kbd = [
-					'one_time' => false,
-					'buttons' => $buttons
-				];
-				/*----------------*/
-				$payload = CMD_MAIN;
-				break;
-			}
-			
-			if(count($user_data)<9)
-			{
-				myLog("&&");
-				$buttons = getKbd_unsub(0,count($user_data),$user_data);
-				array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,CMD_UNSUBS_ALL)]);
-				array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-			}
-			else
-			{
-				$buttons = getKbd_unsub(0,8,$user_data);//count($keys_2)
-				array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,CMD_UNSUBS_ALL)]);
-				array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[CMD_UNSUBS=>1])]);//[$k[0]=>[$prev[$k[0]]=>$key]]
-			}
-			myLog("buttons: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
-			$kbd = [
-				'one_time' => false,
-				'buttons' => $buttons
-			];
-			$payload = 'stop';
-			break;
-		case CMD_UNSUBS_ALL:
-			$msg = 'Вы точно хотите от всего отписаться?';
-			array_push($buttons,[getBtn('Да', COLOR_POSITIVE,CMD_YES)]);
-			array_push($buttons,[getBtn('Нет',COLOR_NEGATIVE,CMD_UNSUBS)]);
-			$kbd = [
-				'one_time' => false,
-				'buttons' => $buttons
-			];
-			$payload = 'stop';
-			break;
-		case CMD_YES:
-			$data = read_file($userId);		   
-			$data[$userId] = [];
-			file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
-			unset($data);
-			$msg = 'Все подписки отменены';
-			/*----------------
-			$buttons = [];
-			array_push($buttons,[getBtn('Подписаться на категории', COLOR_DEFAULT,CMD_CAT)]);
-			array_push($buttons,[getBtn('Мои подписки', COLOR_DEFAULT,CMD_MY)]);
-			array_push($buttons,[getBtn('Отписаться', COLOR_DEFAULT,CMD_UNSUBS)]);
-			$kbd = [
-				'one_time' => false,
-				'buttons' => $buttons
-			];
-			/*----------------*/
-			$payload = CMD_MAIN;
-			$kbd = [
-				'one_time' => false,
-				'buttons' => $buttons
-			];
-			break;
-		case CMD_FEEDBACK:
-			$msg = 'Опиши и отправь мне проблему с которой ты столкнулся';
-			$buttons = [];
-			array_push($buttons,[getBtn('<-- Назад', COLOR_NEGATIVE,CMD_MAIN)]);
-			$kbd = [
-				'one_time' => false,
-				'buttons' => $buttons
-			];
-			$payload = 'stop';
-			break;
-		
-		default:
-			if(is_array($payload)){
-				$key = array_keys($payload);
-				if(is_array($payload[$key[0]]))
-				{
-					/*4-й уровень - подписка оформляется*/
-					myLog("MSG: ".$body." PAYLOAD_val1:".json_encode($payload[$key[0]],JSON_UNESCAPED_UNICODE));
-					$keys = array_keys($payload[$key[0]]);
-					
-					if($payload[$key[0]][$keys[0]]==CMD_NEXT)
-					{
-						$msg = "Список подкатегорий в $key[0].$keys[0].\nНажмите для чтобы подписаться.\n";
-						$keys_3 = $array[$key[0]][$keys[0]];
-						$buttons = getKbd(7,count($keys_3),$keys_3,$payload);//count($keys_2)
-						array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL'])]);
-						array_push($buttons,[getBtn('<-- На пред. стр.', COLOR_NEGATIVE,[$key[0]=>$keys[0]]),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-						array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,CMD_BACK)]);
-						myLog("TEST ".json_encode($kbd, JSON_UNESCAPED_UNICODE));
-						$kbd = [
-							'one_time' => false,
-							'buttons' => $buttons
-						];
-					}
-					/*C 3 уровня пришла комманда SUBS_ALL*/
-					elseif($payload[$key[0]][$keys[0]]== 'SUBS_ALL')
-					{
-						/*------------DK--------------*/
-						$str = "$key[0].$keys[0]";
-						$msg = add_to_file($str, $userId);
-						/*-------------DK------------*/
-						$keys_3 = $array[$key[0]][$keys[0]];
-						/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)*/
-						if(count($keys_3)<9)
-						{
-							$buttons = getKbd(0,count($keys_3),$keys_3,[$key[0]=>$keys[0]]);
-							array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0] => [$keys[0]=>'SUBS_ALL']])]);//[$payload=>'SA']   [$k[0]=>[$prev[$k[0]]=>$key]]
-							array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,$key[0]),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-						}
-						else
-						{
-							$buttons = getKbd(0,7,$keys_3,$payload);//count($keys_2)
-							array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0] => [$keys[0]=>'SUBS_ALL']])]);
-							array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[$key[0]=>[$keys[0]=>CMD_NEXT]])]);//[$k[0]=>[$prev[$k[0]]=>$key]]
-							array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,$key[0])]);
-						}
-						myLog("Keys3: ".json_encode($keys_3,JSON_UNESCAPED_UNICODE));
-						//buttons = getKbd_2(0,count($keys_2),$keys_2,$payload);//count($keys_2)
-						//array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,[$payload=>CMD_BACK])]);
-						//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-						$kbd = [
-							'one_time' => false,
-							'buttons' => $buttons
-						];
-						/*------------DK--------------*/
-					}
-					else{
-						
-						$str = "$key[0].$keys[0].".$payload[$key[0]][$keys[0]];
-						$msg = add_to_file($str, $userId);
-						/*Отправляем клавиатуру*/
-						$keys_3 = $array[$key[0]][$keys[0]];
-						/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)*/
-						if(count($keys_3)<9)
-						{
-							$buttons = getKbd(0,count($keys_3),$keys_3,[$key[0]=>$keys[0]]);
-							array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0] => [$keys[0]=>'SUBS_ALL']])]);//[$payload=>'SA']   [$k[0]=>[$prev[$k[0]]=>$key]]
-							array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,$key[0]),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-						}
-						else
-						{
-							$buttons = getKbd(0,7,$keys_3,$payload);//count($keys_2)
-							array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0] => [$keys[0]=>'SUBS_ALL']])]);
-							array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[$key[0]=>[$keys[0]=>CMD_NEXT]])]);//[$k[0]=>[$prev[$k[0]]=>$key]]
-							array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,$key[0])]);
-						}
-						myLog("Keys3: ".json_encode($keys_3,JSON_UNESCAPED_UNICODE));
-						//buttons = getKbd_2(0,count($keys_2),$keys_2,$payload);//count($keys_2)
-						//array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,[$payload=>CMD_BACK])]);
-						//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-						$kbd = [
-							'one_time' => false,
-							'buttons' => $buttons
-						];
-					}
-					
-				}
-				else
-				{	
-					/*Пришло сообщение от 2 уровня*/
-					myLog("MSG: ".$body." PAYLOAD_val:".$payload[$key[0]]);
-					if($payload[$key[0]]=== CMD_NEXT)
-					{
-						$msg = "Список подкатегорий в $key[0].\nНажмите для открытия подкатегорий.\n";
-						myLog("???");
-						$keys_2 = array_keys($array[$key[0]]);
-						$buttons = getKbd(7,count($keys_2),$keys_2,$key[0]);//count($keys_2)
-						array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0]=>'SUBS_ALL'])]);
-						array_push($buttons,[getBtn('<-- На пред. стр.', COLOR_NEGATIVE,$key[0]),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-						array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,CMD_BACK)]);
-						myLog("TEST ".json_encode($kbd, JSON_UNESCAPED_UNICODE));
-						$kbd = [
-							'one_time' => false,
-							'buttons' => $buttons
-						];
-					}
-					/*C 2-го уровня пришла ком. SUBS ALL*/
-					elseif($payload[$key[0]]=== 'SUBS_ALL')
-					{
-						$str = $key[0];
-						$msg = add_to_file($str, $userId);
-						/*---------ДК------
-						$keys_2 = array_keys($array[$key[0]]);
-						/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)
-						if(count($keys_2)<9)
-						{
-							$buttons = getKbd(0,count($keys_2),$keys_2,$key[0]);//count($keys_2)
-							array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0]=>'SUBS_ALL'])]);
-							array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-						}
-						else
-						{
-							$buttons = getKbd(0,7,$keys_2,$payload);//count($keys_2)
-							array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0]=>'SUBS_ALL'])]);
-							array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[$key[0]=>CMD_NEXT])]);
-							array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,CMD_BACK)]);
-						}
-						myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
-						myLog("CHECK THIS OUT: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
-						
-						$kbd = [
-							'one_time' => false,
-							'buttons' => $buttons
-						];
-						
-						/*---------ДК------*/
-						$kbd = [
-							'one_time' => false,
-							'buttons' => $buttons
-						];
-						$payload = $key[0];
-					}
-					/*прочее*/
-					elseif($payload[$key[0]]==='Прочее')
-					{
-						$str = "$key[0].".$payload[$key[0]];
-						$msg = add_to_file($str, $userId);
-						$payload = $key[0]; //??
-					}
-					/*след страница отписок*/
-					elseif($key[0]===CMD_UNSUBS)
-					{
-						$s = substr($payload[$key[0]],0,1);
-						myLog("s: ".$S);
-						if($s==='_')
-						{
-							$s = substr($payload[$key[0]],1);
-							$msg = delete_from_file($s,$userId);
-							$payload = CMD_MAIN;
-						}
-						else
-						{
-							$data = read_file();
-							$user_data = $data[$userId];
-							$idx = $payload[$key[0]];
-							
-							$b_main = getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN);
-							$b_next = getBtn('На след. стр. -->', COLOR_POSITIVE,[CMD_UNSUBS=>$idx+1]);
-							$b_prev = getBtn('<-- На пред. стр.', COLOR_NEGATIVE,[CMD_UNSUBS=>$idx-1]);
-							if(8*($idx+1)<count($user_data))
-							{
-								$buttons = getKbd_unsub(8*$idx,8*($idx+1),$user_data);
-								array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,'UNSUBS_ALL')]);
-								if($idx > 0)
-								{
-									array_push($buttons,[$b_prev,$b_main,$b_next]);
-								}
-								else
-								{
-									array_push($buttons,[$b_main,$b_next]);
-								}
-								
-							}
-							else
-							{
-								$buttons = getKbd_unsub(8*$idx,count($user_data),$user_data);
-								array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,'UNSUBS_ALL')]);
-								array_push($buttons,[$b_prev,$b_main]);
-							}
-							$kbd = [
-								'one_time' => false,
-								'buttons' => $buttons
-							];
-						}
-					}
-					/*3-й уровень кнопок:*/
-					else{
-						$msg = "Список подкатегорий в $key[0].".$payload[$key[0]].".\nНажмите для чтобы подписаться.\n";
-						$keys_3 = $array[$key[0]][$payload[$key[0]]];
-						/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)*/
-						if(count($keys_3)<9)
-						{
-							$buttons = getKbd(0,count($keys_3),$keys_3,$payload);
-							array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0] => [$payload[$key[0]]=>'SUBS_ALL']])]);//[$payload=>'SA']   [$k[0]=>[$prev[$k[0]]=>$key]]
-							array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,$key[0]),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-						}
-						else
-						{
-							$buttons = getKbd(0,7,$keys_3,$payload);//count($keys_2)
-							array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0] => [$payload[$key[0]]=>'SUBS_ALL']])]);
-							array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[$key[0]=>[$payload[$key[0]]=>CMD_NEXT]])]);//[$k[0]=>[$prev[$k[0]]=>$key]]
-							array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,$key[0])]);
-						}
-						myLog("Keys3: ".json_encode($keys_3,JSON_UNESCAPED_UNICODE));
-						myLog("CHECK THIS OUT: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
-						
-						$kbd = [
-							'one_time' => false,
-							'buttons' => $buttons
-						];
-					}
-				}
-			}
-			else/* Второй уровень*/
-			{
-				$msg = "Список подкатегорий в $payload.\nНажмите для открытия подкатегорий.\n";
-				$keys_2 = array_keys($array[$payload]);
-				/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)*/
-				if(count($keys_2)<9)
-				{
-					if($payload=='Прочее')
-					{
-						$msg = "Список подкатегорий в $payload.\nНажмите чтобы подписаться.\n";
-					}
-					$buttons = getKbd(0,count($keys_2),$keys_2,$payload);//count($keys_2)
-					array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL'])]);
-					array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-				}
-				else
-				{
-					$buttons = getKbd(0,7,$keys_2,$payload);//count($keys_2)
-					array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL'])]);
-					array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[$payload=>CMD_NEXT])]);
-					array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,CMD_BACK)]);
-				}
-				myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
-				myLog("CHECK THIS OUT: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
-				
-				$kbd = [
-					'one_time' => false,
-					'buttons' => $buttons
-				];
-			}
-	}
-			
-}
 /*--Парсим xls с категориями--*/
 $xls = PHPExcel_IOFactory::load(__DIR__ . '/categories.xlsx');
 
@@ -590,18 +239,6 @@ $keys_3 = array_column($def_mas, 2);
 $buttons = [];
 
 switch ($type) {
-	case 'message_reply':
-		$message = $data['object'] ?? [];
-		$userId = $message['from_id'] ?? 0; //user_id
-		$body = $message['body'] ?? '';
-		$payload = $message['payload'] ?? '';
-		$text = $message['text'] ?? '';
-		myLog("message_reply: ".$text." PAYLOAD string:".$payload);
-		if ($payload) {
-			$payload = json_decode($payload, true);
-		}
-		myLog("message_reply: ".$text." PAYLOAD:".$payload);
-		break;
 	case 'message_new':
 		$message = $data['object'] ?? [];
 		$userId = $message['from_id'] ?? 0; //user_id
@@ -627,27 +264,12 @@ switch ($type) {
 				break;
 			case(''):
 			case CMD_MAIN:
-				$msg = "Нажмите любую кнопку";
-				$buttons = [];
-				array_push($buttons,[getBtn('Подписаться на категории', COLOR_DEFAULT,CMD_CAT)]);
-				array_push($buttons,[getBtn('Мои подписки', COLOR_DEFAULT,CMD_MY)]);
-				array_push($buttons,[getBtn('Отписаться', COLOR_DEFAULT,CMD_UNSUBS)]);
-				$kbd = [
-					'one_time' => false,
-					'buttons' => $buttons//,$buttons2]
-				];
-				$payload = 'stop';
+				$msg = "Нажмите любую кнопку";			
+				$kbd = get_Butt_level(0);
 				break;
 			case CMD_CAT:
-				$msg = 'Список категорий 1-го уровня. Нажмите для открытия подкатегорий.';
-				$buttons = getKbd(0,9,$keys_1);
-				array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('Далее-->', COLOR_POSITIVE,CMD_NEXT)]);
-				//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-				$kbd = [
-					'one_time' => false,
-					'buttons' => $buttons
-				];
-				$payload = 'stop';
+				
+				$kbd = get_Butt_level(1,$keys_1);
 				break;
 			case CMD_MY:
 				$msg = "Список моих подписок:\n";
@@ -667,38 +289,19 @@ switch ($type) {
 					
 				}
 				
-				/*----------------
-				$buttons = [];
-				array_push($buttons,[getBtn('Подписаться на категории', COLOR_DEFAULT,CMD_CAT)]);
-				array_push($buttons,[getBtn('Мои подписки', COLOR_DEFAULT,CMD_MY)]);
-				array_push($buttons,[getBtn('Отписаться', COLOR_DEFAULT,CMD_UNSUBS)]);
-				$kbd = [
-					'one_time' => false,
-					'buttons' => $buttons
-				];
-				/*----------------*/
+				$kbd = get_Butt_level(0);
 				$payload = CMD_MAIN;
 				break;
 			case CMD_BACK:
-				$buttons = getKbd(0,9,$keys_1);
-				array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('Далее-->', COLOR_POSITIVE,CMD_NEXT)]);
-				//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-				$kbd = [
-					'one_time' => false,
-					'buttons' => $buttons
-				];
+				
+				$kbd = get_Butt_level(1,$keys_1);
 				$payload = CMD_MAIN;
 				break;
 			case CMD_NEXT:
-				$buttons = getKbd(10,count($keys_1),$keys_1);
-				array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-				//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
+				ush($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 				
-				$kbd = [
-					'one_time' => false,
-					'buttons' => $buttons
-				];
-				$payload = 'stop';
+				$kbd = get_Butt_level(1,$keys_1,null,true);
+
 				break;
 			case CMD_UNSUBS:
 				$msg = 'Нажмите, чтобы отписаться';
@@ -708,39 +311,29 @@ switch ($type) {
 				if(is_null($user_data))
 				{
 					$msg = 'Нет активных подписок';
-					/*----------------
-					$buttons = [];
-					array_push($buttons,[getBtn('Подписаться на категории', COLOR_DEFAULT,CMD_CAT)]);
-					array_push($buttons,[getBtn('Мои подписки', COLOR_DEFAULT,CMD_MY)]);
-					array_push($buttons,[getBtn('Отписаться', COLOR_DEFAULT,CMD_UNSUBS)]);
+					$kbd = get_Butt_level(0);
+				}
+				else
+				{
+					if(count($user_data)<9)
+					{
+						myLog("&&");
+						$buttons = getKbd_unsub(0,count($user_data),$user_data);
+						array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,CMD_UNSUBS_ALL)]);
+						array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
+					}
+					else
+					{
+						$buttons = getKbd_unsub(0,8,$user_data);//count($keys_2)
+						array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,CMD_UNSUBS_ALL)]);
+						array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[CMD_UNSUBS=>1])]);//[$k[0]=>[$prev[$k[0]]=>$key]]
+					}
+					myLog("buttons: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
 					$kbd = [
 						'one_time' => false,
 						'buttons' => $buttons
 					];
-					/*----------------*/
-					$payload = CMD_MAIN;
-					break;
 				}
-				
-				if(count($user_data)<9)
-				{
-					myLog("&&");
-					$buttons = getKbd_unsub(0,count($user_data),$user_data);
-					array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,CMD_UNSUBS_ALL)]);
-					array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-				}
-				else
-				{
-					$buttons = getKbd_unsub(0,8,$user_data);//count($keys_2)
-					array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,CMD_UNSUBS_ALL)]);
-					array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[CMD_UNSUBS=>1])]);//[$k[0]=>[$prev[$k[0]]=>$key]]
-				}
-				myLog("buttons: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
-				$kbd = [
-					'one_time' => false,
-					'buttons' => $buttons
-				];
-				$payload = 'stop';
 				break;
 			case CMD_UNSUBS_ALL:
 				$msg = 'Вы точно хотите от всего отписаться?';
@@ -750,7 +343,6 @@ switch ($type) {
 					'one_time' => false,
 					'buttons' => $buttons
 				];
-				$payload = 'stop';
 				break;
 			case CMD_YES:
 				$data = read_file($userId);		   
@@ -758,21 +350,7 @@ switch ($type) {
 				file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
 				unset($data);
 				$msg = 'Все подписки отменены';
-				/*----------------
-				$buttons = [];
-				array_push($buttons,[getBtn('Подписаться на категории', COLOR_DEFAULT,CMD_CAT)]);
-				array_push($buttons,[getBtn('Мои подписки', COLOR_DEFAULT,CMD_MY)]);
-				array_push($buttons,[getBtn('Отписаться', COLOR_DEFAULT,CMD_UNSUBS)]);
-				$kbd = [
-					'one_time' => false,
-					'buttons' => $buttons
-				];
-				/*----------------*/
-				$payload = CMD_MAIN;
-				$kbd = [
-					'one_time' => false,
-					'buttons' => $buttons
-				];
+				$kbd = get_Butt_level(0)
 				break;
 			case CMD_FEEDBACK:
 				$msg = 'Опиши и отправь мне проблему с которой ты столкнулся';
@@ -784,53 +362,6 @@ switch ($type) {
 				];
 				$payload = 'stop';
 				break;
-				
-			/*case CMD_CAT:
-				try {
-
-					$url = $vk->photos()->getMessagesUploadServer(VK_TOKEN,['peer_id'=>$userId]); //peer_id не понятно?
-					myLog("typeof".gettype($url));
-
-					myLog("server: ".gettype($url["upload_url"])." ".$url['upload_url']. 
-							'photo: '.gettype($url["album_id"])." ".$url['album_id']. 
-							'hash: '.gettype($url["group_id"])." ".$url['group_id'].
-							'count: '.count($url));
-							
-					$myCurl = curl_init();
-					$f=curl_file_create(dirname(__FILE__)."/test.jpg",'image/jpeg','test_name.jpg');
-					myLog($f->getFilename());
-					$data_file = ['photo'=> $f];
-					curl_setopt_array($myCurl, array(
-						CURLOPT_URL => $url['upload_url'],
-						CURLOPT_HTTPHEADER=>['Content-Type: multipart/form-data'],
-						CURLOPT_SSL_VERIFYPEER=> false,
-						CURLOPT_RETURNTRANSFER => true,
-						CURLOPT_POST => true,
-						CURLOPT_POSTFIELDS => $data_file
-					));
-					$response = curl_exec($myCurl);
-					curl_close($myCurl);
-
-					myLog("Ответ на Ваш запрос: ".$response);
-
-					$res_img = json_decode($response,true);
-
-					$uploadResult = $vk->photos()->saveMessagesPhoto(VK_TOKEN,['server'=>$res_img["server"],
-																  'photo'=>$res_img["photo"],
-																  'hash'=>$res_img["hash"]
-																		]);
-					myLog("own_id ".$uploadResult[0]['owner_id']);
-					myLog("user_id ".$userId);
-					myLog('photo'.$uploadResult[0]['owner_id'].'_'.$uploadResult[0]['id']);
-					$res = $vk->messages()->send(VK_TOKEN, ['peer_id' => $userId,
-						'attachment' => 'photo'.$uploadResult[0]['owner_id'].'_'.$uploadResult[0]['id']
-					]);
-					$msg = null;
-					break;
-				} catch (\Exception $e) {
-					myLog( $e->getCode().' '.$e->getMessage() );
-				}
-				break;*/
 			default:
 				if(is_array($payload)){
 					$key = array_keys($payload);
@@ -941,43 +472,23 @@ switch ($type) {
 						{
 							$str = $key[0];
 							$msg = add_to_file($str, $userId);
-							/*---------ДК------
+							
 							$keys_2 = array_keys($array[$key[0]]);
-							/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)
-							if(count($keys_2)<9)
-							{
-								$buttons = getKbd(0,count($keys_2),$keys_2,$key[0]);//count($keys_2)
-								array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0]=>'SUBS_ALL'])]);
-								array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-							}
-							else
-							{
-								$buttons = getKbd(0,7,$keys_2,$payload);//count($keys_2)
-								array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0]=>'SUBS_ALL'])]);
-								array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[$key[0]=>CMD_NEXT])]);
-								array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,CMD_BACK)]);
-							}
 							myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
-							myLog("CHECK THIS OUT: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
-							
-							$kbd = [
-								'one_time' => false,
-								'buttons' => $buttons
-							];
-							
-							/*---------ДК------*/
-							$kbd = [
-								'one_time' => false,
-								'buttons' => $buttons
-							];
-							$payload = $key[0];
+
+							$kbd = get_Butt_level(2,$keys_2,$key[0]);
+							myLog("CHECK THIS OUT: ".json_encode($kbd,JSON_UNESCAPED_UNICODE));
 						}
 						/*прочее*/
 						elseif($payload[$key[0]]==='Прочее')
 						{
 							$str = "$key[0].".$payload[$key[0]];
 							$msg = add_to_file($str, $userId);
-							$payload = $key[0]; //??
+							$keys_2 = array_keys($array[$key[0]]);
+							myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
+
+							$kbd = get_Butt_level(2,$keys_2,$key[0]);
+							myLog("CHECK THIS OUT: ".json_encode($kbd,JSON_UNESCAPED_UNICODE));
 						}
 						/*след страница отписок*/
 						elseif($key[0]===CMD_UNSUBS)
@@ -1029,27 +540,10 @@ switch ($type) {
 						else{
 							$msg = "Список подкатегорий в $key[0].".$payload[$key[0]].".\nНажмите для чтобы подписаться.\n";
 							$keys_3 = $array[$key[0]][$payload[$key[0]]];
-							/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)*/
-							if(count($keys_3)<9)
-							{
-								$buttons = getKbd(0,count($keys_3),$keys_3,$payload);
-								array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0] => [$payload[$key[0]]=>'SUBS_ALL']])]);//[$payload=>'SA']   [$k[0]=>[$prev[$k[0]]=>$key]]
-								array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,$key[0]),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-							}
-							else
-							{
-								$buttons = getKbd(0,7,$keys_3,$payload);//count($keys_2)
-								array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0] => [$payload[$key[0]]=>'SUBS_ALL']])]);
-								array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[$key[0]=>[$payload[$key[0]]=>CMD_NEXT]])]);//[$k[0]=>[$prev[$k[0]]=>$key]]
-								array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,$key[0])]);
-							}
 							myLog("Keys3: ".json_encode($keys_3,JSON_UNESCAPED_UNICODE));
-							myLog("CHECK THIS OUT: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
-							
-							$kbd = [
-								'one_time' => false,
-								'buttons' => $buttons
-							];
+
+							$kbd = get_Butt_level(2,$keys_3,$payload);
+							myLog("CHECK THIS OUT: ".json_encode($kbd,JSON_UNESCAPED_UNICODE));
 						}
 					}
 				}
@@ -1057,31 +551,11 @@ switch ($type) {
 				{
 					$msg = "Список подкатегорий в $payload.\nНажмите для открытия подкатегорий.\n";
 					$keys_2 = array_keys($array[$payload]);
-					/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)*/
-					if(count($keys_2)<9)
-					{
-						if($payload=='Прочее')
-						{
-							$msg = "Список подкатегорий в $payload.\nНажмите чтобы подписаться.\n";
-						}
-						$buttons = getKbd(0,count($keys_2),$keys_2,$payload);//count($keys_2)
-						array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL'])]);
-						array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-					}
-					else
-					{
-						$buttons = getKbd(0,7,$keys_2,$payload);//count($keys_2)
-						array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL'])]);
-						array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[$payload=>CMD_NEXT])]);
-						array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,CMD_BACK)]);
-					}
-					myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
-					myLog("CHECK THIS OUT: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
 					
-					$kbd = [
-						'one_time' => false,
-						'buttons' => $buttons
-					];
+					myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
+
+					$kbd = get_Butt_level(2,$keys_2,$payload);
+					myLog("CHECK THIS OUT: ".json_encode($kbd,JSON_UNESCAPED_UNICODE));
 				}
 		}
 		try {
