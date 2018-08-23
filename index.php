@@ -63,15 +63,6 @@ function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
     ];
 }*/
 
-/*Цикл вывода в 2 ряда*/
-/*for($i=0;$i<9;++$i) {
-	$key = $keys_1[$i];
-	array_push($buttons1,getBtn($key, COLOR_DEFAULT,$key));
-	if($i%2>0) {
-		array_push($buttons,$buttons1);
-		$buttons1 = [];
-	}
-}*/
 function getKbd_test($start, $end, $keys){
 	$buttons = [];
 	for($i=$start;$i<$end;++$i) {
@@ -80,8 +71,8 @@ function getKbd_test($start, $end, $keys){
 	}
 	return $buttons;
 }
-
-function getKbd($start, $end, $keys){
+/*origin*/
+function getKbd_($start, $end, $keys){
 	$buttons = [];
 	for($i=$start;$i<$end;++$i) {
 		$key = $keys[$i];
@@ -113,7 +104,7 @@ function getKbd_2($start, $end, $keys, $prev){
 	return $buttons;
 }
 
-function getKbd_3($start, $end, $keys, $prev){
+function getKbd($start, $end, $keys, $prev = null){
 	$buttons = [];
 
 	for($i=$start;$i<$end;++$i) {
@@ -123,9 +114,22 @@ function getKbd_3($start, $end, $keys, $prev){
 			$k = array_keys($prev);
 			array_push($buttons,[getBtn($key, COLOR_DEFAULT,[$k[0]=>[$prev[$k[0]]=>$key]])]);//getBtn2
 		}
+		/*Если установлен*/
+		if(!is_null($prev))
+		{
+			if(is_array($prev))
+			{
+				$k = array_keys($prev);
+				array_push($buttons,[getBtn($key, COLOR_DEFAULT,[$k[0]=>[$prev[$k[0]]=>$key]])]);//getBtn2
+			}
+			else
+			{
+				array_push($buttons,[getBtn($key, COLOR_DEFAULT,[$prev=>$key])]);//
+			}
+		}
 		else
 		{
-			array_push($buttons,[getBtn($key, COLOR_DEFAULT,[$prev=>$key])]);//getBtn2
+			array_push($buttons,[getBtn($key, COLOR_DEFAULT,$key)]);
 		}
 		//array_push($buttons_temp,getBtn($key, COLOR_DEFAULT,[$prev=>$key]));//getBtn2
 
@@ -221,6 +225,7 @@ switch ($type) {
 		$userId = $message['from_id'] ?? 0; //user_id
 		$body = $message['body'] ?? '';
 		$payload = $message['payload'] ?? '';
+		$text = $message['payload'] ?? '';
 		
 		/*$user_info = $vk->users()->get(VK_TOKEN,['user_ids'=>$userId,
 												'fields'=>'status']);*/
@@ -240,6 +245,7 @@ switch ($type) {
 
 		switch($payload){
 			case '':
+				
 			case CMD_MAIN:
 				$msg = "Нажмите любую кнопку";
 				$buttons = [];
@@ -377,6 +383,16 @@ switch ($type) {
 					'buttons' => $buttons
 				];
 				break;
+			case CMD_FEEDBACK:
+				$msg = 'Опиши и отправь мне проблему с которой ты столкнулся';
+				$buttons = [];
+				array_push($buttons,[getBtn('<-- Назад', COLOR_NEGATIVE,CMD_MAIN)]);
+				$kbd = [
+					'one_time' => false,
+					'buttons' => $buttons
+				];
+				break;
+				
 			/*case CMD_CAT:
 				try {
 
@@ -436,7 +452,7 @@ switch ($type) {
 						{
 							$msg = "Список подкатегорий в $key[0].$keys[0].\nНажмите для чтобы подписаться.\n";
 							$keys_3 = $array[$key[0]][$keys[0]];
-							$buttons = getKbd_3(7,count($keys_3),$keys_3,$payload);//count($keys_2)
+							$buttons = getKbd(7,count($keys_3),$keys_3,$payload);//count($keys_2)
 							array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL'])]);
 							array_push($buttons,[getBtn('<-- На пред. стр.', COLOR_NEGATIVE,[$key[0]=>$keys[0]]),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 							array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,CMD_BACK)]);
@@ -457,13 +473,13 @@ switch ($type) {
 							/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)*/
 							if(count($keys_3)<9)
 							{
-								$buttons = getKbd_3(0,count($keys_3),$keys_3,[$key[0]=>$keys[0]]);
+								$buttons = getKbd(0,count($keys_3),$keys_3,[$key[0]=>$keys[0]]);
 								array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0] => [$keys[0]=>'SUBS_ALL']])]);//[$payload=>'SA']   [$k[0]=>[$prev[$k[0]]=>$key]]
 								array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,$key[0]),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 							}
 							else
 							{
-								$buttons = getKbd_3(0,7,$keys_3,$payload);//count($keys_2)
+								$buttons = getKbd(0,7,$keys_3,$payload);//count($keys_2)
 								array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0] => [$keys[0]=>'SUBS_ALL']])]);
 								array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[$key[0]=>[$keys[0]=>CMD_NEXT]])]);//[$k[0]=>[$prev[$k[0]]=>$key]]
 								array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,$key[0])]);
@@ -487,13 +503,13 @@ switch ($type) {
 							/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)*/
 							if(count($keys_3)<9)
 							{
-								$buttons = getKbd_3(0,count($keys_3),$keys_3,[$key[0]=>$keys[0]]);
+								$buttons = getKbd(0,count($keys_3),$keys_3,[$key[0]=>$keys[0]]);
 								array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0] => [$keys[0]=>'SUBS_ALL']])]);//[$payload=>'SA']   [$k[0]=>[$prev[$k[0]]=>$key]]
 								array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,$key[0]),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 							}
 							else
 							{
-								$buttons = getKbd_3(0,7,$keys_3,$payload);//count($keys_2)
+								$buttons = getKbd(0,7,$keys_3,$payload);//count($keys_2)
 								array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0] => [$keys[0]=>'SUBS_ALL']])]);
 								array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[$key[0]=>[$keys[0]=>CMD_NEXT]])]);//[$k[0]=>[$prev[$k[0]]=>$key]]
 								array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,$key[0])]);
@@ -518,7 +534,7 @@ switch ($type) {
 							$msg = "Список подкатегорий в $key[0].\nНажмите для открытия подкатегорий.\n";
 							myLog("???");
 							$keys_2 = array_keys($array[$key[0]]);
-							$buttons = getKbd_3(7,count($keys_2),$keys_2,$key[0]);//count($keys_2)
+							$buttons = getKbd(7,count($keys_2),$keys_2,$key[0]);//count($keys_2)
 							array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0]=>'SUBS_ALL'])]);
 							array_push($buttons,[getBtn('<-- На пред. стр.', COLOR_NEGATIVE,$key[0]),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 							array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,CMD_BACK)]);
@@ -538,13 +554,13 @@ switch ($type) {
 							/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)*/
 							if(count($keys_2)<9)
 							{
-								$buttons = getKbd_3(0,count($keys_2),$keys_2,$key[0]);//count($keys_2)
+								$buttons = getKbd(0,count($keys_2),$keys_2,$key[0]);//count($keys_2)
 								array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0]=>'SUBS_ALL'])]);
 								array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 							}
 							else
 							{
-								$buttons = getKbd_3(0,7,$keys_2,$payload);//count($keys_2)
+								$buttons = getKbd(0,7,$keys_2,$payload);//count($keys_2)
 								array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0]=>'SUBS_ALL'])]);
 								array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[$key[0]=>CMD_NEXT])]);
 								array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,CMD_BACK)]);
@@ -566,7 +582,7 @@ switch ($type) {
 							/*---------ДК------*/
 							$keys_2 = array_keys($array[$key[0]]);
 							/*в прочем 1 кнопка поэтому не вставлял слишком большой кусок, но надо исправить*/
-							$buttons = getKbd_3(0,count($keys_2),$keys_2,$key[0]);//count($keys_2)
+							$buttons = getKbd(0,count($keys_2),$keys_2,$key[0]);//count($keys_2)
 							array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0]=>'SUBS_ALL'])]);
 							array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 							
@@ -639,13 +655,13 @@ switch ($type) {
 							/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)*/
 							if(count($keys_3)<9)
 							{
-								$buttons = getKbd_3(0,count($keys_3),$keys_3,$payload);
+								$buttons = getKbd(0,count($keys_3),$keys_3,$payload);
 								array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0] => [$payload[$key[0]]=>'SUBS_ALL']])]);//[$payload=>'SA']   [$k[0]=>[$prev[$k[0]]=>$key]]
 								array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,$key[0]),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 							}
 							else
 							{
-								$buttons = getKbd_3(0,7,$keys_3,$payload);//count($keys_2)
+								$buttons = getKbd(0,7,$keys_3,$payload);//count($keys_2)
 								array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0] => [$payload[$key[0]]=>'SUBS_ALL']])]);
 								array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[$key[0]=>[$payload[$key[0]]=>CMD_NEXT]])]);//[$k[0]=>[$prev[$k[0]]=>$key]]
 								array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,$key[0])]);
@@ -671,13 +687,13 @@ switch ($type) {
 						{
 							$msg = "Список подкатегорий в $payload.\nНажмите чтобы подписаться.\n";
 						}
-						$buttons = getKbd_3(0,count($keys_2),$keys_2,$payload);//count($keys_2)
+						$buttons = getKbd(0,count($keys_2),$keys_2,$payload);//count($keys_2)
 						array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL'])]);
 						array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 					}
 					else
 					{
-						$buttons = getKbd_3(0,7,$keys_2,$payload);//count($keys_2)
+						$buttons = getKbd(0,7,$keys_2,$payload);//count($keys_2)
 						array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL'])]);
 						array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[$payload=>CMD_NEXT])]);
 						array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,CMD_BACK)]);
