@@ -140,10 +140,13 @@ function add_to_file($str, $userId)
 		if(strpos($user_data,$str) === 0)
 		{
 			unset($data[$userId][$idx]);	// Удалить подписку
+			myLog("data: ".json_encode($data,JSON_UNESCAPED_UNICODE));
 		}
 	}
+	
 	$data[$userId][]="$str";	// Добавить подписку
-	$data[$userId] = array_values($data[$userId]);
+	$data[$userId] = array_values($data[$userId]); //переиндексируем с 0 до конца
+	myLog("data: ".json_encode($data,JSON_UNESCAPED_UNICODE));
 	file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
 	unset($data);
 	return $msg = "Вы успешно подписались на $str";//.$payload[$key[0]][$keys[0]];
