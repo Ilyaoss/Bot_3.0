@@ -139,8 +139,7 @@ function add_to_file($str, $userId)
 		/*Если наша категория является родительской, то мы убираем всех её детей и добавляем её*/
 		if(strpos($user_data,$str) === 0)
 		{
-			unset($data[$userId][$idx]);	// Удалить подписку
-			myLog("data: ".json_encode($data,JSON_UNESCAPED_UNICODE));
+			unset($data[$userId][$i]);	// Удалить подписку
 		}
 	}
 	
