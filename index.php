@@ -226,6 +226,7 @@ switch ($type) {
 					'one_time' => false,
 					'buttons' => $buttons
 				];
+				$payload = '';
 				break;
 			case CMD_MY:
 				$msg = "Список моих подписок:\n";
@@ -276,6 +277,7 @@ switch ($type) {
 					'one_time' => false,
 					'buttons' => $buttons
 				];
+				$payload = '';
 				break;
 			case CMD_UNSUBS:
 				$msg = 'Нажмите, чтобы отписаться';
@@ -317,6 +319,7 @@ switch ($type) {
 					'one_time' => false,
 					'buttons' => $buttons
 				];
+				$payload = '';
 				break;
 			case CMD_UNSUBS_ALL:
 				$msg = 'Вы точно хотите от всего отписаться?';
@@ -326,6 +329,7 @@ switch ($type) {
 					'one_time' => false,
 					'buttons' => $buttons
 				];
+				$payload = '';
 				break;
 			case CMD_YES:
 				$data = read_file($userId);		   
@@ -357,6 +361,7 @@ switch ($type) {
 					'one_time' => false,
 					'buttons' => $buttons
 				];
+				$payload = '';
 				break;
 				
 			/*case CMD_CAT:
