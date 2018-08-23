@@ -375,15 +375,7 @@ switch ($type) {
 						{
 							$msg = "Список подкатегорий в $key[0].$keys[0].\nНажмите для чтобы подписаться.\n";
 							$keys_3 = $array[$key[0]][$keys[0]];
-							$buttons = getKbd(7,count($keys_3),$keys_3,[$key[0]=>$keys[0]]);//count($keys_2)
-							array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL'])]);
-							array_push($buttons,[getBtn('<-- На пред. стр.', COLOR_NEGATIVE,[$key[0]=>$keys[0]]),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-							array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,CMD_BACK)]);
-							myLog("TEST ".json_encode($kbd, JSON_UNESCAPED_UNICODE));
-							$kbd = [
-								'one_time' => false,
-								'buttons' => $buttons
-							];
+							$kbd = get_Butt_level(3,$key_3,[$key[0]=>$keys[0]],true);
 						}
 						/*C 3 уровня пришла комманда SUBS_ALL*/
 						elseif($payload[$key[0]][$keys[0]]== 'SUBS_ALL')
@@ -393,28 +385,7 @@ switch ($type) {
 							$msg = add_to_file($str, $userId);
 							/*-------------DK------------*/
 							$keys_3 = $array[$key[0]][$keys[0]];
-							/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)*/
-							if(count($keys_3)<9)
-							{
-								$buttons = getKbd(0,count($keys_3),$keys_3,[$key[0]=>$keys[0]]);
-								array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0] => [$keys[0]=>'SUBS_ALL']])]);//[$payload=>'SA']   [$k[0]=>[$prev[$k[0]]=>$key]]
-								array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,$key[0]),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-							}
-							else
-							{
-								$buttons = getKbd(0,7,$keys_3,$payload);//count($keys_2)
-								array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0] => [$keys[0]=>'SUBS_ALL']])]);
-								array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[$key[0]=>[$keys[0]=>CMD_NEXT]])]);//[$k[0]=>[$prev[$k[0]]=>$key]]
-								array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,$key[0])]);
-							}
-							myLog("Keys3: ".json_encode($keys_3,JSON_UNESCAPED_UNICODE));
-							//buttons = getKbd_2(0,count($keys_2),$keys_2,$payload);//count($keys_2)
-							//array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,[$payload=>CMD_BACK])]);
-							//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-							$kbd = [
-								'one_time' => false,
-								'buttons' => $buttons
-							];
+							$kbd = get_Butt_level(3,$key_3,[$key[0]=>$keys[0]]);
 							/*------------DK--------------*/
 						}
 						else{
@@ -423,28 +394,7 @@ switch ($type) {
 							$msg = add_to_file($str, $userId);
 							/*Отправляем клавиатуру*/
 							$keys_3 = $array[$key[0]][$keys[0]];
-							/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)*/
-							if(count($keys_3)<9)
-							{
-								$buttons = getKbd(0,count($keys_3),$keys_3,[$key[0]=>$keys[0]]);
-								array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0] => [$keys[0]=>'SUBS_ALL']])]);//[$payload=>'SA']   [$k[0]=>[$prev[$k[0]]=>$key]]
-								array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,$key[0]),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-							}
-							else
-							{
-								$buttons = getKbd(0,7,$keys_3,[$key[0]=>$keys[0]]);//count($keys_2)
-								array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0] => [$keys[0]=>'SUBS_ALL']])]);
-								array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[$key[0]=>[$keys[0]=>CMD_NEXT]])]);//[$k[0]=>[$prev[$k[0]]=>$key]]
-								array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,$key[0])]);
-							}
-							myLog("Keys3: ".json_encode($keys_3,JSON_UNESCAPED_UNICODE));
-							//buttons = getKbd_2(0,count($keys_2),$keys_2,$payload);//count($keys_2)
-							//array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,[$payload=>CMD_BACK])]);
-							//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-							$kbd = [
-								'one_time' => false,
-								'buttons' => $buttons
-							];
+							$kbd = get_Butt_level(3,$key_3,[$key[0]=>$keys[0]]);
 						}
 						
 					}
