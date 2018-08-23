@@ -539,7 +539,7 @@ switch ($type) {
 							$keys_3 = $array[$key[0]][$payload[$key[0]]];
 							myLog("Keys3: ".json_encode($keys_3,JSON_UNESCAPED_UNICODE));
 
-							$kbd = get_Butt_level(2,$keys_3,$payload);
+							$kbd = get_Butt_level(3,$keys_3,$payload);
 							myLog("CHECK THIS OUT: ".json_encode($kbd,JSON_UNESCAPED_UNICODE));
 						}
 					}
