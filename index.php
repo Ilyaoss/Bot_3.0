@@ -298,9 +298,7 @@ switch ($type) {
 				$payload = CMD_MAIN;
 				break;
 			case CMD_NEXT:
-				
 				$kbd = get_Butt_level(1,$keys_1,null,true);
-
 				break;
 			case CMD_UNSUBS:
 				$msg = 'Нажмите, чтобы отписаться';
