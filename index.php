@@ -151,7 +151,7 @@ $sheet = $xls->getActiveSheet();
 $def_mas = $sheet->toArray();
 
 $json = file_get_contents('php://input');
-myLog($json);
+myLog("JSON".$json);
 /*--*/
 $data = json_decode($json, true);
 $type = $data['type'] ?? '';
@@ -172,6 +172,17 @@ $keys_3 = array_column($def_mas, 2);
 $buttons = [];
 
 switch ($type) {
+	case 'message_reply':
+		$message = $data['object'] ?? [];
+		$userId = $message['from_id'] ?? 0; //user_id
+		$body = $message['body'] ?? '';
+		$payload = $message['payload'] ?? '';
+		$text = $message['text'] ?? '';
+		myLog("message_reply: ".$text." PAYLOAD string:".$payload);
+		if ($payload) {
+			$payload = json_decode($payload, true);
+		}
+		myLog("message_reply: ".$text." PAYLOAD:".$payload);
 	case 'message_new':
 		$message = $data['object'] ?? [];
 		$userId = $message['from_id'] ?? 0; //user_id
@@ -232,7 +243,8 @@ switch ($type) {
 					$msg = 'Нет активных подписок';
 					
 				}
-				/*----------------*/
+				
+				/*----------------
 				$buttons = [];
 				array_push($buttons,[getBtn('Подписаться на категории', COLOR_DEFAULT,CMD_CAT)]);
 				array_push($buttons,[getBtn('Мои подписки', COLOR_DEFAULT,CMD_MY)]);
@@ -242,15 +254,17 @@ switch ($type) {
 					'buttons' => $buttons
 				];
 				/*----------------*/
+				$payload = CMD_MAIN;
 				break;
 			case CMD_BACK:
-				$buttons = getKbd(0,9,$keys_1);
+				/*$buttons = getKbd(0,9,$keys_1);
 				array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('Далее-->', COLOR_POSITIVE,CMD_NEXT)]);
 				//array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
 				$kbd = [
 					'one_time' => false,
 					'buttons' => $buttons
-				];
+				];*/
+				$payload = CMD_MAIN;
 				break;
 			case CMD_NEXT:
 				$buttons = getKbd(10,count($keys_1),$keys_1);
@@ -267,10 +281,10 @@ switch ($type) {
 				$data = read_file();
 				$user_data = $data[$userId];
 				myLog("userdata: ".json_encode($user_data,JSON_UNESCAPED_UNICODE));
-				if($user_data==null)
+				if(is_null($user_data))
 				{
 					$msg = 'Нет активных подписок';
-					/*----------------*/
+					/*----------------
 					$buttons = [];
 					array_push($buttons,[getBtn('Подписаться на категории', COLOR_DEFAULT,CMD_CAT)]);
 					array_push($buttons,[getBtn('Мои подписки', COLOR_DEFAULT,CMD_MY)]);
@@ -280,8 +294,10 @@ switch ($type) {
 						'buttons' => $buttons
 					];
 					/*----------------*/
+					$payload = CMD_MAIN;
 					break;
 				}
+				
 				if(count($user_data)<9)
 				{
 					myLog("&&");
@@ -316,7 +332,7 @@ switch ($type) {
 				file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
 				unset($data);
 				$msg = 'Все подписки отменены';
-				/*----------------*/
+				/*----------------
 				$buttons = [];
 				array_push($buttons,[getBtn('Подписаться на категории', COLOR_DEFAULT,CMD_CAT)]);
 				array_push($buttons,[getBtn('Мои подписки', COLOR_DEFAULT,CMD_MY)]);
@@ -326,6 +342,7 @@ switch ($type) {
 					'buttons' => $buttons
 				];
 				/*----------------*/
+				$payload = CMD_MAIN;
 				$kbd = [
 					'one_time' => false,
 					'buttons' => $buttons
@@ -497,9 +514,9 @@ switch ($type) {
 						{
 							$str = $key[0];
 							$msg = add_to_file($str, $userId);
-							/*---------ДК------*/
+							/*---------ДК------
 							$keys_2 = array_keys($array[$key[0]]);
-							/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)*/
+							/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)
 							if(count($keys_2)<9)
 							{
 								$buttons = getKbd(0,count($keys_2),$keys_2,$key[0]);//count($keys_2)
@@ -521,25 +538,14 @@ switch ($type) {
 								'buttons' => $buttons
 							];
 							/*---------ДК------*/
+							$payload = $key[0];
 						}
 						/*прочее*/
 						elseif($payload[$key[0]]==='Прочее')
 						{
 							$str = "$key[0].".$payload[$key[0]];
 							$msg = add_to_file($str, $userId);
-							/*---------ДК------*/
-							$keys_2 = array_keys($array[$key[0]]);
-							/*в прочем 1 кнопка поэтому не вставлял слишком большой кусок, но надо исправить*/
-							$buttons = getKbd(0,count($keys_2),$keys_2,$key[0]);//count($keys_2)
-							array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0]=>'SUBS_ALL'])]);
-							array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_BACK),getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-							
-							
-							$kbd = [
-								'one_time' => false,
-								'buttons' => $buttons
-							];
-							/*---------ДК------*/
+							$payload = $key[0]; //??
 						}
 						/*след страница отписок*/
 						elseif($key[0]===CMD_UNSUBS)
@@ -550,16 +556,7 @@ switch ($type) {
 							{
 								$s = substr($payload[$key[0]],1);
 								$msg = delete_from_file($s,$userId);
-								/*----------------*/
-								$buttons = [];
-								array_push($buttons,[getBtn('Подписаться на категории', COLOR_DEFAULT,CMD_CAT)]);
-								array_push($buttons,[getBtn('Мои подписки', COLOR_DEFAULT,CMD_MY)]);
-								array_push($buttons,[getBtn('Отписаться', COLOR_DEFAULT,CMD_UNSUBS)]);
-								$kbd = [
-									'one_time' => false,
-									'buttons' => $buttons
-								];
-								/*----------------*/
+								$payload = CMD_MAIN;
 							}
 							else
 							{
@@ -661,7 +658,8 @@ switch ($type) {
 				$response = $vk->messages()->send(VK_TOKEN, [
 					'peer_id' => $userId,
 					'message' => $msg,
-					'keyboard' => json_encode($kbd, JSON_UNESCAPED_UNICODE)
+					'keyboard' => json_encode($kbd, JSON_UNESCAPED_UNICODE),
+					'payload' => $payload
 				]);
 			}
 		} catch (\Exception $e) {
@@ -670,21 +668,6 @@ switch ($type) {
 		}
 		echo  "OK";
 		break;
-	case 'message_reply':
-	{
-		$message = $data['object'] ?? [];
-		$userId = $message['from_id'] ?? 0; //user_id
-		$body = $message['body'] ?? '';
-		$payload = $message['payload'] ?? '';
-		$text = $message['text'] ?? '';
-		myLog("message_reply: ".$text." PAYLOAD string:".$payload);
-		if ($payload) {
-			$payload = json_decode($payload, true);
-		}
-		myLog("message_reply: ".$text." PAYLOAD:".$payload);
-		echo  "OK";
-		break;
-	}
 	case 'confirmation': 
 		//...отправляем строку для подтверждения 
 		echo $confirmation_token; 
