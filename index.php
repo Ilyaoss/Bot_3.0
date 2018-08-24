@@ -34,13 +34,17 @@ const VK_TOKEN = '887f275780153f8d0a42339e542ecb1f1b6a47bce9385aea12ada07d3a4590
 $confirmation_token = 'd18ce045'; 
  
 function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
-	if(strlen($label)>MAX_LENGHT)
+	$MAX_LENGHT = mb_strlen('Список подкатегорий 1-го уровня, нажмите','UTF-8');
+	if(strlen($label)>$MAX_LENGHT)
 	{
-		$start = MAX_LENGHT/2 - 8;
-		$end = MAX_LENGHT/2 + 1 + strlen($label)%2; //если нечетное прибавляем 1, иначе 0
-		myLog("Lab bef: $label count:".strlen($label));
-		$label = substr($label,0,$start).".. ..".substr($label,-(MAX_LENGHT-$end));
-		myLog("Lab aft: $label count:".strlen($label));
+		$start = $MAX_LENGHT/2 - 8;
+		$end = $MAX_LENGHT/2 + 2;// + strlen($label)%2; //если нечетное прибавляем 1, иначе 0
+		$first_part = mb_substr ($label,0,$start,"utf-8");
+		$sec_part = mb_substr ($label,-($MAX_LENGHT-$end),null,"utf-8");
+		$one_byty_symb = substr_count($sec_part, '.')+substr_count($sec_part, '(')+substr_count($sec_part, ')');
+		myLog("Lab bef: $label count:".mb_strlen($label,'UTF-8'));
+		$label = $first_part.".. ..".$sec_part;
+		myLog("Lab aft: $label count:".mb_strlen($label,'UTF-8'));
 	}
 	return [
         'action' => [
