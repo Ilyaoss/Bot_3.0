@@ -284,23 +284,26 @@ switch ($type) {
 				$kbd = get_Butt_level(1,$keys_1);
 				break;
 			case CMD_MY:
-				$msg = "Список моих подписок:\n";
 				$file = file_get_contents(__DIR__ . '/data.json');  // Открыть файл data.json
 				myLog("file: $file");
-				$data = json_decode($file,TRUE);   // Декодировать в массив 						
-				unset($file);                      // Очистить переменную $file		   
+				$data = json_decode($file,TRUE);   // Декодировать в массив 
 				$my_subs = $data[$userId];
-				foreach($my_subs as $item)
-				{
-					$msg = $msg."-$item\n";
-				}
-				unset($data);
-				if($msg=="Список моих подписок:\n")
+				
+				myLog("mysubs".$my_subs.json_encode($my_subs,JSON_UNESCAPED_UNICODE));
+				$msg = "Список моих подписок:\n";						
+				
+				if(is_null($my_subs))
 				{
 					$msg = 'Нет активных подписок';
 				}
-				
-				$kbd = get_Butt_level(0);
+				else
+				{
+					foreach($my_subs as $item)
+					{
+						$msg = $msg."-$item\n";
+					}
+				}
+				$kbd = null;
 				break;
 			case CMD_BACK:			
 				$kbd = get_Butt_level(1,$keys_1);
@@ -316,7 +319,7 @@ switch ($type) {
 				if(is_null($user_data))
 				{
 					$msg = 'Нет активных подписок';
-					$kbd = get_Butt_level(0);
+					$kbd = null;
 				}
 				else
 				{
