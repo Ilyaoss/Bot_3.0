@@ -177,7 +177,7 @@ function get_Butt_unsub($userId)
 	$data = read_file();
 	$user_data = $data[$userId];
 	myLog("userdata: ".json_encode($user_data,JSON_UNESCAPED_UNICODE));
-	if(is_null($user_data))
+	if(is_null($user_data)||$user_data===[])
 	{
 		$msg = 'Нет активных подписок';
 		$kbd = null;
@@ -323,7 +323,7 @@ switch ($type) {
 				myLog("mysubs".$my_subs.json_encode($my_subs,JSON_UNESCAPED_UNICODE));
 				$msg = "Список моих подписок:\n";						
 				
-				if(is_null($my_subs))
+				if(is_null($my_subs)||$my_subs===[])
 				{
 					$msg = 'Нет активных подписок';
 				}
