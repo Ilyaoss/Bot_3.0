@@ -278,7 +278,7 @@ switch ($type) {
 							$msg = "Список подкатегорий в $key[0].".$payload[$key[0]].".\nНажмите для чтобы подписаться.\n";
 							$keys_3 = $array[$key[0]][$payload[$key[0]]];
 							/*Если нет третьего уровня то подписка осуществляется*/
-							if($keys_3 == [])//$payload=='Прочее'
+							if($keys_3 == [null])//$payload=='Прочее'
 							{
 								$str = "$key[0].".$payload[$key[0]];
 								$msg = add_to_file($str, $userId);
@@ -299,9 +299,7 @@ switch ($type) {
 					$msg = "Список подкатегорий в $payload.\nНажмите для открытия подкатегорий.\n";
 					$keys_2 = array_keys($array[$payload]);
 					/*Если нет третьего уровня то подписка на 2 осуществляется*/
-					/* ==[] ~ (===[] || is_array(null))*/
-					myLog("нал?: ".json_encode($array[$payload][$keys_2[0]],JSON_UNESCAPED_UNICODE));
-					if($array[$payload][$keys_2[0]] == [])//$payload=='Прочее'
+					if($array[$payload][$keys_2[0]] == [null])//$payload=='Прочее'
 					{
 						$msg = "Список подкатегорий в $payload.\nНажмите чтобы подписаться.\n";
 					}
