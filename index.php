@@ -59,8 +59,6 @@ for($i=1;$i<count($def_mas);++$i) {
 }
 
 $keys_1 = array_keys($array); /*Кнопки 1-го уровня*/
-$keys_2 = array_unique(array_column($def_mas, 1),SORT_REGULAR);
-$keys_3 = array_column($def_mas, 2);
 
 $buttons = [];
 $kbd = [];
@@ -104,15 +102,14 @@ switch ($type) {
 				myLog("history".json_encode($history,JSON_UNESCAPED_UNICODE));
 			case CMD_MAIN:
 				$msg = "Нажмите любую кнопку";			
-				$kbd = get_Butt_level(0);
+				$kbd = get_Kbd_level(0);
 				break;
 			case CMD_CAT:
-				$kbd = get_Butt_level(1,$keys_1);
+				$kbd = get_Kbd_level(1,$keys_1);
 				break;
 			case CMD_MY:
-				$file = file_get_contents(__DIR__ . '/data.json');  // Открыть файл data.json
-				myLog("file: $file");
-				$data = json_decode($file,TRUE);   // Декодировать в массив 
+
+				$data = read_file(); 
 				$my_subs = $data[$userId];
 				
 				myLog("mysubs".$my_subs.json_encode($my_subs,JSON_UNESCAPED_UNICODE));
@@ -132,10 +129,10 @@ switch ($type) {
 				$kbd = null;
 				break;
 			case CMD_NEXT:
-				$kbd = get_Butt_level(1,$keys_1,null,true);
+				$kbd = get_Kbd_level(1,$keys_1,null,true);
 				break;
 			case CMD_UNSUBS:
-				$kbd = get_Butt_unsub($userId);
+				$kbd = get_Kbd_unsub($userId);
 				if(is_null($kbd))
 				{
 					$msg = 'Нет активных подписок';
@@ -160,7 +157,7 @@ switch ($type) {
 				file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
 				unset($data);
 				$msg = 'Все подписки отменены';
-				$kbd = get_Butt_level(0);
+				$kbd = get_Kbd_level(0);
 				break;
 			case CMD_FEEDBACK:
 				$msg = 'Опиши и отправь мне проблему с которой ты столкнулся';
@@ -185,7 +182,7 @@ switch ($type) {
 						{
 							$msg = "Список подкатегорий в $key[0].$keys[0].\nНажмите для чтобы подписаться.\n";
 							$keys_3 = $array[$key[0]][$keys[0]];
-							$kbd = get_Butt_level(3,$keys_3,[$key[0]=>$keys[0]],true);
+							$kbd = get_Kbd_level(3,$keys_3,[$key[0]=>$keys[0]],true);
 						}
 						/*C 3 уровня пришла комманда SUBS_ALL*/
 						elseif($payload[$key[0]][$keys[0]]== 'SUBS_ALL')
@@ -193,14 +190,14 @@ switch ($type) {
 							$str = "$key[0].$keys[0]";
 							$msg = add_to_file($str, $userId);
 							$keys_3 = $array[$key[0]][$keys[0]];
-							$kbd = null;//get_Butt_level(3,$keys_3,[$key[0]=>$keys[0]]);
+							$kbd = null;//get_Kbd_level(3,$keys_3,[$key[0]=>$keys[0]]);
 						}
 						else{
 							
 							$str = "$key[0].$keys[0].".$payload[$key[0]][$keys[0]];
 							$msg = add_to_file($str, $userId);
 							$keys_3 = $array[$key[0]][$keys[0]];
-							$kbd = null;//get_Butt_level(3,$keys_3,[$key[0]=>$keys[0]]);
+							$kbd = null;//get_Kbd_level(3,$keys_3,[$key[0]=>$keys[0]]);
 						}
 						
 					}
@@ -212,7 +209,7 @@ switch ($type) {
 						{
 							$msg = "Список подкатегорий в $key[0].\nНажмите для открытия подкатегорий.\n";
 							$keys_2 = array_keys($array[$key[0]]);
-							$kbd = get_Butt_level(2,$keys_2,$key[0],true);
+							$kbd = get_Kbd_level(2,$keys_2,$key[0],true);
 							myLog("TEST ".json_encode($kbd, JSON_UNESCAPED_UNICODE));
 						}
 						elseif($payload[$key[0]]=== 'SUBS_ALL')
@@ -220,7 +217,7 @@ switch ($type) {
 							$str = $key[0];
 							$msg = add_to_file($str, $userId);
 							$keys_2 = array_keys($array[$key[0]]);
-							$kbd = null;//get_Butt_level(2,$keys_2,$key[0]);
+							$kbd = null;//get_Kbd_level(2,$keys_2,$key[0]);
 							
 							//myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
 						}
@@ -233,12 +230,12 @@ switch ($type) {
 							{
 								$s = substr($payload[$key[0]],1);
 								$msg = delete_from_file($s,$userId);
-								$kbd = get_Butt_unsub($userId);
+								$kbd = get_Kbd_unsub($userId);
 								if(is_null($kbd))
 								{
 									sendMsg($vk,$userId,$msg);
 									$msg = "Нажмите любую кнопку";			
-									$kbd = get_Butt_level(0);
+									$kbd = get_Kbd_level(0);
 								}
 							}
 							/*Переход по страницами*/
@@ -253,7 +250,7 @@ switch ($type) {
 								$b_prev = getBtn('<-- На пред. стр.', COLOR_NEGATIVE,[CMD_UNSUBS=>$idx-1]);
 								if(8*($idx+1)<count($user_data))
 								{
-									$buttons = getKbd_unsub(8*$idx,8*($idx+1),$user_data);
+									$buttons = get_Buttons_unsub(8*$idx,8*($idx+1),$user_data);
 									array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,'UNSUBS_ALL')]);
 									if($idx > 0)
 									{
@@ -267,7 +264,7 @@ switch ($type) {
 								}
 								else
 								{
-									$buttons = getKbd_unsub(8*$idx,count($user_data),$user_data);
+									$buttons = get_Buttons_unsub(8*$idx,count($user_data),$user_data);
 									array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,'UNSUBS_ALL')]);
 									array_push($buttons,[$b_prev,$b_main]);
 								}
@@ -286,11 +283,11 @@ switch ($type) {
 							{
 								$str = "$key[0].".$payload[$key[0]];
 								$msg = add_to_file($str, $userId);
-								$kbd = null;//get_Butt_level(2,$keys_2,$key[0]);
+								$kbd = null;//get_Kbd_level(2,$keys_2,$key[0]);
 							}
 							else
 							{
-								$kbd = get_Butt_level(3,$keys_3,$payload);
+								$kbd = get_Kbd_level(3,$keys_3,$payload);
 							}
 							myLog("Keys3: ".json_encode($keys_3,JSON_UNESCAPED_UNICODE));
 							myLog("CHECK THIS OUT: ".json_encode($kbd,JSON_UNESCAPED_UNICODE));
@@ -308,7 +305,7 @@ switch ($type) {
 						$msg = "Список подкатегорий в $payload.\nНажмите чтобы подписаться.\n";
 					}
 					
-					$kbd = get_Butt_level(2,$keys_2,$payload);
+					$kbd = get_Kbd_level(2,$keys_2,$payload);
 					
 					myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
 					myLog("CHECK THIS OUT: ".json_encode($kbd,JSON_UNESCAPED_UNICODE));
