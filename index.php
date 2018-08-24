@@ -97,6 +97,15 @@ switch ($type) {
 				if($sec_item["text"]==='Опиши и отправь мне проблему с которой ты столкнулся')
 				{
 					$msg = "Отлично, теперь жди ответа, с тобой обязательно свяжутся\n\n";
+					try {
+						$response = $vk->messages()->send(VK_TOKEN, [
+							'peer_id' => $userId,
+							'message' => $msg
+						]);	
+					} catch (\Exception $e) {
+					myLog( $e->getCode().' '.$e->getMessage() );
+					
+					}
 				}
 				else
 				{
