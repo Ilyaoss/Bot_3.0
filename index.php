@@ -455,7 +455,7 @@ switch ($type) {
 								$kbd = get_Butt_unsub($userId);
 								if(is_null($kbd))
 								{
-									$msg = "Нажмите любую кнопку";			
+									$msg = $msg."\n\nНажмите любую кнопку";			
 									$kbd = get_Butt_level(0);
 								}
 							}
