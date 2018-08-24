@@ -172,8 +172,41 @@ function get_Butt_level($lvl,$keys = null,$payload = null,$CMD_NEXT = false){
 			];
 }
 
+function get_Butt_unsub($userId)
+{
+	$data = read_file();
+	$user_data = $data[$userId];
+	myLog("userdata: ".json_encode($user_data,JSON_UNESCAPED_UNICODE));
+	if(is_null($user_data))
+	{
+		$msg = 'Нет активных подписок';
+		$kbd = null;
+	}
+	else
+	{
+		if(count($user_data)<9)
+		{
+			$buttons = getKbd_unsub(0,count($user_data),$user_data);
+			array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,CMD_UNSUBS_ALL)]);
+			array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
+		}
+		else
+		{
+			$buttons = getKbd_unsub(0,8,$user_data);
+			array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,CMD_UNSUBS_ALL)]);
+			array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[CMD_UNSUBS=>1])]);//[$k[0]=>[$prev[$k[0]]=>$key]]
+		}
+		myLog("buttons: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
+		$kbd = [
+			'one_time' => false,
+			'buttons' => $buttons
+		];
+	}
+	return $kbd;
+}
+
 function add_to_file($str, $userId){
-	$data = read_file($userId);
+	$data = read_file();
 	$length = count($data[$userId]);
 	for($i=0;$i<$length;++$i)
 	{
@@ -196,20 +229,18 @@ function add_to_file($str, $userId){
 	$data[$userId] = array_values($data[$userId]); //переиндексируем с 0 до конца
 	myLog("data: ".json_encode($data,JSON_UNESCAPED_UNICODE));
 	file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
-	unset($data);
 	return $msg = "Вы успешно подписались на $str";//.$payload[$key[0]][$keys[0]];
 }
 
 function read_file(){
 	$file = file_get_contents(__DIR__ . '/data.json');  // Открыть файл data.json
 	myLog("file: $file");
-	$data = json_decode($file,TRUE);        // Декодировать в массив 						
-	unset($file);                               // Очистить переменную $file		   
+	$data = json_decode($file,TRUE);        // Декодировать в массив 								   
 	return $data;
 }
 
 function delete_from_file($idx, $userId){
-	$data = read_file($userId);		   
+	$data = read_file();		   
 	$msg = "Вы успешно отписались от  ".$data[$userId][$idx];
 	unset($data[$userId][$idx]);	// Удалить подписку
 	$data[$userId] = array_values($data[$userId]);
@@ -312,35 +343,14 @@ switch ($type) {
 				$kbd = get_Butt_level(1,$keys_1,null,true);
 				break;
 			case CMD_UNSUBS:
-				$msg = 'Нажмите, чтобы отписаться';
-				$data = read_file();
-				$user_data = $data[$userId];
-				myLog("userdata: ".json_encode($user_data,JSON_UNESCAPED_UNICODE));
-				if(is_null($user_data))
+				$kbd = get_Butt_unsub($userId);
+				if(is_null($kbd))
 				{
 					$msg = 'Нет активных подписок';
-					$kbd = null;
 				}
 				else
 				{
-					if(count($user_data)<9)
-					{
-						myLog("&&");
-						$buttons = getKbd_unsub(0,count($user_data),$user_data);
-						array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,CMD_UNSUBS_ALL)]);
-						array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
-					}
-					else
-					{
-						$buttons = getKbd_unsub(0,8,$user_data);
-						array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,CMD_UNSUBS_ALL)]);
-						array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[CMD_UNSUBS=>1])]);//[$k[0]=>[$prev[$k[0]]=>$key]]
-					}
-					myLog("buttons: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
-					$kbd = [
-						'one_time' => false,
-						'buttons' => $buttons
-					];
+					$msg = 'Нажмите, чтобы отписаться';
 				}
 				break;
 			case CMD_UNSUBS_ALL:
@@ -442,7 +452,12 @@ switch ($type) {
 							{
 								$s = substr($payload[$key[0]],1);
 								$msg = delete_from_file($s,$userId);
-								$payload = CMD_MAIN;
+								$kbd = get_Butt_unsub($userId);
+								if(is_null($kbd))
+								{
+									$msg = "Нажмите любую кнопку";			
+									$kbd = get_Butt_level(0);
+								}
 							}
 							else
 							{
