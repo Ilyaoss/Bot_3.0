@@ -1,5 +1,6 @@
 {
     "require": {
-        "vkcom/vk-php-sdk": "^5.80"
+        "vkcom/vk-php-sdk": "^5.80",
+		"ext-mbstring": "*"
     }
 }
