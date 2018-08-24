@@ -94,11 +94,20 @@ switch ($type) {
 				$first_item = $history["items"][0];
 				$sec_item = $history["items"][1];
 				$text = $first_item["text"];
+				if($sec_item["text"]==='Опиши и отправь мне проблему с которой ты столкнулся')
+				{
+					$msg = 'Отлично, теперь жди ответа, с тобой обязательно свяжутся\n\n';
+				}
+				else
+				{
+					$msg = '';
+				}
+				$msg = 'Отлично, теперь жди ответа, с тобой обязательно свяжутся';
 				myLog("text 0: $text");
 				myLog("text 0: ".$sec_item["text"]);
 				myLog("history".json_encode($history,JSON_UNESCAPED_UNICODE));
 			case CMD_MAIN:
-				$msg = "Нажмите любую кнопку";			
+				$msg = $msg."Нажмите любую кнопку";			
 				$kbd = get_Butt_level(0);
 				break;
 			case CMD_CAT:
