@@ -254,6 +254,7 @@ function getAdmins($vk,$group_id) {
 	} catch (\Exception $e) {
 		myLog( $e->getCode().' '.$e->getMessage() );
 	}
+	return $response;
 }
 
 ?>
