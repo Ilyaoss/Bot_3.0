@@ -82,7 +82,7 @@ switch ($type) {
 			$payload = json_decode($payload, true);
 		}
 		myLog("MSG: ".$body." PAYLOAD:".$payload);
-		$msg = '';
+		$msg = "Список подкатегорий 1-го уровня, нажмитете для перехода во 2 уровень";
 		
 		switch($payload){
 			case(''):
@@ -103,23 +103,17 @@ switch ($type) {
 							'message' => $msg
 						]);	
 					} catch (\Exception $e) {
-					myLog( $e->getCode().' '.$e->getMessage() );
-					
+						myLog( $e->getCode().' '.$e->getMessage() );
 					}
-				}
-				else
-				{
-					$msg = '';
 				}
 				myLog("text 0: $text");
 				myLog("text 0: ".$sec_item["text"]);
 				myLog("history".json_encode($history,JSON_UNESCAPED_UNICODE));
 			case CMD_MAIN:
-				$msg = $msg."Нажмите любую кнопку";			
+				$msg = "Нажмите любую кнопку";			
 				$kbd = get_Butt_level(0);
 				break;
 			case CMD_CAT:
-				$msg = "Список подкатегорий 1-го уровня, нажмитете для перехода во 2 уровень";
 				$kbd = get_Butt_level(1,$keys_1);
 				break;
 			case CMD_MY:
@@ -145,7 +139,6 @@ switch ($type) {
 				$kbd = null;
 				break;
 			case CMD_NEXT:
-				$msg = "Список подкатегорий 1-го уровня, нажмитете для перехода во 2 уровень";
 				$kbd = get_Butt_level(1,$keys_1,null,true);
 				break;
 			case CMD_UNSUBS:
