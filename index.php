@@ -102,7 +102,6 @@ switch ($type) {
 				{
 					$msg = '';
 				}
-				$msg = 'Отлично, теперь жди ответа, с тобой обязательно свяжутся';
 				myLog("text 0: $text");
 				myLog("text 0: ".$sec_item["text"]);
 				myLog("history".json_encode($history,JSON_UNESCAPED_UNICODE));
