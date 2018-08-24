@@ -220,7 +220,7 @@ function myLog($str) {
     file_put_contents("php://stdout", "$str\n");
 }
 
-function sendMsg($vk,$userId,$msg,$kbd = null) {
+function sendMsg($vk,$userId,$msg,$kbd = null,$forward_message = null) {
 	try {
 		if ($msg !== null) {
 			myLog("kbd: ".json_encode($kbd,JSON_UNESCAPED_UNICODE));
@@ -230,6 +230,14 @@ function sendMsg($vk,$userId,$msg,$kbd = null) {
 					'peer_id' => $userId,
 					'message' => $msg,
 					'keyboard' => json_encode($kbd, JSON_UNESCAPED_UNICODE)
+				]);
+			}
+			elseif()
+			{
+				$response = $vk->messages()->send(VK_TOKEN, [
+					'peer_id' => $userId,
+					'message' => $msg,
+					'forward_messages' => $forward_message
 				]);
 			}
 			else
