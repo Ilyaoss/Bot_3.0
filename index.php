@@ -35,7 +35,7 @@ $confirmation_token = 'd18ce045';
  
 function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
 	$MAX_LENGHT = mb_strlen('Список подкатегорий 1-го уровня, нажмите','UTF-8');
-	if(strlen($label)>$MAX_LENGHT)
+	if(mb_strlen($label)>$MAX_LENGHT)
 	{
 		$start = $MAX_LENGHT/2 - 8;
 		$end = $MAX_LENGHT/2 + 2;// + strlen($label)%2; //если нечетное прибавляем 1, иначе 0
