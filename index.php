@@ -94,6 +94,8 @@ switch ($type) {
 				$text = $first_item["text"];
 				if($sec_item["text"]==='Опиши и отправь мне проблему с которой ты столкнулся')
 				{
+					$admins = getAdmins($vk,169930012);
+					myLog("admins: ".json_encode($admins,JSON_UNESCAPED_UNICODE));
 					$msg = "Отлично, теперь жди ответа, с тобой обязательно свяжутся";
 					sendMsg($vk,$userId,$msg);
 				}

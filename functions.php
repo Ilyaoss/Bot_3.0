@@ -245,4 +245,17 @@ function sendMsg($vk,$userId,$msg,$kbd = null) {
 	}
 }
 
+function getAdmins($vk,$group_id) {
+	try {
+			$response = $vk->groups()->getMembers(VK_TOKEN, [
+				'filter' => 'managers',
+				'group_id' => $group_id
+				]);
+			
+		}
+	} catch (\Exception $e) {
+		myLog( $e->getCode().' '.$e->getMessage() );
+	}
+}
+
 ?>
