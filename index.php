@@ -389,7 +389,7 @@ switch ($type) {
 							$msg = add_to_file($str, $userId);
 							/*-------------DK------------*/
 							$keys_3 = $array[$key[0]][$keys[0]];
-							$kbd = get_Butt_level(3,$keys_3,[$key[0]=>$keys[0]]);
+							$kbd = null;//get_Butt_level(3,$keys_3,[$key[0]=>$keys[0]]);
 							/*------------DK--------------*/
 						}
 						else{
