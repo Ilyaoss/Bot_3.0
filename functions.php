@@ -232,7 +232,7 @@ function sendMsg($vk,$userId,$msg,$kbd = null,$forward_message = null) {
 					'keyboard' => json_encode($kbd, JSON_UNESCAPED_UNICODE)
 				]);
 			}
-			elseif()
+			elseif($forward_message !== null)
 			{
 				$response = $vk->messages()->send(VK_TOKEN, [
 					'peer_id' => $userId,
