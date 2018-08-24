@@ -436,7 +436,7 @@ switch ($type) {
 						/*след страница отписок*/
 						elseif($key[0]===CMD_UNSUBS)
 						{
-							$s = mb_substr($payload[$key[0]],0,1,'UTF-8');
+							$s = substr($payload[$key[0]],0,1);
 							myLog("s: ".$s);
 							if($s==='_')
 							{
