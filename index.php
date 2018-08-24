@@ -130,7 +130,7 @@ function get_Butt_level($lvl,$keys = null,$payload = null,$CMD_NEXT = false){
 			elseif($CMD_NEXT)
 			{
 				$buttons = getKbd(7,count($keys),$keys,$payload);
-				array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL']])]);
+				array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL'])]);
 				array_push($buttons,[getBtn('<-- На пред. стр.', COLOR_NEGATIVE,$payload),$b_main]);
 				array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,CMD_BACK)]);
 			}
