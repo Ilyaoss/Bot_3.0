@@ -300,10 +300,12 @@ switch ($type) {
 					$keys_2 = array_keys($array[$payload]);
 					/*Если нет третьего уровня то подписка на 2 осуществляется*/
 					/* ==[] ~ (===[] || is_array(null))*/
+					myLog("нал?: ".json_encode($array[$payload][$keys_2[0]],JSON_UNESCAPED_UNICODE));
 					if($array[$payload][$keys_2[0]] == [])//$payload=='Прочее'
 					{
 						$msg = "Список подкатегорий в $payload.\nНажмите чтобы подписаться.\n";
 					}
+					
 					$kbd = get_Butt_level(2,$keys_2,$payload);
 					
 					myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
