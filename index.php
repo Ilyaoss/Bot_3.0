@@ -96,15 +96,8 @@ switch ($type) {
 				$text = $first_item["text"];
 				if($sec_item["text"]==='Опиши и отправь мне проблему с которой ты столкнулся')
 				{
-					$msg = "Отлично, теперь жди ответа, с тобой обязательно свяжутся\n\n";
-					try {
-						$response = $vk->messages()->send(VK_TOKEN, [
-							'peer_id' => $userId,
-							'message' => $msg
-						]);	
-					} catch (\Exception $e) {
-						myLog( $e->getCode().' '.$e->getMessage() );
-					}
+					$msg = "Отлично, теперь жди ответа, с тобой обязательно свяжутся";
+					sendMsg($vk,$userId,$msg);
 				}
 				myLog("text 0: $text");
 				myLog("text 0: ".$sec_item["text"]);
@@ -243,7 +236,8 @@ switch ($type) {
 								$kbd = get_Butt_unsub($userId);
 								if(is_null($kbd))
 								{
-									$msg = $msg."\n\nНажмите любую кнопку";			
+									sendMsg($vk,$userId,$msg);
+									$msg = "Нажмите любую кнопку";			
 									$kbd = get_Butt_level(0);
 								}
 							}
@@ -320,29 +314,8 @@ switch ($type) {
 					myLog("CHECK THIS OUT: ".json_encode($kbd,JSON_UNESCAPED_UNICODE));
 				}
 		}
-		try {
-			if ($msg !== null) {
-				myLog("kbd: ".json_encode($kbd,JSON_UNESCAPED_UNICODE));
-				if($kbd!==null)
-				{
-					$response = $vk->messages()->send(VK_TOKEN, [
-						'peer_id' => $userId,
-						'message' => $msg,
-						'keyboard' => json_encode($kbd, JSON_UNESCAPED_UNICODE)
-					]);
-				}
-				else
-				{
-					$response = $vk->messages()->send(VK_TOKEN, [
-						'peer_id' => $userId,
-						'message' => $msg
-					]);
-				}
-			}
-		} catch (\Exception $e) {
-			myLog( $e->getCode().' '.$e->getMessage() );
-			
-		}
+		
+		sendMsg($vk,$userId,$msg,$kbd);
 		echo  "OK";
 		break;
 	case 'confirmation': 

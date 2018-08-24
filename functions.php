@@ -220,4 +220,29 @@ function myLog($str) {
     file_put_contents("php://stdout", "$str\n");
 }
 
+function sendMsg($vk,$userId,$msg,$kbd=null) {
+	try {
+		if ($msg !== null) {
+			myLog("kbd: ".json_encode($kbd,JSON_UNESCAPED_UNICODE));
+			if($kbd! == null)
+			{
+				$response = $vk->messages()->send(VK_TOKEN, [
+					'peer_id' => $userId,
+					'message' => $msg,
+					'keyboard' => json_encode($kbd, JSON_UNESCAPED_UNICODE)
+				]);
+			}
+			else
+			{
+				$response = $vk->messages()->send(VK_TOKEN, [
+					'peer_id' => $userId,
+					'message' => $msg
+				]);
+			}
+		}
+	} catch (\Exception $e) {
+		myLog( $e->getCode().' '.$e->getMessage() );
+	}
+}
+
 ?>
