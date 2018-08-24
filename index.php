@@ -26,7 +26,7 @@ const CMD_UNSUBS = 'UNSUBS';
 const CMD_UNSUBS_ALL = 'UNSUBS_ALL';
 const CMD_YES = 'YES';
 const CMD_FEEDBACK = 'FEEDBACK';
-const MAX_LENGHT = 74;
+const MAX_LENGHT = 40;
 //const MAX_LENGHT  = strlen('Список подкатегорий 1-го уровня, нажмите');
 const VK_TOKEN = '887f275780153f8d0a42339e542ecb1f1b6a47bce9385aea12ada07d3a459095800074da66b418d5911c9';
 //'0f0567f6ffa539268e0b6558d7622d375e6232283542932eadc135443d88109330c37b64bbb8c26bf525a';
@@ -86,6 +86,7 @@ switch ($type) {
 		
 		switch($payload){
 			case(''):
+				
 			case CMD_MAIN:
 				$msg = "Нажмите любую кнопку";			
 				$kbd = get_Butt_level(0);
@@ -161,6 +162,7 @@ switch ($type) {
 			default:
 				if(is_array($payload)){
 					$key = array_keys($payload);
+					/*Пришло сообщение от 3 уровня*/
 					if(is_array($payload[$key[0]]))
 					{
 						/*4-й уровень - подписка оформляется*/
@@ -190,10 +192,10 @@ switch ($type) {
 						}
 						
 					}
+					/*Пришло сообщение от 2 уровня*/
 					else
 					{	
-						/*Пришло сообщение от 2 уровня*/
-						myLog("MSG: ".$body." PAYLOAD_val:".$payload[$key[0]]);
+						myLog("PAYLOAD_val:".$payload[$key[0]]);
 						if($payload[$key[0]]=== CMD_NEXT)
 						{
 							$msg = "Список подкатегорий в $key[0].\nНажмите для открытия подкатегорий.\n";
@@ -201,32 +203,20 @@ switch ($type) {
 							$kbd = get_Butt_level(2,$keys_2,$key[0],true);
 							myLog("TEST ".json_encode($kbd, JSON_UNESCAPED_UNICODE));
 						}
-						/*C 2-го уровня пришла ком. SUBS ALL*/
 						elseif($payload[$key[0]]=== 'SUBS_ALL')
 						{
 							$str = $key[0];
 							$msg = add_to_file($str, $userId);
 							$keys_2 = array_keys($array[$key[0]]);
-							myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
 							$kbd = null;//get_Butt_level(2,$keys_2,$key[0]);
-							myLog("CHECK THIS OUT: ".json_encode($kbd,JSON_UNESCAPED_UNICODE));
+							
+							//myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
 						}
-						/*прочее
-						elseif($payload[$key[0]]==='Прочее')
-						{
-							$str = "$key[0].".$payload[$key[0]];
-							$msg = add_to_file($str, $userId);
-							$keys_2 = array_keys($array[$key[0]]);
-							myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
-
-							$kbd = null;//get_Butt_level(2,$keys_2,$key[0]);
-							myLog("CHECK THIS OUT: ".json_encode($kbd,JSON_UNESCAPED_UNICODE));
-						}
-						/*след страница отписок*/
 						elseif($key[0]===CMD_UNSUBS)
 						{
 							$s = substr($payload[$key[0]],0,1);
 							myLog("s: ".$s);
+							/*Удаляем конкретный элемент*/
 							if($s==='_')
 							{
 								$s = substr($payload[$key[0]],1);
@@ -238,6 +228,7 @@ switch ($type) {
 									$kbd = get_Butt_level(0);
 								}
 							}
+							/*Переход по страницами*/
 							else
 							{
 								$data = read_file();
@@ -298,7 +289,7 @@ switch ($type) {
 				{
 					$msg = "Список подкатегорий в $payload.\nНажмите для открытия подкатегорий.\n";
 					$keys_2 = array_keys($array[$payload]);
-					/*Если нет третьего уровня то подписка на 2 осуществляется*/
+					/*Если нет 3 уровня, то подписка на 2 осуществляется*/
 					if($array[$payload][$keys_2[0]] == [null])//$payload=='Прочее'
 					{
 						$msg = "Список подкатегорий в $payload.\nНажмите чтобы подписаться.\n";
