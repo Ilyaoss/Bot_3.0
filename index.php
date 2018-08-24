@@ -37,7 +37,7 @@ function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
 	if(strlen($label)>MAX_LENGHT)
 	{
 		$start = MAX_LENGHT/2 - 8;
-		$end = MAX_LENGHT/2 + 1;
+		$end = MAX_LENGHT/2 + 2;
 		myLog("Lab bef: $label count:".strlen($label));
 		$label = substr($label,0,$start).".. ..".substr($label,-(MAX_LENGHT-$end));
 		myLog("Lab aft: $label count:".strlen($label));
