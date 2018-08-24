@@ -97,6 +97,7 @@ switch ($type) {
 					$admins = getAdmins($vk,169930012);
 					$r = rand(0,$admins["count"]-1);
 					$support = $admins["items"][$r];
+					$msg = "Новая заявка!Помогите пользователю!";
 					sendMsg($vk,$support["id"],$msg,null,$first_item["id"]);
 					myLog("admins: ".json_encode($admins,JSON_UNESCAPED_UNICODE));
 					$msg = "Отлично, теперь жди ответа, с тобой обязательно свяжутся";
