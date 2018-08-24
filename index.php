@@ -82,7 +82,7 @@ switch ($type) {
 			$payload = json_decode($payload, true);
 		}
 		myLog("MSG: ".$body." PAYLOAD:".$payload);
-		$msg = "Список подкатегорий 1-го уровня, нажмитете для перехода во 2 уровень";
+		$msg = '';
 		
 		switch($payload){
 			case(''):
@@ -110,6 +110,7 @@ switch ($type) {
 				$kbd = get_Butt_level(0);
 				break;
 			case CMD_CAT:
+				$msg = "Список подкатегорий 1-го уровня, нажмитете для перехода во 2 уровень";
 				$kbd = get_Butt_level(1,$keys_1);
 				break;
 			case CMD_MY:
@@ -134,10 +135,8 @@ switch ($type) {
 				}
 				$kbd = null;
 				break;
-			case CMD_BACK:			
-				$kbd = get_Butt_level(1,$keys_1);
-				break;
 			case CMD_NEXT:
+				$msg = "Список подкатегорий 1-го уровня, нажмитете для перехода во 2 уровень";
 				$kbd = get_Butt_level(1,$keys_1,null,true);
 				break;
 			case CMD_UNSUBS:
