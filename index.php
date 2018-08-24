@@ -86,7 +86,12 @@ switch ($type) {
 		
 		switch($payload){
 			case(''):
-				
+				$history = $vk->messages()->getHistory(VK_TOKEN, [
+						'user_id' => $userId,
+						'count' => 5
+						//'group_id' => json_encode($kbd, JSON_UNESCAPED_UNICODE)
+					]);
+				myLog("history".json_encode($history,JSON_UNESCAPED_UNICODE));
 			case CMD_MAIN:
 				$msg = "Нажмите любую кнопку";			
 				$kbd = get_Butt_level(0);
