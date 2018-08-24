@@ -38,7 +38,7 @@ function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
 	if(mb_strlen($label)>$MAX_LENGHT)
 	{
 		$start = $MAX_LENGHT/2 - 8;
-		$end = $MAX_LENGHT/2 -6;// + strlen($label)%2; //если нечетное прибавляем 1, иначе 0
+		$end = $MAX_LENGHT/2 -4;// + strlen($label)%2; //если нечетное прибавляем 1, иначе 0
 		$first_part = mb_substr ($label,0,$start,"utf-8");
 		$sec_part = mb_substr ($label,-($MAX_LENGHT-$end),null,"utf-8");
 		$one_byty_symb = substr_count($sec_part, '.')+substr_count($sec_part, '(')+substr_count($sec_part, ')');
