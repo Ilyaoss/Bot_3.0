@@ -372,7 +372,7 @@ switch ($type) {
 					if(is_array($payload[$key[0]]))
 					{
 						/*4-й уровень - подписка оформляется*/
-						myLog("MSG: ".$body." PAYLOAD_val1:".json_encode($payload[$key[0]],JSON_UNESCAPED_UNICODE));
+						myLog("PAYLOAD_val_1:".json_encode($payload[$key[0]],JSON_UNESCAPED_UNICODE));
 						$keys = array_keys($payload[$key[0]]);
 						
 						if($payload[$key[0]][$keys[0]]==CMD_NEXT)
@@ -384,19 +384,15 @@ switch ($type) {
 						/*C 3 уровня пришла комманда SUBS_ALL*/
 						elseif($payload[$key[0]][$keys[0]]== 'SUBS_ALL')
 						{
-							/*------------DK--------------*/
 							$str = "$key[0].$keys[0]";
 							$msg = add_to_file($str, $userId);
-							/*-------------DK------------*/
 							$keys_3 = $array[$key[0]][$keys[0]];
 							$kbd = null;//get_Butt_level(3,$keys_3,[$key[0]=>$keys[0]]);
-							/*------------DK--------------*/
 						}
 						else{
 							
 							$str = "$key[0].$keys[0].".$payload[$key[0]][$keys[0]];
 							$msg = add_to_file($str, $userId);
-							/*Отправляем клавиатуру*/
 							$keys_3 = $array[$key[0]][$keys[0]];
 							$kbd = null;//get_Butt_level(3,$keys_3,[$key[0]=>$keys[0]]);
 						}
@@ -420,7 +416,7 @@ switch ($type) {
 							$msg = add_to_file($str, $userId);
 							$keys_2 = array_keys($array[$key[0]]);
 							myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
-							$kbd = get_Butt_level(2,$keys_2,$key[0]);
+							$kbd = null;//get_Butt_level(2,$keys_2,$key[0]);
 							myLog("CHECK THIS OUT: ".json_encode($kbd,JSON_UNESCAPED_UNICODE));
 						}
 						/*прочее*/
@@ -431,7 +427,7 @@ switch ($type) {
 							$keys_2 = array_keys($array[$key[0]]);
 							myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
 
-							$kbd = get_Butt_level(2,$keys_2,$key[0]);
+							$kbd = null;//get_Butt_level(2,$keys_2,$key[0]);
 							myLog("CHECK THIS OUT: ".json_encode($kbd,JSON_UNESCAPED_UNICODE));
 						}
 						/*след страница отписок*/
@@ -484,9 +480,8 @@ switch ($type) {
 						else{
 							$msg = "Список подкатегорий в $key[0].".$payload[$key[0]].".\nНажмите для чтобы подписаться.\n";
 							$keys_3 = $array[$key[0]][$payload[$key[0]]];
-							myLog("Keys3: ".json_encode($keys_3,JSON_UNESCAPED_UNICODE));
-
 							$kbd = get_Butt_level(3,$keys_3,$payload);
+							myLog("Keys3: ".json_encode($keys_3,JSON_UNESCAPED_UNICODE));
 							myLog("CHECK THIS OUT: ".json_encode($kbd,JSON_UNESCAPED_UNICODE));
 						}
 					}
