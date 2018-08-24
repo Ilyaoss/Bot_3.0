@@ -39,7 +39,7 @@ function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
 		$start = MAX_LENGHT/2 - 8;
 		$end = MAX_LENGHT/2 + 1;
 		myLog("Lab bef: $label count:".strlen($label));
-		$label = substr($label,0,$start).'.. ..'.substr($label,-(MAX_LENGHT-$end));
+		$label = substr($label,0,$start).".. ..".substr($label,-(MAX_LENGHT-$end));
 		myLog("Lab aft: $label count:".strlen($label));
 	}
 	return [
@@ -278,7 +278,6 @@ switch ($type) {
 				$kbd = get_Butt_level(0);
 				break;
 			case CMD_CAT:
-				
 				$kbd = get_Butt_level(1,$keys_1);
 				break;
 			case CMD_MY:
@@ -296,16 +295,12 @@ switch ($type) {
 				if($msg=="Список моих подписок:\n")
 				{
 					$msg = 'Нет активных подписок';
-					
 				}
 				
 				$kbd = get_Butt_level(0);
-				$payload = CMD_MAIN;
 				break;
-			case CMD_BACK:
-				
+			case CMD_BACK:			
 				$kbd = get_Butt_level(1,$keys_1);
-				$payload = CMD_MAIN;
 				break;
 			case CMD_NEXT:
 				$kbd = get_Butt_level(1,$keys_1,null,true);
