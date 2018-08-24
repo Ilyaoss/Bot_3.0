@@ -91,6 +91,11 @@ switch ($type) {
 						'count' => 5
 						//'group_id' => json_encode($kbd, JSON_UNESCAPED_UNICODE)
 					]);
+				$first_item = $history["items"][0];
+				$sec_item = $history["items"][1];
+				$text = $first_item["text"];
+				myLog("text 0: $text");
+				myLog("text 0: ".$sec_item["text"]);
 				myLog("history".json_encode($history,JSON_UNESCAPED_UNICODE));
 			case CMD_MAIN:
 				$msg = "Нажмите любую кнопку";			
