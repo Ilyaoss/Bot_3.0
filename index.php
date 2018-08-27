@@ -90,12 +90,15 @@ switch ($type) {
 						$path = __DIR__ . '/test.xlsx';
 						
 						$cat_array_old = read_XLS($path);
-												
+						myLog("cat_array_old: ".json_encode($cat_array_old,JSON_UNESCAPED_UNICODE));	
+						
 						file_put_contents($path, file_get_contents($url));
 						
 						$cat_array = read_XLS($path);
-
+						myLog("cat_array: ".json_encode($cat_array,JSON_UNESCAPED_UNICODE));	
+						
 						$updates = array_diff($cat_array,$cat_array_old);
+						
 						myLog("updates: ".json_encode($updates,JSON_UNESCAPED_UNICODE));
 						
 						/*--Создаём ассоц. массив--*/
