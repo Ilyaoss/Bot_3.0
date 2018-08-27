@@ -24,11 +24,11 @@ function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
     ];
 }
 
-function get_Buttons_unsub($start, $end, $keys) {
+function get_Buttons_unsub($start, $end, $keys, $CMD = CMD_UNSUBS) {
 	$buttons = [];
 	for($i=$start;$i<$end;++$i) {
 		$key = $keys[$i];
-		array_push($buttons,[getBtn($key, COLOR_DEFAULT,[CMD_UNSUBS=>'_'.$i])]);
+		array_push($buttons,[getBtn($key, COLOR_DEFAULT,[$CMD=>'_'.$i])]);
 
 	}
 	myLog("buttons: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
@@ -172,6 +172,34 @@ function get_Kbd_unsub($userId) {
 	return $kbd;
 }
 
+function get_Kbd_feedback($userId) {
+	$user_data = read_admin_data()[$userId];
+	myLog("userdata: ".json_encode($user_data,JSON_UNESCAPED_UNICODE));
+	if($user_data == [])
+	{
+		$kbd = null;
+	}
+	else
+	{
+		if(count($user_data)<10)
+		{
+			$buttons = get_Buttons_unsub(0,count($user_data),$user_data,CMD_FEEDBACK);
+			array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN)]);
+		}
+		else
+		{
+			$buttons = get_Buttons_unsub(0,9,$user_data,CMD_FEEDBACK);
+			array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[CMD_FEEDBACK=>1])]);//[$k[0]=>[$prev[$k[0]]=>$key]]
+		}
+		myLog("buttons: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
+		$kbd = [
+			'one_time' => false,
+			'buttons' => $buttons
+		];
+	}
+	return $kbd;
+}
+
 function add_to_file($str, $userId) {
 	$data = read_file();
 	$length = count($data[$userId]);
@@ -297,6 +325,6 @@ function add_to_admin_file($str, $userId,$adminId) {
 function userInfo($vk,$userId) {
 	$user_info = $vk->users()->get(VK_TOKEN,['user_ids'=>$userId]);
 	myLog("user_info: ".json_encode($user_info,JSON_UNESCAPED_UNICODE));
-	return $user_info[0]['first_name']."".$user_info[0]['last_name'];
+	return $user_info[0]['first_name']." ".$user_info[0]['last_name'];
 }
 ?>

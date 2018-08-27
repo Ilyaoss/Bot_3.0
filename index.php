@@ -169,33 +169,24 @@ switch ($type) {
 			case CMD_FEEDBACK:
 				if(is_admin($vk,$group_id,$userId))
 				{
-					$data = read_admin_data()[$userId];
-					if($data == [])
-					{
-						$msg = "Нет активных заявок:";
-						$kbd = null;
-						break;
-					}
-					else
-					{
-						$msg = "Cписок заявок:\n";
-						foreach($data as $item)
-						{
-							$key = array_keys($item)[0];
-							array_push($buttons,[getBtn($key."  ".userInfo($vk,$userId), COLOR_PRIMARY,CMD_MAIN)]);
-						}
-					}
+					$kbd = get_Kbd_feedback($userId)
 				}
 				else
 				{
 					$msg = 'Опиши и отправь мне проблему с которой ты столкнулся';
 					//$buttons = [];
+					array_push($buttons,[getBtn('<-- Назад', COLOR_NEGATIVE,CMD_MAIN)]);
+					$kbd = [
+						'one_time' => false,
+						'buttons' => $buttons
+					];
 				}
-				array_push($buttons,[getBtn('<-- Назад', COLOR_NEGATIVE,CMD_MAIN)]);
-				$kbd = [
-					'one_time' => false,
-					'buttons' => $buttons
-				];
+				if(is_null($kbd))
+				{
+					$msg = 'Нет активных подписок';
+				}
+				
+				
 				break;
 			default:
 				if(is_array($payload)){
