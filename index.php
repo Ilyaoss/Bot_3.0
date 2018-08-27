@@ -103,6 +103,12 @@ switch ($type) {
 					myLog("admins: ".json_encode($admins,JSON_UNESCAPED_UNICODE));
 					$msg = "Отлично, теперь жди ответа, с тобой обязательно свяжутся";
 					sendMsg($vk,$userId,$msg);
+					
+					$vk->messages()->markAsImportant(VK_TOKEN, [
+							'message_ids' => $first_item["id"],
+							'important' => 1
+						]);
+					//send_to_all_admins($vk,$admins,$msg);
 				}
 				myLog("text 0: $text");
 				myLog("text 0: ".$sec_item["text"]);
