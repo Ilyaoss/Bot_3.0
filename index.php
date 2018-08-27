@@ -106,7 +106,7 @@ switch ($type) {
 					
 					
 					$resp = $vk->messages()->markAsImportantConversation(VK_TOKEN, [
-							'peer_id' => $first_item["chat_id"],
+							'peer_id' => $userId,
 							'important' => 1
 						]);
 					myLog("resp: ".json_encode($resp,JSON_UNESCAPED_UNICODE));
