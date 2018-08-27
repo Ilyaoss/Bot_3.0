@@ -272,9 +272,12 @@ function is_admin($vk,$group_id,$userId) {
 			]);
 	myLog("response:". json_encode($response,JSON_UNESCAPED_UNICODE));*/
 	$admins = getAdmins($vk,$group_id)["items"];
-	$test = array_search($userId, $admins); 
-	myLog("test: $test");
-	return $test;//$response["is_admin"];
+	foreach($admins as $admin)
+	{
+		if($admin["id"]==$userId) return true;
+	}
+	//myLog("test: $test");
+	return false;//$response["is_admin"];
 }
 
 function read_admin_data()
