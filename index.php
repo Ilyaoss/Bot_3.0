@@ -182,7 +182,7 @@ switch ($type) {
 						foreach($data as $item)
 						{
 							$key = array_keys($item)[0];
-							array_push($buttons,[$key."  ".userInfo($vk,$userId), COLOR_PRIMARY,CMD_MAIN)]);
+							array_push($buttons,[getBtn($key."  ".userInfo($vk,$userId), COLOR_PRIMARY,CMD_MAIN)]);
 						}
 					}
 				}_
