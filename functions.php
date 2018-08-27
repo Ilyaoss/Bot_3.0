@@ -296,6 +296,7 @@ function add_to_admin_file($str, $userId,$adminId) {
 
 function userInfo($vk,$userId) {
 	$user_info = $vk->users()->get(VK_TOKEN,['user_ids'=>$userId]);
-	return "$user_info[0]['first_name'].$user_info[0]['last_name']";
+	myLog("user_info: ".json_encode($user_info,JSON_UNESCAPED_UNICODE));
+	return $user_info[0]['first_name']."".$user_info[0]['last_name'];
 }
 ?>
