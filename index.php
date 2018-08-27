@@ -169,7 +169,7 @@ switch ($type) {
 			case CMD_FEEDBACK:
 				if(is_admin($vk,$group_id,$userId))
 				{
-					$kbd = get_Kbd_feedback($userId)
+					$kbd = get_Kbd_feedback($userId);
 				}
 				else
 				{
