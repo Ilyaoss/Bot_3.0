@@ -81,13 +81,13 @@ switch ($type) {
 			case(''):
 				if(is_admin($vk,$group_id,$userId))
 				{
-					$attachment = $message['attachments'][0] ?? '';
-					myLog("attachment: ".json_encode($attachment["doc"],JSON_UNESCAPED_UNICODE));
-					/*if($attachment)
+					$attachment = $message['attachments'][0]["doc"] ?? '';
+					myLog("attachment: ".json_encode($attachment,JSON_UNESCAPED_UNICODE));
+					if($attachment)
 					{
-						$cat_array = read_XLS($attachment['url']);
+						$cat_array = read_XLS($attachment["url"]);
 						myLog("cat_array: ".json_encode($cat_array,JSON_UNESCAPED_UNICODE));
-					}*/
+					}
 				}
 				$history = $vk->messages()->getHistory(VK_TOKEN, [
 						'user_id' => $userId,
