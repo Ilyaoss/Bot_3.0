@@ -85,7 +85,10 @@ switch ($type) {
 					myLog("attachment: ".json_encode($attachment,JSON_UNESCAPED_UNICODE));
 					if($attachment)
 					{
-						$cat_array = read_XLS($attachment["url"]);
+						$url = $attachment["url"];
+						$path = __DIR__'/test.xlsx';
+						file_put_contents($path, file_get_contents($url));
+						$cat_array = read_XLS($path);
 						myLog("cat_array: ".json_encode($cat_array,JSON_UNESCAPED_UNICODE));
 					}
 				}
