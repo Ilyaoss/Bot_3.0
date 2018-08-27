@@ -79,18 +79,43 @@ switch ($type) {
 		
 		switch($payload){
 			case(''):
+				/*Админ прислал новый документ ВЫНЕСИ НА ОТДЕЛЬНЫЙ СЕРВЕР*/
 				if(is_admin($vk,$group_id,$userId))
 				{
 					$attachment = $message['attachments'][0]["doc"] ?? '';
 					myLog("attachment: ".json_encode($attachment,JSON_UNESCAPED_UNICODE));
 					if($attachment)
 					{
+						$cat_array_old = read_XLS($path);
+						
 						$url = $attachment["url"];
 						$path = __DIR__ . '/test.xlsx';
 						file_put_contents($path, file_get_contents($url));
+						
 						$cat_array = read_XLS($path);
-						myLog("cat_array: ".json_encode($cat_array,JSON_UNESCAPED_UNICODE));
+
+						$updates = array_diff($cat_array,$cat_array_old);
+						myLog("updates: ".$updates);
+						
+						/*--Создаём ассоц. массив--*/
+						$array = array();
+						for($i=1;$i<count($updates);++$i) {
+							$value = $updates[$i];
+							$array[$value[6]][$value[0]] = $value[5]; //в категории создаём массивы асоц номер-статус
+						}
+						
+						$data = read_file();
+						
+						$users = array();
+						$user_ids = array_keys($data);
+						foreach($data as $user=>$subs)
+						{
+							myLog("user: $user subs: ".json_encode($subs,JSON_UNESCAPED_UNICODE));
+							$intersec = array_intersect($subs,$array);
+							myLog("intersec: ".$intersec);
+						}
 					}
+					break;
 				}
 				$history = $vk->messages()->getHistory(VK_TOKEN, [
 						'user_id' => $userId,
