@@ -266,12 +266,15 @@ function getAdmins($vk,$group_id) {
 }
 
 function is_admin($vk,$group_id,$userId) {
-	$response = $vk->groups()->getById(VK_TOKEN, [
+	/*$response = $vk->groups()->getById(VK_TOKEN, [
 				'group_id' => $group_id,
 				'fields' => 'is_admin'
 			]);
-	myLog("response:". json_encode($response,JSON_UNESCAPED_UNICODE));
-	return $response["is_admin"];
+	myLog("response:". json_encode($response,JSON_UNESCAPED_UNICODE));*/
+	$admins = getAdmins($vk,$group_id)["items"];
+	$test = array_search($userId, $array); 
+	myLog("test: $test");
+	return $test;//$response["is_admin"];
 }
 
 function read_admin_data()
