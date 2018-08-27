@@ -96,7 +96,7 @@ switch ($type) {
 						$cat_array = read_XLS($path);
 
 						$updates = array_diff($cat_array,$cat_array_old);
-						myLog("updates: ".$updates);
+						myLog("updates: ".$json_encode($updates,JSON_UNESCAPED_UNICODE));
 						
 						/*--Создаём ассоц. массив--*/
 						$array = array();
@@ -113,7 +113,7 @@ switch ($type) {
 						{
 							myLog("user: $user subs: ".json_encode($subs,JSON_UNESCAPED_UNICODE));
 							$intersec = array_intersect($subs,$array);
-							myLog("intersec: ".$intersec);
+							myLog("intersec: ".$json_encode($intersec,JSON_UNESCAPED_UNICODE));
 						}
 					}
 					break;
