@@ -33,7 +33,7 @@ const VK_TOKEN = '887f275780153f8d0a42339e542ecb1f1b6a47bce9385aea12ada07d3a4590
  
 //Строка для подтверждения адреса сервера из настроек Callback API 
 $confirmation_token = 'd18ce045'; 
- 
+$group_id = 169930012;
 
 /*--Парсим xls с категориями--*/
 $xls = PHPExcel_IOFactory::load(__DIR__ . '/categories.xlsx');
@@ -94,10 +94,11 @@ switch ($type) {
 				$text = $first_item["text"];
 				if($sec_item["text"]==='Опиши и отправь мне проблему с которой ты столкнулся')
 				{
-					$admins = getAdmins($vk,169930012);
+					$admins = getAdmins($vk,$group_id);
 					$r = rand(0,$admins["count"]-1);
 					$support = $admins["items"][$r];
 					$msg = "Новая заявка!Помогите пользователю!";
+					add_to_admin_file($text,$userId,$support["id"]);
 					sendMsg($vk,$support["id"],$msg,null,$first_item["id"]);
 					myLog("admins: ".json_encode($admins,JSON_UNESCAPED_UNICODE));
 					$msg = "Отлично, теперь жди ответа, с тобой обязательно свяжутся";
@@ -166,8 +167,30 @@ switch ($type) {
 				$kbd = get_Kbd_level(0);
 				break;
 			case CMD_FEEDBACK:
-				$msg = 'Опиши и отправь мне проблему с которой ты столкнулся';
-				$buttons = [];
+				if(is_admin($vk,$group_id,$userId))
+				{
+					$data = read_admin_data();
+					if($data == [])
+					{
+						$msg = "Нет активных заявок:";
+						$kbd = null;
+						break;
+					}
+					else
+					{
+						$msg = "Cписок заявок:\n";
+						foreach($data as $item)
+						{
+							$key = array_keys($item)[0];
+							array_push($buttons,[$key."  ".userInfo($vk,$userId), COLOR_PRIMARY,CMD_MAIN)]);
+						}
+					}
+				}_
+				else
+				{
+					$msg = 'Опиши и отправь мне проблему с которой ты столкнулся';
+					//$buttons = [];
+				}
 				array_push($buttons,[getBtn('<-- Назад', COLOR_NEGATIVE,CMD_MAIN)]);
 				$kbd = [
 					'one_time' => false,

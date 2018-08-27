@@ -265,4 +265,29 @@ function getAdmins($vk,$group_id) {
 	return $response;
 }
 
+function is_admin($vk,$group_id,$userId) {
+	$response = $vk->messages()->send(VK_TOKEN, [
+				'group_id' => $group_id
+			]);
+	return $response["is_admin"];
+}
+
+function read_admin_data()
+{
+	$file = file_get_contents(__DIR__ . '/admin_data.json');  // Открыть файл data.json
+	myLog("file_admin: $file");
+	$data = json_decode($file,TRUE);        // Декодировать в массив 								   
+	return $data;
+}
+function add_to_admin_file($str, $userId,$adminId) {
+	$data = read_admin_data();
+	$data[$adminId][]=[$userId=>"$str]";	// Добавить обращение
+	myLog("data: ".json_encode($data,JSON_UNESCAPED_UNICODE));
+	file_put_contents(__DIR__ . '/admin_data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
+}
+
+function userInfo($vk,$userId)	{
+	$user_info = $vk->users()->get(VK_TOKEN,['user_ids'=>$userId]);
+	return "$user_info[0]['first_name'].$user_info[0]['last_name']";
+}
 ?>
