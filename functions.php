@@ -269,7 +269,7 @@ function is_admin($vk,$group_id,$userId) {
 	$response = $vk->groups()->getById(VK_TOKEN, [
 				'group_id' => $group_id
 			]);
-	myLog("response: $response");
+	myLog("response:". json_encode($response,JSON_UNESCAPED_UNICODE);
 	return $response["is_admin"];
 }
 
