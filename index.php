@@ -114,10 +114,16 @@ switch ($type) {
 						myLog("cat_array: ".json_encode($array,JSON_UNESCAPED_UNICODE));
 						
 						$keys = array_keys($array);
+						/*могут новые ключи появиться НЕ ЗАБУДЬ!*/
 						
+						$upd_array = [];
 						for($i=1;$i<count($array);++$i) {
-							$updates = array_diff($array[$keys[$i]],$array_old[$keys[$i]]);
-							myLog("updates: ".json_encode($updates,JSON_UNESCAPED_UNICODE));
+							$update = array_diff($array[$keys[$i]],$array_old[$keys[$i]]);
+							if($update) 
+							{
+								$upd_array[$keys[$i]][]=$update;
+							}
+							myLog("updates: ".json_encode($update,JSON_UNESCAPED_UNICODE));
 						}
 						
 						$data = read_file();
@@ -127,7 +133,7 @@ switch ($type) {
 						foreach($data as $user=>$subs)
 						{
 							myLog("user: $user subs: ".json_encode($subs,JSON_UNESCAPED_UNICODE));
-							$intersec = array_intersect($subs,$array);
+							$intersec = array_intersect($subs,$keys);
 							myLog("intersec: ".json_encode($intersec,JSON_UNESCAPED_UNICODE));
 						}
 					}
