@@ -83,11 +83,11 @@ switch ($type) {
 				{
 					$attachment = $message['attachments'] ?? '';
 					myLog("attachment: ".json_encode($attachment,JSON_UNESCAPED_UNICODE));
-					if($attachment)
+					/*if($attachment)
 					{
 						$cat_array = read_XLS($attachment['url']);
 						myLog("cat_array: ".json_encode($cat_array,JSON_UNESCAPED_UNICODE));
-					}
+					}*/
 				}
 				$history = $vk->messages()->getHistory(VK_TOKEN, [
 						'user_id' => $userId,
