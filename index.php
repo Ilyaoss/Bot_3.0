@@ -113,8 +113,10 @@ switch ($type) {
 						}
 						myLog("cat_array: ".json_encode($array,JSON_UNESCAPED_UNICODE));
 						
+						$keys = array_keys($array);
+						
 						for($i=1;$i<count($array);++$i) {
-							$updates = array_diff($array[$i],$array_old[$i]);
+							$updates = array_diff($array[$keys[$i]],$array_old[$keys[$i]]);
 							myLog("updates: ".json_encode($updates,JSON_UNESCAPED_UNICODE));
 						}
 						
