@@ -185,7 +185,7 @@ switch ($type) {
 							array_push($buttons,[getBtn($key."  ".userInfo($vk,$userId), COLOR_PRIMARY,CMD_MAIN)]);
 						}
 					}
-				}_
+				}
 				else
 				{
 					$msg = 'Опиши и отправь мне проблему с которой ты столкнулся';
