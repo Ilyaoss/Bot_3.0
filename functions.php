@@ -266,7 +266,7 @@ function getAdmins($vk,$group_id) {
 }
 
 function is_admin($vk,$group_id,$userId) {
-	$response = $vk->messages()->send(VK_TOKEN, [
+	$response = $vk->groups()->getById(VK_TOKEN, [
 				'group_id' => $group_id
 			]);
 	return $response["is_admin"];
