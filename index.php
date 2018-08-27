@@ -92,20 +92,29 @@ switch ($type) {
 						$cat_array_old = read_XLS($path);
 						myLog("cat_array_old: ".json_encode($cat_array_old,JSON_UNESCAPED_UNICODE));	
 						
+						/*--Создаём ассоц. массив--*/
+						$array_old = array();
+						for($i=1;$i<count($cat_array_old);++$i) {
+							$value = $cat_array_old[$i];
+							$array_old[$value[6]][$value[0]] = $value[5]; //в категории создаём массивы асоц номер-статус
+						}
+						
 						file_put_contents($path, file_get_contents($url));
 						
 						$cat_array = read_XLS($path);
 						myLog("cat_array: ".json_encode($cat_array,JSON_UNESCAPED_UNICODE));	
 						
-						$updates = array_diff($cat_array,$cat_array_old);
-						
-						myLog("updates: ".json_encode($updates,JSON_UNESCAPED_UNICODE));
 						
 						/*--Создаём ассоц. массив--*/
 						$array = array();
-						for($i=1;$i<count($updates);++$i) {
-							$value = $updates[$i];
+						for($i=1;$i<count($cat_array);++$i) {
+							$value = $cat_array[$i];
 							$array[$value[6]][$value[0]] = $value[5]; //в категории создаём массивы асоц номер-статус
+						}
+						
+						for($i=1;$i<count($array);++$i) {
+							$updates = array_diff($array[$i],$array_old[$i]);
+							myLog("updates: ".json_encode($updates,JSON_UNESCAPED_UNICODE));
 						}
 						
 						$data = read_file();
