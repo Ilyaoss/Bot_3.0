@@ -104,10 +104,12 @@ switch ($type) {
 					$msg = "Отлично, теперь жди ответа, с тобой обязательно свяжутся";
 					sendMsg($vk,$userId,$msg);
 					
-					$vk->messages()->markAsImportant(VK_TOKEN, [
+					
+					$resp = $vk->messages()->markAsImportant(VK_TOKEN, [
 							'message_ids' => $first_item["id"],
 							'important' => 1
 						]);
+					myLog("resp: ".json_encode($resp,JSON_UNESCAPED_UNICODE));
 					//send_to_all_admins($vk,$admins,$msg);
 				}
 				myLog("text 0: $text");
