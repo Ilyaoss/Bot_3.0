@@ -1,4 +1,13 @@
 <?php
+function read_XLS($path) {
+	/*--Парсим xls с категориями--*/
+	$xls = PHPExcel_IOFactory::load($path);
+
+	// Первый лист
+	$xls->setActiveSheetIndex(0);
+	$sheet = $xls->getActiveSheet();
+	return $sheet->toArray();
+}
 
 function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
 	$MAX_LENGHT = mb_strlen('Список подкатегорий 1-го уровня, нажмите','UTF-8');
@@ -308,13 +317,13 @@ function is_admin($vk,$group_id,$userId) {
 	return false;//$response["is_admin"];
 }
 
-function read_admin_data()
-{
+function read_admin_data() {
 	$file = file_get_contents(__DIR__ . '/admin_data.json');  // Открыть файл data.json
 	myLog("file_admin: $file");
 	$data = json_decode($file,TRUE);        // Декодировать в массив 								   
 	return $data;
 }
+
 function add_to_admin_file($str, $userId,$adminId) {
 	$data = read_admin_data();
 	$data[$adminId][]=[$userId=>"$str"];	// Добавить обращение

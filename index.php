@@ -36,12 +36,7 @@ $confirmation_token = 'd18ce045';
 $group_id = 169930012;
 
 /*--Парсим xls с категориями--*/
-$xls = PHPExcel_IOFactory::load(__DIR__ . '/categories.xlsx');
-
-// Первый лист
-$xls->setActiveSheetIndex(0);
-$sheet = $xls->getActiveSheet();
-$def_mas = $sheet->toArray();
+$def_mas = read_XLS(__DIR__ . '/categories.xlsx') ;
 
 $json = file_get_contents('php://input');
 myLog("JSON".$json);
@@ -84,6 +79,16 @@ switch ($type) {
 		
 		switch($payload){
 			case(''):
+				if(is_admin($vk,$group_id,$userId))
+				{
+					$attachment = $message['attachments'] ?? '';
+					myLog("attachment: ".json_encode($attachment,JSON_UNESCAPED_UNICODE));
+					if($attachment)
+					{
+						$cat_array = read_XLS($attachment['url']);
+						myLog("cat_array: ".json_encode($cat_array,JSON_UNESCAPED_UNICODE));
+					}
+				}
 				$history = $vk->messages()->getHistory(VK_TOKEN, [
 						'user_id' => $userId,
 						'count' => 5
@@ -115,6 +120,7 @@ switch ($type) {
 				myLog("text 0: $text");
 				myLog("text 0: ".$sec_item["text"]);
 				//myLog("history".json_encode($history,JSON_UNESCAPED_UNICODE));
+				break;
 			case CMD_MAIN:
 				$msg = "Нажмите любую кнопку";			
 				$kbd = get_Kbd_level(0);
