@@ -281,12 +281,12 @@ function read_admin_data()
 }
 function add_to_admin_file($str, $userId,$adminId) {
 	$data = read_admin_data();
-	$data[$adminId][]=[$userId=>"$str]";	// Добавить обращение
+	$data[$adminId][]=[$userId=>"$str"];	// Добавить обращение
 	myLog("data: ".json_encode($data,JSON_UNESCAPED_UNICODE));
 	file_put_contents(__DIR__ . '/admin_data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
 }
 
-function userInfo($vk,$userId)	{
+function userInfo($vk,$userId) {
 	$user_info = $vk->users()->get(VK_TOKEN,['user_ids'=>$userId]);
 	return "$user_info[0]['first_name'].$user_info[0]['last_name']";
 }
