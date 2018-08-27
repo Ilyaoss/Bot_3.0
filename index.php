@@ -81,8 +81,8 @@ switch ($type) {
 			case(''):
 				if(is_admin($vk,$group_id,$userId))
 				{
-					$attachment = $message['attachments'] ?? '';
-					myLog("attachment: ".json_encode($attachment,JSON_UNESCAPED_UNICODE));
+					$attachment = $message['attachments'][0] ?? '';
+					myLog("attachment: ".json_encode($attachment["doc"],JSON_UNESCAPED_UNICODE));
 					/*if($attachment)
 					{
 						$cat_array = read_XLS($attachment['url']);
