@@ -90,7 +90,7 @@ switch ($type) {
 						$path = __DIR__ . '/test.xlsx';
 						
 						$cat_array_old = read_XLS($path);
-						myLog("cat_array_old: ".json_encode($cat_array_old,JSON_UNESCAPED_UNICODE));	
+						
 						
 						/*--Создаём ассоц. массив--*/
 						$array_old = array();
@@ -98,11 +98,11 @@ switch ($type) {
 							$value = $cat_array_old[$i];
 							$array_old[$value[6]][$value[0]] = $value[5]; //в категории создаём массивы асоц номер-статус
 						}
-						
+						myLog("cat_array_old: ".json_encode($array_old,JSON_UNESCAPED_UNICODE));	
 						file_put_contents($path, file_get_contents($url));
 						
 						$cat_array = read_XLS($path);
-						myLog("cat_array: ".json_encode($cat_array,JSON_UNESCAPED_UNICODE));	
+							
 						
 						
 						/*--Создаём ассоц. массив--*/
@@ -111,6 +111,7 @@ switch ($type) {
 							$value = $cat_array[$i];
 							$array[$value[6]][$value[0]] = $value[5]; //в категории создаём массивы асоц номер-статус
 						}
+						myLog("cat_array: ".json_encode($array,JSON_UNESCAPED_UNICODE));
 						
 						for($i=1;$i<count($array);++$i) {
 							$updates = array_diff($array[$i],$array_old[$i]);
