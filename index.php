@@ -106,7 +106,7 @@ switch ($type) {
 				}
 				myLog("text 0: $text");
 				myLog("text 0: ".$sec_item["text"]);
-				myLog("history".json_encode($history,JSON_UNESCAPED_UNICODE));
+				//myLog("history".json_encode($history,JSON_UNESCAPED_UNICODE));
 			case CMD_MAIN:
 				$msg = "Нажмите любую кнопку";			
 				$kbd = get_Kbd_level(0);
@@ -169,7 +169,7 @@ switch ($type) {
 			case CMD_FEEDBACK:
 				if(is_admin($vk,$group_id,$userId))
 				{
-					$data = read_admin_data();
+					$data = read_admin_data()[$userId];
 					if($data == [])
 					{
 						$msg = "Нет активных заявок:";
