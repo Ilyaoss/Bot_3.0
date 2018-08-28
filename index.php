@@ -125,7 +125,7 @@ switch ($type) {
 							}
 							myLog("updates: ".json_encode($update,JSON_UNESCAPED_UNICODE));
 						}
-						myLog("update_arr: ".json_encode($upd_array,JSON_UNESCAPED_UNICODE));
+						
 						$keys = array_keys($upd_array);
 						$data = read_file();
 						//$users = array();
@@ -137,6 +137,8 @@ switch ($type) {
 							$intersec = array_intersect($subs,$keys);
 							foreach($intersec as $sub)
 							{	
+								myLog("sub: $sub ");
+								myLog("update_arr: ".json_encode($upd_array[$sub],JSON_UNESCAPED_UNICODE));
 								foreach($upd_array[$sub] as $num=>$status)
 								{
 									$msg = "Информация о торгах:\n
