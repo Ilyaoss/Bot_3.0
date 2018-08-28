@@ -133,17 +133,15 @@ switch ($type) {
 						foreach($data as $user=>$subs)
 						{
 							myLog("user: $user subs: ".json_encode($subs,JSON_UNESCAPED_UNICODE));
-							$intersec = array_intersect($subs,$keys);
+							/*Ищу вхождение моих подписок в массиве новой информации*/
+							$intersec = array_uintersect($subs,$keys,"compare");
 							foreach($intersec as $sub)
 							{	
 								myLog("sub: $sub ");
 								myLog("update_arr: ".json_encode($upd_array[$sub],JSON_UNESCAPED_UNICODE));
 								foreach($upd_array[$sub][0] as $num=>$status)
 								{
-									$msg = "Информация о торгах:\n
-											Номер: $num\n
-											Категория: $sub\n
-											Статус: $status";
+									$msg = "Информация о торгах:\nНомер: $num\nКатегория: $sub\nСтатус: $status";
 									sendMsg($vk,$user,$msg);
 								}
 							}

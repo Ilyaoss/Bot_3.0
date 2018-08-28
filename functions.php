@@ -18,7 +18,6 @@ function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
 		$end = $MAX_LENGHT/2 -3;// + strlen($label)%2; //если нечетное прибавляем 1, иначе 0
 		$first_part = mb_substr ($label,0,$start,"utf-8");
 		$sec_part = mb_substr ($label,-($MAX_LENGHT-$end),null,"utf-8");
-		$one_byty_symb = substr_count($sec_part, '.')+substr_count($sec_part, '(')+substr_count($sec_part, ')');
 		myLog("Lab bef: $label count:".mb_strlen($label,'UTF-8'));
 		$label = $first_part.".. ..".$sec_part;
 		myLog("Lab aft: $label count:".mb_strlen($label,'UTF-8'));
@@ -219,7 +218,7 @@ function add_to_file($str, $userId) {
 		/*Если наша категория является подкатегорией, то есть родительская входит в неё в начало*/
 		if(strpos($str,$user_data) === 0)
 		{
-			return 'Вы уже пописаны на эту катогрею или на родительскую категорию';
+			return 'Вы уже пописаны на эту категорию или на родительскую категорию';
 		}
 		/*Если наша категория является родительской, то мы убираем всех её детей и добавляем её*/
 		if(strpos($user_data,$str) === 0)
@@ -335,5 +334,10 @@ function userInfo($vk,$userId) {
 	$user_info = $vk->users()->get(VK_TOKEN,['user_ids'=>$userId]);
 	myLog("user_info: ".json_encode($user_info,JSON_UNESCAPED_UNICODE));
 	return $user_info[0]['first_name']." ".$user_info[0]['last_name'];
+}
+
+function compare($a,$b) {
+	if(strpos($b,$a) === 0) return true;
+	return false;
 }
 ?>
