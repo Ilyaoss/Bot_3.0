@@ -127,7 +127,7 @@ switch ($type) {
 						}
 						
 						$keys = array_keys($upd_array);
-						//$data = read_file();
+						$data = read_file();
 						//$users = array();
 						//$user_ids = array_keys($data);
 						
