@@ -134,7 +134,7 @@ switch ($type) {
 						{
 							myLog("user: $user subs: ".json_encode($subs,JSON_UNESCAPED_UNICODE));
 							/*Ищу вхождение моих подписок в массиве новой информации*/
-							$intersec = array_uintersect($subs,$keys,"compare");
+							$intersec = array_uintersect($keys,$subs,"compare");
 							foreach($intersec as $sub)
 							{	
 								myLog("sub: $sub ");
