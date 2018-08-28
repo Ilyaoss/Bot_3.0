@@ -139,7 +139,7 @@ switch ($type) {
 							{	
 								myLog("sub: $sub ");
 								myLog("update_arr: ".json_encode($upd_array[$sub],JSON_UNESCAPED_UNICODE));
-								foreach($upd_array[$sub] as $num=>$status)
+								foreach($upd_array[$sub][0] as $num=>$status)
 								{
 									$msg = "Информация о торгах:\n
 											<b>Номер:</b> $num\n
