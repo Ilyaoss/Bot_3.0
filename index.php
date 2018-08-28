@@ -130,6 +130,7 @@ switch ($type) {
 						
 						$users = array();
 						$user_ids = array_keys($data);
+						
 						foreach($data as $user=>$subs)
 						{
 							myLog("user: $user subs: ".json_encode($subs,JSON_UNESCAPED_UNICODE));
