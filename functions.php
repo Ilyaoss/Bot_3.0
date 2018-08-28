@@ -337,7 +337,7 @@ function userInfo($vk,$userId) {
 }
 
 function compare($a,$b) {
-	if(strpos($b,$a) === 0) return true;
+	if(strpos($a,$b) === 0) return true;
 	return false;
 }
 ?>
