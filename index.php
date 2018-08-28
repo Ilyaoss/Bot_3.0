@@ -92,7 +92,6 @@ switch ($type) {
 						
 						$cat_array_old = read_XLS($path);
 						
-						
 						/*--Создаём ассоц. массив--*/
 						$array_old = array();
 						for($i=1;$i<count($cat_array_old);++$i) {
@@ -104,7 +103,6 @@ switch ($type) {
 						
 						$cat_array = read_XLS($path);
 							
-						
 						
 						/*--Создаём ассоц. массив--*/
 						$array = array();
@@ -118,7 +116,7 @@ switch ($type) {
 						/*могут новые ключи появиться НЕ ЗАБУДЬ!*/
 						
 						$upd_array = [];
-						for($i=1;$i<count($array);++$i) {
+						for($i=0;$i<count($array);++$i) {
 							$update = array_diff($array[$keys[$i]],$array_old[$keys[$i]]);
 							if($update) 
 							{
@@ -173,7 +171,6 @@ switch ($type) {
 					myLog("admins: ".json_encode($admins,JSON_UNESCAPED_UNICODE));
 					$msg = "Отлично, теперь жди ответа, с тобой обязательно свяжутся";
 					sendMsg($vk,$userId,$msg);
-					
 					
 					$resp = $vk->messages()->markAsImportantConversation(VK_TOKEN, [
 							'peer_id' => $userId,
