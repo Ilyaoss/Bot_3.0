@@ -126,15 +126,26 @@ switch ($type) {
 							myLog("updates: ".json_encode($update,JSON_UNESCAPED_UNICODE));
 						}
 						
-						$data = read_file();
-						
-						$users = array();
-						$user_ids = array_keys($data);
+						$keys = array_keys($upd_array);
+						//$data = read_file();
+						//$users = array();
+						//$user_ids = array_keys($data);
 						
 						foreach($data as $user=>$subs)
 						{
 							myLog("user: $user subs: ".json_encode($subs,JSON_UNESCAPED_UNICODE));
 							$intersec = array_intersect($subs,$keys);
+							foreach($intersec as $sub)
+							{	
+								foreach($upd_array[$sub] as $num=>$status)
+								{
+									$msg = "Информация о торгах:\n
+											<b>Номер:</b> $num\n
+											<b>Категория:</b> $sub\n
+											<b>Статус:</b> $status";
+									sendMsg($vk,$user,$msg);
+								}
+							}
 							myLog("intersec: ".json_encode($intersec,JSON_UNESCAPED_UNICODE));
 						}
 					}
