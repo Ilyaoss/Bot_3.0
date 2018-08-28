@@ -125,7 +125,7 @@ switch ($type) {
 							}
 							myLog("updates: ".json_encode($update,JSON_UNESCAPED_UNICODE));
 						}
-						
+						myLog("update_arr: ".json_encode($upd_array,JSON_UNESCAPED_UNICODE));
 						$keys = array_keys($upd_array);
 						$data = read_file();
 						//$users = array();
