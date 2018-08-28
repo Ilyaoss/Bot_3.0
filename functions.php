@@ -337,7 +337,8 @@ function userInfo($vk,$userId) {
 }
 
 function compare($a,$b) {
+	myLog("left: $a right: $b");
 	if(strpos($b,$a) === 0) return true;
-	return false;
+	else	return false;
 }
 ?>
