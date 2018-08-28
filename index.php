@@ -79,6 +79,7 @@ switch ($type) {
 		
 		switch($payload){
 			case(''):
+				$kbd = null;
 				/*Админ прислал новый документ ВЫНЕСИ НА ОТДЕЛЬНЫЙ СЕРВЕР*/
 				if(is_admin($vk,$group_id,$userId))
 				{
@@ -142,9 +143,9 @@ switch ($type) {
 								foreach($upd_array[$sub][0] as $num=>$status)
 								{
 									$msg = "Информация о торгах:\n
-											<b>Номер:</b> $num\n
-											<b>Категория:</b> $sub\n
-											<b>Статус:</b> $status";
+											Номер: $num\n
+											Категория: $sub\n
+											Статус: $status";
 									sendMsg($vk,$user,$msg);
 								}
 							}
