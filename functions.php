@@ -370,4 +370,20 @@ function send_subs($vk,$user,$subs,$keys,$update) {
 	}
 	myLog("intersec: ".json_encode($intersec,JSON_UNESCAPED_UNICODE));
 }
+
+function send($vk,$userId){
+	$path = __DIR__ . '/test.xlsx';
+	$cat_array = read_XLS($path);
+		
+	/*--Создаём ассоц. массив--*/
+	$upd_array = array();
+	for($i=1;$i<count($cat_array);++$i) {
+		$value = $cat_array[$i];
+		$upd_array[$value[6]][$value[0]] = $value[5]; //в категории создаём массивы асоц номер-статус
+	}
+
+	$keys = array_keys($upd_array);
+	$data = read_file();
+	send_subs($vk,$userId,$data[$userId],$keys,$upd_array);
+}
 ?>
