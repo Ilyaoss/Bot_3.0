@@ -371,7 +371,7 @@ function send_subs($vk,$user,$subs,$keys,$update) {
 	myLog("intersec: ".json_encode($intersec,JSON_UNESCAPED_UNICODE));
 }
 
-function send($vk,$userId){
+function send_user_subs($vk,$userId){
 	$path = __DIR__ . '/test.xlsx';
 	$cat_array = read_XLS($path);
 		
