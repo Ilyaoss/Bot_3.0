@@ -280,7 +280,7 @@ switch ($type) {
 						elseif($payload[$key[0]][$keys[0]]== 'SUBS_ALL')
 						{
 							$str = "$key[0].$keys[0]";
-							$msg = add_to_db($link,$str, $userId);
+							//$msg = add_to_db($link,$str, $userId);
 							myLog("msg_db: $msg");
 							$msg = add_to_file($str, $userId);
 							
@@ -290,7 +290,7 @@ switch ($type) {
 						else{
 							
 							$str = "$key[0].$keys[0].".$payload[$key[0]][$keys[0]];
-							$msg = add_to_db($link,$str, $userId);
+							//$msg = add_to_db($link,$str, $userId);
 							myLog("msg_db: $msg");
 							$msg = add_to_file($str, $userId);
 							
@@ -313,7 +313,7 @@ switch ($type) {
 						elseif($payload[$key[0]]=== 'SUBS_ALL')
 						{
 							$str = $key[0];
-							$msg = add_to_db($link,$str, $userId);
+							//$msg = add_to_db($link,$str, $userId);
 							myLog("msg_db: $msg");
 							$msg = add_to_file($str, $userId);
 							send_user_subs($vk,$userId);
@@ -382,7 +382,7 @@ switch ($type) {
 							if($keys_3 == [null])//$payload=='Прочее'
 							{
 								$str = "$key[0].".$payload[$key[0]];
-								$msg = add_to_db($link,$str, $userId);
+								$msg = //add_to_db($link,$str, $userId);
 								myLog("msg_db: $msg");
 								$msg = add_to_file($str, $userId);
 								
