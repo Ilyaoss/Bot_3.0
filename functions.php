@@ -20,7 +20,7 @@ function add_sub($mysqli,$str, $userId) {
 	return $mysqli->query("INSERT INTO user_subs VALUES($userId,$str)"); 
 }
 function read_db($mysqli) {
-	return $mysqli->query("SELCT * FROM user_subs"); 
+	return $mysqli->query("SELCT * FROM 'user_subs'",MYSQLI_USE_RESULT); 
 }
 function read_XLS($path) {
 	/*--Парсим xls с категориями--*/
