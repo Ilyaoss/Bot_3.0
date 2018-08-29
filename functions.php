@@ -38,8 +38,8 @@ function connect_db() {
     //mysqli_select_db($db);
 }
 function add_sub($mysqli,$str, $userId) {
-	$result = mysqli_query($mysqli,"INSERT INTO user_subs ('id','category') VALUES($userId,$str)"); 
-	myLog("error".mysqli_error());
+	$result = mysqli_query($mysqli,"INSERT INTO user_subs ('id','category') VALUES('$userId','$str')"); 
+	myLog("error".mysqli_error($mysqli));
 	return $result;
 }
 function read_db($mysqli) {
