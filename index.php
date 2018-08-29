@@ -147,6 +147,7 @@ switch ($type) {
 							}
 							myLog("intersec: ".json_encode($intersec,JSON_UNESCAPED_UNICODE));
 						}
+						$msg = null;
 					}
 					break;
 				}
