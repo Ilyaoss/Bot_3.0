@@ -9,11 +9,20 @@ function connect_db() {
     $db = substr($url["path"],1);
 	myLog("Sever: $server User: $username Pas: $password db: $db ");
 
-    $mysqli = mysqli_connect($server, $username, $password,$db);
-	if ($mysqli->connect_errno) {
-		myLog("Не удалось подключиться к MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
+    $link = mysqli_connect($server, $username, $password,$db);
+	if (!$link) {
+		echo "Ошибка: Невозможно установить соединение с MySQL." . PHP_EOL;
+		echo "Код ошибки errno: " . mysqli_connect_errno() . PHP_EOL;
+		echo "Текст ошибки error: " . mysqli_connect_error() . PHP_EOL;
+		exit;
 	}
-	return $mysqli;
+
+	echo "Соединение с MySQL установлено!" . PHP_EOL;
+	echo "Информация о сервере: " . mysqli_get_host_info($link) . PHP_EOL;
+	if ($link->connect_errno) {
+		myLog("Не удалось подключиться к MySQL: (" . $link->connect_errno . ") " . $link->connect_error);
+	}
+	return $link;
     //mysqli_select_db($db);
 }
 function add_sub($mysqli,$str, $userId) {
