@@ -356,6 +356,7 @@ function intersect($keys,$subs) {
 
 function send_subs($vk,$user,$subs,$keys,$update) {
 	myLog("user: $user subs: ".json_encode($subs,JSON_UNESCAPED_UNICODE));
+	myLog("user: $user keys: ".json_encode($keys,JSON_UNESCAPED_UNICODE));
 	/*Ищу вхождение моих подписок в массиве новой информации*/
 	$intersec = intersect($keys,$subs);//array_uintersect($keys,$subs,"compare");
 	foreach($intersec as $sub)
