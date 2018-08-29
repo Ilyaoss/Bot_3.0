@@ -341,4 +341,16 @@ function compare($a,$b) {
 	if(strpos($a,$b) === 0) return 0;
 	else substr_compare($a,$b,0);
 }
+
+function intersect($keys,$subs) {
+	$array = [];
+	foreach($keys as $key) {
+		foreach($subs as $sub) {
+			if(strpos($key,$sub) === 0) {
+				array_push($array,$key);
+			}	
+		}
+	}
+	return $array;
+}
 ?>
