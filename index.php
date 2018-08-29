@@ -55,7 +55,7 @@ for($i=1;$i<count($def_mas);++$i) {
 
 $keys_1 = array_keys($array); /*Кнопки 1-го уровня*/
 $mysqli = connect_db();
-$db = read_db($mysqli);
+$db = add_sub($mysqli,"ИТ",$userId);
 myLog("db: ".json_encode($db,JSON_UNESCAPED_UNICODE));
 $buttons = [];
 $kbd = [];
