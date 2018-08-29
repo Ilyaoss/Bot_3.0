@@ -1,4 +1,26 @@
 <?php
+
+function connect_db() {
+	$url=parse_url(getenv("CLEARDB_DATABASE_URL"));
+
+    $server = $url["host"];
+    $username = $url["user"];
+    $password = $url["pass"];
+    $db = substr($url["path"],1);
+
+    $mysqli = new mysqli_connect($server, $username, $password,$db);
+	if ($mysqli->connect_errno) {
+		myLog("Не удалось подключиться к MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
+	}
+	return $mysqli;
+    //mysqli_select_db($db);
+}
+function add_sub($mysqli,$str, $userId) {
+	return $mysqli->query("INSERT INTO user_subs VALUES($userId,$str)"); 
+}
+function read_db($mysqli) {
+	return $mysqli->query("SELCT * FROM user_subs"); 
+}
 function read_XLS($path) {
 	/*--Парсим xls с категориями--*/
 	$xls = PHPExcel_IOFactory::load($path);
