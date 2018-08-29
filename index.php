@@ -64,7 +64,7 @@ switch ($type) {
 		$payload = $message['payload'] ?? '';
 		$text = $message['text'] ?? '';
 		
-		//$link = connect_db();
+		$link = connect_db();
 		//$r = delete_from_db($mysqli, $userId, "ИТ");
 		//myLog("r: ".json_encode($r,JSON_UNESCAPED_UNICODE));
 		//$data_ = read_db($link,$userId);
@@ -290,7 +290,7 @@ switch ($type) {
 						else{
 							
 							$str = "$key[0].$keys[0].".$payload[$key[0]][$keys[0]];
-							//$msg = add_to_db($link,$str, $userId);
+							$msg = add_to_db($link,$str, $userId);
 							myLog("msg_db: $msg");
 							$msg = add_to_file($str, $userId);
 							
