@@ -65,6 +65,9 @@ switch ($type) {
 		$payload = $message['payload'] ?? '';
 		$text = $message['text'] ?? '';
 		
+		$link = connect_db()
+		$db = read_db($link,$userId);
+		myLog("db: ".json_encode($db,JSON_UNESCAPED_UNICODE));
 		/*$user_info = $vk->users()->get(VK_TOKEN,['user_ids'=>$userId,
 												'fields'=>'status']);*/
 		/*myLog("Name: ".$user_info[0]['first_name'].

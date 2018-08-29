@@ -24,16 +24,9 @@ function connect_db() {
 		myLog("Не удалось подключиться к MySQL: (" . $link->connect_errno . ") " . $link->connect_error);
 	}
 	$result = mysqli_query($link, "SHOW tables");
-	myLog("fc: ".$result->field_count);
-	myLog("length: ".$result->length);
 	$res = mysqli_fetch_all($result);
 	myLog("res: ".json_encode($res,JSON_UNESCAPED_UNICODE));
-	if ($result = mysqli_query($link, "show tables")) {
-		printf("Select returned %d rows.\n", mysqli_num_rows($result));
-
-		/* free result set */
-		mysqli_free_result($result);
-	}
+	mysqli_free_result($result);
 	return $link;
     //mysqli_select_db($db);
 }
@@ -71,7 +64,9 @@ function add_to_db($mysqli,$str, $userId) {
 	add_sub($mysqli,$str, $userId);
 	return $msg = "Вы успешно подписались на $str";//.$payload[$key[0]][$keys[0]];
 }
+
 function read_db($mysqli,$userId=null) {
+	$result;
 	if(is_null($userId))
 	{
 		$result = mysqli_query($mysqli,"SELECT * FROM user_subs");
@@ -80,6 +75,7 @@ function read_db($mysqli,$userId=null) {
 	{
 		$result = mysqli_query($mysqli,"SELECT category FROM user_subs WHERE userid = '$userId'");//"SELECT * FROM 'user_subs'"); 
 	}
+	mysqli_free_result($result);
 	return mysqli_fetch_all($result);
 }
 
