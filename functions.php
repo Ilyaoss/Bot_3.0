@@ -9,7 +9,7 @@ function connect_db() {
     $db = substr($url["path"],1);
 	myLog("Sever: $server User: $username Pas: $password db: $db ");
 
-    $link = mysqli_connect($server, $username, $password,$db);
+    $link = new mysqli($server, $username, $password,$db);
 	if (!$link) {
 		myLog( "Ошибка: Невозможно установить соединение с MySQL." . PHP_EOL);
 		myLog( "Код ошибки errno: " . mysqli_connect_errno() . PHP_EOL);
@@ -29,7 +29,7 @@ function add_sub($mysqli,$str, $userId) {
 	return $mysqli->query("INSERT INTO user_subs VALUES($userId,$str)"); 
 }
 function read_db($mysqli) {
-	return $mysqli->query("SELCT * FROM 'user_subs'"); 
+	return $mysqli->query("show tables"); 
 }
 function read_XLS($path) {
 	/*--Парсим xls с категориями--*/
