@@ -37,15 +37,24 @@ function connect_db() {
 	return $link;
     //mysqli_select_db($db);
 }
+
 function add_sub($mysqli,$str, $userId) {
 	$result = mysqli_query($mysqli,"INSERT INTO user_subs (id,category) VALUES('$userId','$str')"); 
 	myLog("error".mysqli_error($mysqli));
 	return $result;
 }
+
+function drop_table($mysqli,$table) {
+	$result = mysqli_query($mysqli,"DROP TABLE $table"); 
+	myLog("error".mysqli_error($mysqli));
+	return $result;
+}
+
 function read_db($mysqli) {
 	$result = mysqli_query($mysqli,"SELECT * FROM user_subs");//"SELECT * FROM 'user_subs'"); 
 	return mysqli_fetch_all($result);
 }
+
 function read_XLS($path) {
 	/*--Парсим xls с категориями--*/
 	$xls = PHPExcel_IOFactory::load($path);

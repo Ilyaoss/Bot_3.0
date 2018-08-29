@@ -1,7 +1,8 @@
 /*create database LogisticBot;
 use LogisticBot;*/
 CREATE TABLE user_subs(
-id INT NOT NULL PRIMARY KEY,
+id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+userid INT NOT NULL,
 category VARCHAR(100) NOT NULL,
 date_start date
 );

@@ -65,10 +65,10 @@ switch ($type) {
 		$text = $message['text'] ?? '';
 		
 		$mysqli = connect_db();
-		$r = add_sub($mysqli,"IT", $userId);
+		$r = drop_table($mysqli,"user_subs");
 		myLog("r: ".json_encode($r,JSON_UNESCAPED_UNICODE));
-		$db = read_db($mysqli);
-		myLog("db: ".json_encode($db,JSON_UNESCAPED_UNICODE));
+		//$db = read_db($mysqli);
+		//myLog("db: ".json_encode($db,JSON_UNESCAPED_UNICODE));
 
 		/*$user_info = $vk->users()->get(VK_TOKEN,['user_ids'=>$userId,
 												'fields'=>'status']);*/
