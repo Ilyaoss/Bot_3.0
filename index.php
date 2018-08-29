@@ -65,6 +65,10 @@ switch ($type) {
 		$text = $message['text'] ?? '';
 		
 		$mysqli = connect_db();
+		$r = add_sub($mysqli,"ИТ", $userId);
+		myLog("r: ".json_encode($r,JSON_UNESCAPED_UNICODE));
+		$data = read_db($mysqli,$userId);
+		myLog("data: ".json_encode($data,JSON_UNESCAPED_UNICODE));
 		//$r = drop_table($mysqli,"user_subs");
 		//myLog("r: ".json_encode($r,JSON_UNESCAPED_UNICODE));
 		//$db = read_db($mysqli);
@@ -276,6 +280,7 @@ switch ($type) {
 						elseif($payload[$key[0]][$keys[0]]== 'SUBS_ALL')
 						{
 							$str = "$key[0].$keys[0]";
+							//$msg = add_to_db($link,$str, $userId);
 							$msg = add_to_file($str, $userId);
 							
 							send_user_subs($vk,$userId);

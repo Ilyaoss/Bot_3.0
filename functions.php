@@ -39,7 +39,7 @@ function connect_db() {
 }
 
 function add_sub($mysqli,$str, $userId) {
-	$result = mysqli_query($mysqli,"INSERT INTO user_subs (id,category) VALUES('$userId','$str')"); 
+	$result = mysqli_query($mysqli,"INSERT INTO user_subs (userid,category) VALUES('$userId','$str')"); 
 	myLog("error".mysqli_error($mysqli));
 	return $result;
 }
@@ -49,9 +49,49 @@ function drop_table($mysqli,$table) {
 	myLog("error".mysqli_error($mysqli));
 	return $result;
 }
+function add_to_db($mysqli,$str, $userId) {
+	$data = read_db($mysqli,$userId);
+	$length = count($data);
+	for($i=0;$i<$length;++$i)
+	{
+		$user_data = $data[$i];
+		myLog("us_d: $user_data str: $str strpos:".strpos($user_data,$str));
+		/*Если наша категория является подкатегорией, то есть родительская входит в неё в начало*/
+		if(strpos($str,$user_data) === 0)
+		{
+			return 'Вы уже пописаны на эту категорию или на родительскую категорию';
+		}
+		/*Если наша категория является родительской, то мы убираем всех её детей и добавляем её*/
+		if(strpos($user_data,$str) === 0)
+		{
+			$r = delete_from_db($mysqli, $userId, $user_data);	// Удалить подписку
+			myLog("r: ".json_encode($r,JSON_UNESCAPED_UNICODE));
+		}
+	}
+	add_sub($mysqli,$str, $userId);
+	return $msg = "Вы успешно подписались на $str";//.$payload[$key[0]][$keys[0]];
+}
+function read_db($mysqli,$userId=null) {
+	if(is_null($userId))
+	{
+		$result = mysqli_query($mysqli,"SELECT * FROM user_subs");
+	}
+	else 
+	{
+		$result = mysqli_query($mysqli,"SELECT category FROM user_subs WHERE userid = '$userId'");//"SELECT * FROM 'user_subs'"); 
+	}
+	return mysqli_fetch_all($result);
+}
 
-function read_db($mysqli) {
-	$result = mysqli_query($mysqli,"SELECT * FROM user_subs");//"SELECT * FROM 'user_subs'"); 
+function delete_from_db($mysqli, $userId, $str) {
+	if(is_null($userId))
+	{
+		$result = mysqli_query($mysqli,"DELETE FROM user_subs");
+	}
+	else 
+	{
+		$result = mysqli_query($mysqli,"DELETE FROM user_subs WHERE userid = '$userId' AND category='$str'");//"SELECT * FROM 'user_subs'"); 
+	}
 	return mysqli_fetch_all($result);
 }
 
