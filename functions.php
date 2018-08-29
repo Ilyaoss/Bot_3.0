@@ -55,7 +55,7 @@ function add_to_db($mysqli,$str, $userId) {
 	for($i=0;$i<$length;++$i)
 	{
 		$user_data = $data[$i];
-		myLog("us_d: $user_data str: $str strpos:".strpos($user_data,$str));
+		myLog("us_db: $user_data str: $str strpos:".strpos($user_data,$str));
 		/*Если наша категория является подкатегорией, то есть родительская входит в неё в начало*/
 		if(strpos($str,$user_data) === 0)
 		{
