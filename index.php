@@ -54,11 +54,6 @@ for($i=1;$i<count($def_mas);++$i) {
 }
 
 $keys_1 = array_keys($array); /*Кнопки 1-го уровня*/
-$mysqli = connect_db();
-$r = add_sub($mysqli,"IT", $userId);
-myLog("r: ".json_encode($r,JSON_UNESCAPED_UNICODE));
-$db = read_db($mysqli);
-myLog("db: ".json_encode($db,JSON_UNESCAPED_UNICODE));
 $buttons = [];
 $kbd = [];
 switch ($type) {
@@ -69,6 +64,12 @@ switch ($type) {
 		$payload = $message['payload'] ?? '';
 		$text = $message['text'] ?? '';
 		
+		$mysqli = connect_db();
+		$r = add_sub($mysqli,"IT", $userId);
+		myLog("r: ".json_encode($r,JSON_UNESCAPED_UNICODE));
+		$db = read_db($mysqli);
+		myLog("db: ".json_encode($db,JSON_UNESCAPED_UNICODE));
+
 		/*$user_info = $vk->users()->get(VK_TOKEN,['user_ids'=>$userId,
 												'fields'=>'status']);*/
 		/*myLog("Name: ".$user_info[0]['first_name'].
