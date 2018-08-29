@@ -84,6 +84,7 @@ switch ($type) {
 		
 		switch($payload){
 			case(''):
+				$msg = null; //???
 				$kbd = null;
 				/*Админ прислал новый документ ВЫНЕСИ НА ОТДЕЛЬНЫЙ СЕРВЕР*/
 				if(is_admin($vk,$group_id,$userId))
@@ -171,6 +172,7 @@ switch ($type) {
 				}
 				myLog("text 0: $text");
 				myLog("text 0: ".$sec_item["text"]);
+				
 				//myLog("history".json_encode($history,JSON_UNESCAPED_UNICODE));
 				break;
 			case CMD_MAIN:
