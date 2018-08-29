@@ -41,7 +41,7 @@ function add_sub($mysqli,$str, $userId) {
 	$result = $mysqli->query("INSERT INTO user_subs VALUES($userId,$str)"); 
 }
 function read_db($mysqli) {
-	$result = mysqli_query($mysqli,"SELECT * FROM 'user_subs'");//"SELECT * FROM 'user_subs'"); 
+	$result = mysqli_query($mysqli,"SHOW tables");//"SELECT * FROM 'user_subs'"); 
 	return mysqli_fetch_all($result);
 }
 function read_XLS($path) {
