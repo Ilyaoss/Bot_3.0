@@ -25,6 +25,9 @@ function connect_db() {
 	if ($link->connect_errno) {
 		myLog("Не удалось подключиться к MySQL: (" . $link->connect_errno . ") " . $link->connect_error);
 	}
+	$result = mysqli_query($link, "SHOW tables");
+	myLog("fc: ".$result->field_count);
+	myLog("length: ".$result->length);
 	if ($result = mysqli_query($link, "show tables")) {
 		printf("Select returned %d rows.\n", mysqli_num_rows($result));
 
