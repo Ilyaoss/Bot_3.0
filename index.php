@@ -67,8 +67,8 @@ switch ($type) {
 		$link = connect_db();
 		//$r = delete_from_db($mysqli, $userId, "ИТ");
 		//myLog("r: ".json_encode($r,JSON_UNESCAPED_UNICODE));
-		$data = read_db($link,$userId);
-		myLog("data: ".json_encode($data,JSON_UNESCAPED_UNICODE));
+		$data_ = read_db($link,$userId);
+		myLog("data: ".json_encode($data_,JSON_UNESCAPED_UNICODE));
 		//$r = drop_table($mysqli,"user_subs");
 		//myLog("r: ".json_encode($r,JSON_UNESCAPED_UNICODE));
 		//$db = read_db($mysqli);
