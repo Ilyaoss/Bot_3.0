@@ -8,7 +8,7 @@ function connect_db() {
     $password = $url["pass"];
     $db = substr($url["path"],1);
 
-    $mysqli = new mysqli_connect($server, $username, $password,$db);
+    $mysqli = new \mysqli_connect($server, $username, $password,$db);
 	if ($mysqli->connect_errno) {
 		myLog("Не удалось подключиться к MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
 	}
