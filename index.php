@@ -120,7 +120,7 @@ switch ($type) {
 							$update = array_diff($array[$keys[$i]],$array_old[$keys[$i]]);
 							if($update) 
 							{
-								$upd_array[$keys[$i]][]=$update;
+								$upd_array[$keys[$i]]=$update;
 							}
 							myLog("updates: ".json_encode($update,JSON_UNESCAPED_UNICODE));
 						}

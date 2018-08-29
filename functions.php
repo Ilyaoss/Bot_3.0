@@ -363,7 +363,7 @@ function send_subs($vk,$user,$subs,$keys,$update) {
 	{	
 		myLog("sub: $sub ");
 		myLog("update_arr: ".json_encode($update[$sub],JSON_UNESCAPED_UNICODE));
-		foreach($intersec[$sub][0] as $num=>$status)
+		foreach($update[$sub] as $num=>$status)
 		{
 			$msg = "Информация о торгах:\nНомер: $num\nКатегория: $sub\nСтатус: $status";
 			sendMsg($vk,$user,$msg);
