@@ -65,8 +65,8 @@ switch ($type) {
 		$text = $message['text'] ?? '';
 		
 		$mysqli = connect_db();
-		//$r = add_sub($mysqli,"ИТ", $userId);
-		//myLog("r: ".json_encode($r,JSON_UNESCAPED_UNICODE));
+		$r = delete_from_db($mysqli, $userId, "ИТ");
+		myLog("r: ".json_encode($r,JSON_UNESCAPED_UNICODE));
 		$data = read_db($mysqli,$userId);
 		myLog("data: ".json_encode($data,JSON_UNESCAPED_UNICODE));
 		//$r = drop_table($mysqli,"user_subs");
