@@ -271,14 +271,14 @@ switch ($type) {
 							$str = "$key[0].$keys[0]";
 							$msg = add_to_file($str, $userId);
 							
-							send_user_subs($vk,$userId)
+							send_user_subs($vk,$userId);
 							$kbd = null;//get_Kbd_level(3,$keys_3,[$key[0]=>$keys[0]]);
 						}
 						else{
 							
 							$str = "$key[0].$keys[0].".$payload[$key[0]][$keys[0]];
 							$msg = add_to_file($str, $userId);
-							send_user_subs($vk,$userId)
+							send_user_subs($vk,$userId);
 							$kbd = null;//get_Kbd_level(3,$keys_3,[$key[0]=>$keys[0]]);
 						}
 						
@@ -298,7 +298,7 @@ switch ($type) {
 						{
 							$str = $key[0];
 							$msg = add_to_file($str, $userId);
-							send_user_subs($vk,$userId)
+							send_user_subs($vk,$userId);
 							$kbd = null;//get_Kbd_level(2,$keys_2,$key[0]);
 							
 							//myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
@@ -365,7 +365,7 @@ switch ($type) {
 							{
 								$str = "$key[0].".$payload[$key[0]];
 								$msg = add_to_file($str, $userId);
-								send_user_subs($vk,$userId)
+								send_user_subs($vk,$userId);
 								$kbd = null;//get_Kbd_level(2,$keys_2,$key[0]);
 							}
 							else
