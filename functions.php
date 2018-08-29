@@ -75,7 +75,7 @@ function read_db($mysqli,$userId=null) {
 	{
 		$query = mysqli_query($mysqli,"SELECT category FROM user_subs WHERE userid = '$userId'");//"SELECT * FROM 'user_subs'"); 
 	}
-	$res = mysqli_fetch_all($query)
+	$res = mysqli_fetch_all($query);
 	mysqli_free_result($query);
 	return $res;
 }
