@@ -353,4 +353,21 @@ function intersect($keys,$subs) {
 	}
 	return $array;
 }
+
+function send_subs($vk,$user,$subs,$keys,$update) {
+	myLog("user: $user subs: ".json_encode($subs,JSON_UNESCAPED_UNICODE));
+	/*Ищу вхождение моих подписок в массиве новой информации*/
+	$intersec = intersect($keys,$subs);//array_uintersect($keys,$subs,"compare");
+	foreach($intersec as $sub)
+	{	
+		myLog("sub: $sub ");
+		myLog("update_arr: ".json_encode($update[$sub],JSON_UNESCAPED_UNICODE));
+		foreach($update[$sub][0] as $num=>$status)
+		{
+			$msg = "Информация о торгах:\nНомер: $num\nКатегория: $sub\nСтатус: $status";
+			sendMsg($vk,$user,$msg);
+		}
+	}
+	myLog("intersec: ".json_encode($intersec,JSON_UNESCAPED_UNICODE));
+}
 ?>
