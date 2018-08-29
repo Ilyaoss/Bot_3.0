@@ -22,7 +22,7 @@ function connect_db() {
 	if ($link->connect_errno) {
 		myLog("Не удалось подключиться к MySQL: (" . $link->connect_errno . ") " . $link->connect_error);
 	}
-	if ($result = mysqli_query($link, "SELECT * FROM 'user_subs'")) {
+	if ($result = mysqli_query($link, "show tables")) {
 		printf("Select returned %d rows.\n", mysqli_num_rows($result));
 
 		/* free result set */
