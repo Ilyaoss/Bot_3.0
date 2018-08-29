@@ -7,12 +7,13 @@ function connect_db() {
     $username = $url["user"];
     $password = $url["pass"];
     $db = substr($url["path"],1);
+	myLog("Sever: $server User: $username Pas: $password db: $db ");
 
-    $mysqli = new \mysqli_connect($server, $username, $password,$db);
+    /*$mysqli = new \mysqli_connect($server, $username, $password,$db);
 	if ($mysqli->connect_errno) {
 		myLog("Не удалось подключиться к MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error);
-	}
-	return $mysqli;
+	}*/
+	return 1;//$mysqli;
     //mysqli_select_db($db);
 }
 function add_sub($mysqli,$str, $userId) {
