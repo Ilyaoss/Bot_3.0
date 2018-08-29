@@ -19,9 +19,9 @@ function connect_db() {
 
 	myLog( "Соединение с MySQL установлено!" . PHP_EOL);
 	myLog( "Информация о сервере: " . mysqli_get_host_info($link) . PHP_EOL);
-	myLog($mysqli->client_info);
-	myLog($mysqli->client_version);
-	myLog($mysqli->info);
+	myLog($link->client_info);
+	myLog($link->client_version);
+	myLog($link->info);
 	if ($link->connect_errno) {
 		myLog("Не удалось подключиться к MySQL: (" . $link->connect_errno . ") " . $link->connect_error);
 	}
