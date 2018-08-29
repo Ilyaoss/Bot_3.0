@@ -28,7 +28,7 @@ function connect_db() {
 	$result = mysqli_query($link, "SHOW tables");
 	myLog("fc: ".$result->field_count);
 	myLog("length: ".$result->length);
-	$res = mysqli_fetch_all(result);
+	$res = mysqli_fetch_all($result);
 	myLog("res: ".json_encode($res,JSON_UNESCAPED_UNICODE));
 	if ($result = mysqli_query($link, "show tables")) {
 		printf("Select returned %d rows.\n", mysqli_num_rows($result));
