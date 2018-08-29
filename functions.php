@@ -23,7 +23,17 @@ function connect_db() {
 	if ($link->connect_errno) {
 		myLog("Не удалось подключиться к MySQL: (" . $link->connect_errno . ") " . $link->connect_error);
 	}
+	$result = mysqli_query($link, "SHOW tables");
+	myLog("fc: ".$result->field_count);
+	myLog("length: ".$result->length);
+	$res = mysqli_fetch_all($result);
+	myLog("res: ".json_encode($res,JSON_UNESCAPED_UNICODE));
+	if ($result = mysqli_query($link, "show tables")) {
+		printf("Select returned %d rows.\n", mysqli_num_rows($result));
 
+		/* free result set */
+		mysqli_free_result($result);
+	}
 	return $link;
     //mysqli_select_db($db);
 }
@@ -31,7 +41,7 @@ function add_sub($mysqli,$str, $userId) {
 	$result = $mysqli->query("INSERT INTO user_subs VALUES($userId,$str)"); 
 }
 function read_db($mysqli) {
-	$result = $mysqli->query("SELECT * FROM 'user_subs'");//"SELECT * FROM 'user_subs'"); 
+	$result = mysqli_query($mysqli,"SELECT * FROM 'user_subs'");//"SELECT * FROM 'user_subs'"); 
 	return mysqli_fetch_all($result);
 }
 function read_XLS($path) {
