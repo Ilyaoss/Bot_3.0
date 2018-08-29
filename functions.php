@@ -92,7 +92,7 @@ function delete_from_db($mysqli, $userId, $str) {
 	{
 		$result = mysqli_query($mysqli,"DELETE FROM user_subs WHERE userid = '$userId' AND category='$str'");//"SELECT * FROM 'user_subs'"); 
 	}
-	return mysqli_fetch_all($result);
+	return $result;
 }
 
 function read_XLS($path) {
