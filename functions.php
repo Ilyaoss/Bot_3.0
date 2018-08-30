@@ -32,7 +32,7 @@ function connect_db() {
 }
 
 function add_sub($mysqli,$userId,$str) {
-	$query = mysqli_query($mysqli,"INSERT INTO user_subs (userid,category) VALUES('$userId','$str')"); 
+	$query = mysqli_query($mysqli,"INSERT INTO user_subs (userid,category,date_start) VALUES('$userId','$str',SYSDATE)"); 
 	if(mysqli_error($mysqli)){
 		myLog("error: ".mysqli_error($mysqli));
 	}
