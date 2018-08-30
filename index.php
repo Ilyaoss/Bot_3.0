@@ -69,9 +69,9 @@ switch ($type) {
 		$link = connect_db();
 		$db = read_db($link,$userId);
 		myLog("db: ".json_encode($db,JSON_UNESCAPED_UNICODE));
-		$add = add_to_db($mysqli,$userId,$str);
+		$add = add_to_db($link,$userId,$str);
 		myLog("add: ".json_encode($add,JSON_UNESCAPED_UNICODE));
-		$delete = delete_from_db($mysqli, $userId , $str );
+		$delete = delete_from_db($link, $userId , $str );
 		myLog("delete: ".json_encode($delete,JSON_UNESCAPED_UNICODE));
 		/*$user_info = $vk->users()->get(VK_TOKEN,['user_ids'=>$userId,
 												'fields'=>'status']);*/
