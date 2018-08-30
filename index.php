@@ -67,12 +67,12 @@ switch ($type) {
 		
 		$str ="it";;
 		$link = connect_db();
-		$db = read_db($link,$userId);
+		/*$db = read_db($link,$userId);
 		myLog("db: ".json_encode($db,JSON_UNESCAPED_UNICODE));
 		$add = add_to_db($link,$userId,$str);
 		$add = add_to_db($link,$userId,$str);
 		myLog("add: ".json_encode($add,JSON_UNESCAPED_UNICODE));
-		$delete = delete_from_db($link, $userId , $str );
+		$delete = delete_from_db($link, $userId , $str );*/
 		myLog("delete: ".json_encode($delete,JSON_UNESCAPED_UNICODE));
 		/*$user_info = $vk->users()->get(VK_TOKEN,['user_ids'=>$userId,
 												'fields'=>'status']);*/
@@ -278,6 +278,7 @@ switch ($type) {
 						elseif($payload[$key[0]][$keys[0]]== 'SUBS_ALL')
 						{
 							$str = "$key[0].$keys[0]";
+							$msg = add_to_db($link,$userId,$str);
 							$msg = add_to_file($str, $userId);
 							
 							send_user_subs($vk,$userId);
@@ -286,6 +287,7 @@ switch ($type) {
 						else{
 							
 							$str = "$key[0].$keys[0].".$payload[$key[0]][$keys[0]];
+							$msg = add_to_db($link,$userId,$str);
 							$msg = add_to_file($str, $userId);
 							send_user_subs($vk,$userId);
 							$kbd = null;//get_Kbd_level(3,$keys_3,[$key[0]=>$keys[0]]);
@@ -306,6 +308,7 @@ switch ($type) {
 						elseif($payload[$key[0]]=== 'SUBS_ALL')
 						{
 							$str = $key[0];
+							$msg = add_to_db($link,$userId,$str);
 							$msg = add_to_file($str, $userId);
 							send_user_subs($vk,$userId);
 							$kbd = null;//get_Kbd_level(2,$keys_2,$key[0]);
@@ -373,7 +376,9 @@ switch ($type) {
 							if($keys_3 == [null])//$payload=='Прочее'
 							{
 								$str = "$key[0].".$payload[$key[0]];
+								$msg = add_to_db($link,$userId,$str);
 								$msg = add_to_file($str, $userId);
+								
 								send_user_subs($vk,$userId);
 								$kbd = null;//get_Kbd_level(2,$keys_2,$key[0]);
 							}
