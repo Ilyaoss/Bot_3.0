@@ -265,7 +265,7 @@ function get_Kbd_level($lvl,$keys = null,$payload = null,$CMD_NEXT = false) {
 }
 
 function get_Kbd_unsub($mysqli,$userId) {
-	$user_data = ead_db($mysqli,$userId);
+	$user_data = read_db($mysqli,$userId);
 	myLog("userdata: ".json_encode($user_data,JSON_UNESCAPED_UNICODE));
 	if($user_data == [])
 	{
