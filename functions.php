@@ -78,9 +78,13 @@ function read_db($mysqli,$userId=null) {
 	{
 		$query = mysqli_query($mysqli,"SELECT category FROM user_subs WHERE userid = '$userId'");//"SELECT * FROM 'user_subs'"); 
 	}
-	$res = mysqli_fetch_array($query, MYSQLI_NUM);
+	$result = [];
+    while ($row = mysqli_fetch_array($query, MYSQLI_NUM))
+    {
+        $result[] = $row[0];
+    }
 	mysqli_free_result($query);
-	return $res;
+	return $result;
 }
 
 function delete_from_db($mysqli, $userId = null, $str = null) {
