@@ -209,7 +209,7 @@ switch ($type) {
 				$kbd = get_Kbd_level(1,$keys_1,null,true);
 				break;
 			case CMD_UNSUBS:
-				$kbd = get_Kbd_unsub($userId);
+				$kbd = get_Kbd_unsub($link,$userId);
 				if(is_null($kbd))
 				{
 					$msg = 'Нет активных подписок';
@@ -324,9 +324,9 @@ switch ($type) {
 							if($s==='_')
 							{
 								$s = substr($payload[$key[0]],1);
-								$msg = delete_from_db($link, $userId, $text);
+								$msg = delete_from_db($link, $userId, $s);
 								//$msg = delete_from_file($s,$userId);
-								$kbd = get_Kbd_unsub($userId);
+								$kbd = get_Kbd_unsub($link,$userId);
 								if(is_null($kbd))
 								{
 									sendMsg($vk,$userId,$msg);

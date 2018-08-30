@@ -147,10 +147,13 @@ function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
 
 function get_Buttons_unsub($start, $end, $keys, $CMD = CMD_UNSUBS) {
 	$buttons = [];
-	for($i=$start;$i<$end;++$i) {
+	/*for($i=$start;$i<$end;++$i) {
 		$key = $keys[$i];
 		array_push($buttons,[getBtn($key, COLOR_DEFAULT,[$CMD=>'_'.$i])]);
 
+	}*/
+	foreach($keys as $key){
+		array_push($buttons,[getBtn($key, COLOR_DEFAULT,[$CMD=>'_'.$key])]);
 	}
 	myLog("buttons: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
 	return $buttons;
@@ -261,9 +264,8 @@ function get_Kbd_level($lvl,$keys = null,$payload = null,$CMD_NEXT = false) {
 			];
 }
 
-function get_Kbd_unsub($userId) {
-	$data = read_file();
-	$user_data = $data[$userId];
+function get_Kbd_unsub($mysqli,$userId) {
+	$user_data = ead_db($mysqli,$userId);
 	myLog("userdata: ".json_encode($user_data,JSON_UNESCAPED_UNICODE));
 	if($user_data == [])
 	{
