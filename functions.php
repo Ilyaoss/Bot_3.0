@@ -85,7 +85,7 @@ function read_db($mysqli,$userId=null) {
 	$result = [];
     while ($row = mysqli_fetch_array($query, MYSQLI_NUM))
     {
-        $result[] = $row[0];
+        $result[] = $row;
     }
 	mysqli_free_result($query);
 	return $result;
