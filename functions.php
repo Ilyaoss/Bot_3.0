@@ -91,13 +91,25 @@ function delete_from_db($mysqli, $userId = null, $str = null) {
 	$result;
 	if(is_null($userId))
 	{
+		$msg = "Таблица очищена!";
 		$result = mysqli_query($mysqli,"DELETE FROM user_subs");
 	}
 	else 
 	{
-		$result = mysqli_query($mysqli,"DELETE FROM user_subs WHERE userid = '$userId' AND category='$str'");//"SELECT * FROM 'user_subs'"); 
+		if(!is_null($str))
+		{
+			$msg = "Вы успешно отписались от  $str";
+			$result = mysqli_query($mysqli,"DELETE FROM user_subs WHERE userid = '$userId' AND category='$str'");//"SELECT * FROM 'user_subs'"); 
+		}
+		else
+		{
+			$msg = "Все подписки отменены";
+			$result = mysqli_query($mysqli,"DELETE FROM user_subs WHERE userid = '$userId'");//"SELECT * FROM 'user_subs'"); 
+		}
+	
 	}
-	return $result;
+	myLog("del? $result");
+	return $msg;
 }
 
 function read_XLS($path) {

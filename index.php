@@ -186,9 +186,9 @@ switch ($type) {
 				break;
 			case CMD_MY:
 
-				$data = read_file(); 
-				$my_subs = $data[$userId];
-				
+				///$data = read_file(); 
+				//$my_subs = $data[$userId];
+				$my_subs = read_db($link,$userId);
 				myLog("mysubs".$my_subs.json_encode($my_subs,JSON_UNESCAPED_UNICODE));
 				$msg = "Список моих подписок:\n";						
 				
@@ -229,11 +229,12 @@ switch ($type) {
 				];
 				break;
 			case CMD_YES:
-				$data = read_file($userId);		   
+				/*$data = read_file($userId);		   
 				$data[$userId] = [];
 				file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
-				unset($data);
-				$msg = 'Все подписки отменены';
+				unset($data);*/
+				$msg = delete_from_db($link, $userId);
+				//$msg = 'Все подписки отменены';
 				$kbd = get_Kbd_level(0);
 				break;
 			case CMD_FEEDBACK:
@@ -279,7 +280,7 @@ switch ($type) {
 						{
 							$str = "$key[0].$keys[0]";
 							$msg = add_to_db($link,$userId,$str);
-							$msg = add_to_file($str, $userId);
+							//$msg = add_to_file($str, $userId);
 							
 							send_user_subs($vk,$userId);
 							$kbd = null;//get_Kbd_level(3,$keys_3,[$key[0]=>$keys[0]]);
@@ -288,7 +289,7 @@ switch ($type) {
 							
 							$str = "$key[0].$keys[0].".$payload[$key[0]][$keys[0]];
 							$msg = add_to_db($link,$userId,$str);
-							$msg = add_to_file($str, $userId);
+							//$msg = add_to_file($str, $userId);
 							send_user_subs($vk,$userId);
 							$kbd = null;//get_Kbd_level(3,$keys_3,[$key[0]=>$keys[0]]);
 						}
@@ -309,7 +310,7 @@ switch ($type) {
 						{
 							$str = $key[0];
 							$msg = add_to_db($link,$userId,$str);
-							$msg = add_to_file($str, $userId);
+							//$msg = add_to_file($str, $userId);
 							send_user_subs($vk,$userId);
 							$kbd = null;//get_Kbd_level(2,$keys_2,$key[0]);
 							
@@ -323,7 +324,8 @@ switch ($type) {
 							if($s==='_')
 							{
 								$s = substr($payload[$key[0]],1);
-								$msg = delete_from_file($s,$userId);
+								$msg = delete_from_db($link, $userId, $text);
+								//$msg = delete_from_file($s,$userId);
 								$kbd = get_Kbd_unsub($userId);
 								if(is_null($kbd))
 								{
@@ -377,7 +379,7 @@ switch ($type) {
 							{
 								$str = "$key[0].".$payload[$key[0]];
 								$msg = add_to_db($link,$userId,$str);
-								$msg = add_to_file($str, $userId);
+								//$msg = add_to_file($str, $userId);
 								
 								send_user_subs($vk,$userId);
 								$kbd = null;//get_Kbd_level(2,$keys_2,$key[0]);
