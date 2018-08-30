@@ -111,6 +111,7 @@ function delete_from_db($mysqli, $userId = null, $str = null) {
 	
 	}
 	myLog("del? $result");
+	mysqli_free_result($result);
 	return $msg;
 }
 
