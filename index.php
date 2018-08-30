@@ -324,7 +324,7 @@ switch ($type) {
 							if($s==='_')
 							{
 								$s = substr($payload[$key[0]],1);
-								$msg = delete_from_db($link, $userId, $s);
+								$msg = delete_from_db($link, $userId, $text);
 								//$msg = delete_from_file($s,$userId);
 								$kbd = get_Kbd_unsub($link,$userId);
 								if(is_null($kbd))
@@ -410,7 +410,7 @@ switch ($type) {
 					myLog("CHECK THIS OUT: ".json_encode($kbd,JSON_UNESCAPED_UNICODE));
 				}
 		}
-		
+		mysqli_close($link);
 		sendMsg($vk,$userId,$msg,$kbd);
 		echo  "OK";
 		break;

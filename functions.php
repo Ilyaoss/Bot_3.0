@@ -63,7 +63,7 @@ function add_to_db($mysqli,$userId,$str) {
 		if(strpos($user_data,$str) === 0)
 		{
 			$r = delete_from_db($mysqli, $userId, $user_data);	// Удалить подписку
-			myLog("r: ".json_encode($r,JSON_UNESCAPED_UNICODE));
+			myLog("rrrr: ".json_encode($r,JSON_UNESCAPED_UNICODE));
 		}
 	}
 	add_sub($mysqli,$userId,$str);
@@ -111,7 +111,6 @@ function delete_from_db($mysqli, $userId = null, $str = null) {
 	
 	}
 	myLog("del? $result");
-	mysqli_free_result($result);
 	return $msg;
 }
 
