@@ -73,19 +73,24 @@ function add_to_db($mysqli,$userId,$str) {
 
 function read_db($mysqli,$userId=null) {
 	$query;
+	$result = [];
 	if(is_null($userId))
 	{
 		$query = mysqli_query($mysqli,"SELECT * FROM user_subs");
+		$res = mysqli_fetch_all($query);
+		myLog("res_test: ".json_encode($res,JSON_UNESCAPED_UNICODE));
+		foreach( $res as $key  ){
+			$result[] = $key;
+		}
 	}
 	else 
 	{
-		$query = mysqli_query($mysqli,"SELECT category FROM user_subs WHERE userid = '$userId'");//"SELECT * FROM 'user_subs'"); 
-	}
-	$res = mysqli_fetch_all($query);
-	myLog("res_test: ".json_encode($res,JSON_UNESCAPED_UNICODE));
-	$result = [];
-    foreach( $res as $key  ){
-		$result[] = $key[0];
+		$query = mysqli_query($mysqli,"SELECT category FROM user_subs WHERE userid = '$userId'");//"SELECT * FROM 'user_subs'");
+		$res = mysqli_fetch_all($query);
+		myLog("res_test: ".json_encode($res,JSON_UNESCAPED_UNICODE));
+		foreach( $res as $key  ){
+			$result[] = $key[0];
+		}		
 	}
 	mysqli_free_result($query);
 	return $result;
