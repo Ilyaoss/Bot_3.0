@@ -65,10 +65,14 @@ switch ($type) {
 		$payload = $message['payload'] ?? '';
 		$text = $message['text'] ?? '';
 		
-		$str ="it";;
 		$link = connect_db();
-		$db = read_db($link,$userId);
+		$db = read_db($link);
+		foreach($db as $user=>$subs)
+		{
+			myLog("user: $user, subs: $subs");							
+		}
 		myLog("db: ".json_encode($db,JSON_UNESCAPED_UNICODE));
+		
 		/*$add = add_to_db($link,$userId,$str);
 		$add = add_to_db($link,$userId,$str);
 		myLog("add: ".json_encode($add,JSON_UNESCAPED_UNICODE));
