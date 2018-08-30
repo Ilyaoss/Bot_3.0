@@ -140,7 +140,7 @@ switch ($type) {
 						
 						$keys = array_keys($upd_array);
 
-						$data = read_file();
+						$data = read_db($link);//read_file();
 						
 						foreach($data as $user=>$subs)
 						{
