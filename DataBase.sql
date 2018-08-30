@@ -5,7 +5,7 @@ DROP TABLE categories;
 CREATE TABLE user_subs(
 userid INT NOT NULL,
 category VARCHAR(255) NOT NULL,
-date_start date,
+date_start DATETIME,
 CONSTRAINT pk_user_sub_ID PRIMARY KEY (userid,category)
 );
 CREATE TABLE categories(
