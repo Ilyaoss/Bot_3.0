@@ -65,9 +65,14 @@ switch ($type) {
 		$payload = $message['payload'] ?? '';
 		$text = $message['text'] ?? '';
 		
+		$str ="it";;
 		$link = connect_db();
 		$db = read_db($link,$userId);
 		myLog("db: ".json_encode($db,JSON_UNESCAPED_UNICODE));
+		$add = add_to_db($mysqli,$userId,$str);
+		myLog("add: ".json_encode($add,JSON_UNESCAPED_UNICODE));
+		$delete = delete_from_db($mysqli, $userId , $str );
+		myLog("delete: ".json_encode($delete,JSON_UNESCAPED_UNICODE));
 		/*$user_info = $vk->users()->get(VK_TOKEN,['user_ids'=>$userId,
 												'fields'=>'status']);*/
 		/*myLog("Name: ".$user_info[0]['first_name'].

@@ -31,7 +31,7 @@ function connect_db() {
     //mysqli_select_db($db);
 }
 
-function add_sub($mysqli,$str, $userId) {
+function add_sub($mysqli,$userId,$str) {
 	$result = mysqli_query($mysqli,"INSERT INTO user_subs (userid,category) VALUES('$userId','$str')"); 
 	myLog("error".mysqli_error($mysqli));
 	return $result;
@@ -42,7 +42,7 @@ function drop_table($mysqli,$table) {
 	myLog("error".mysqli_error($mysqli));
 	return $result;
 }
-function add_to_db($mysqli,$str, $userId) {
+function add_to_db($mysqli,$userId,$str) {
 	$data = read_db($mysqli,$userId);
 	$length = count($data);
 	for($i=0;$i<$length;++$i)
@@ -61,7 +61,7 @@ function add_to_db($mysqli,$str, $userId) {
 			myLog("r: ".json_encode($r,JSON_UNESCAPED_UNICODE));
 		}
 	}
-	add_sub($mysqli,$str, $userId);
+	add_sub($mysqli,$userId,$str);
 	return $msg = "Вы успешно подписались на $str";//.$payload[$key[0]][$keys[0]];
 }
 
@@ -80,7 +80,8 @@ function read_db($mysqli,$userId=null) {
 	return $res;
 }
 
-function delete_from_db($mysqli, $userId, $str) {
+function delete_from_db($mysqli, $userId = null, $str = null) {
+	$result;
 	if(is_null($userId))
 	{
 		$result = mysqli_query($mysqli,"DELETE FROM user_subs");

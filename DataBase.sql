@@ -1,10 +1,12 @@
 /*create database LogisticBot;
 use LogisticBot;*/
+DROP TABLE user_subs;
+DROP TABLE categories;
 CREATE TABLE user_subs(
-id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 userid INT NOT NULL,
 category VARCHAR(100) NOT NULL,
-date_start date
+date_start date,
+CONSTRAINT pk_user_sub_ID PRIMARY KEY (userid,category)
 );
 CREATE TABLE categories(
 AUC_NUM INT PRIMARY KEY,
