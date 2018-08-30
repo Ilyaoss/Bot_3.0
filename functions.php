@@ -24,7 +24,7 @@ function connect_db() {
 		myLog("Не удалось подключиться к MySQL: (" . $link->connect_errno . ") " . $link->connect_error);
 	}
 	$result = mysqli_query($link, "SHOW tables");
-	$res = mysqli_fetch_array($result);
+	$res = mysqli_fetch_all($result);
 	myLog("res: ".json_encode($res,JSON_UNESCAPED_UNICODE));
 	mysqli_free_result($result);
 	return $link;
