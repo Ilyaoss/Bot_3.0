@@ -82,11 +82,11 @@ function read_db($mysqli,$userId=null) {
 		$query = mysqli_query($mysqli,"SELECT category FROM user_subs WHERE userid = '$userId'");//"SELECT * FROM 'user_subs'"); 
 	}
 	$res = mysqli_fetch_all($query);
-	myLog("res: ".json_encode($res,JSON_UNESCAPED_UNICODE));
+	myLog("res_test: ".json_encode($res,JSON_UNESCAPED_UNICODE));
 	$result = [];
-    while ($row = mysqli_fetch_array($query, MYSQLI_NUM))
+    while ($row = mysqli_fetch_array($query))
     {
-        $result[] = $row;
+        $result[] = $row[0];
     }
 	mysqli_free_result($query);
 	return $result;
