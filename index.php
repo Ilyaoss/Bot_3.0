@@ -324,7 +324,8 @@ switch ($type) {
 							if($s==='_')
 							{
 								$s = substr($payload[$key[0]],1);
-								$msg = delete_from_db($link, $userId, $text);
+								myLog("s1: ".$s);
+								$msg = delete_from_db($link, $userId, $s);
 								//$msg = delete_from_file($s,$userId);
 								$kbd = get_Kbd_unsub($link,$userId);
 								if(is_null($kbd))
