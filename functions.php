@@ -84,10 +84,9 @@ function read_db($mysqli,$userId=null) {
 	$res = mysqli_fetch_all($query);
 	myLog("res_test: ".json_encode($res,JSON_UNESCAPED_UNICODE));
 	$result = [];
-    while ($row = mysqli_fetch_array($query))
-    {
-        $result[] = $row[0];
-    }
+    foreach( $res as $key  ){
+		$result[] = $key[0];
+	}
 	mysqli_free_result($query);
 	return $result;
 }
