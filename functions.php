@@ -34,7 +34,8 @@ function connect_db() {
 function add_sub($mysqli,$userId,$str) {
 	$result = mysqli_query($mysqli,"INSERT INTO user_subs (userid,category) VALUES('$userId','$str')"); 
 	if(mysqli_error($mysqli)){
-		myLog("error".mysqli_error($mysqli));
+		myLog("error: ".mysqli_error($mysqli));
+		reurn 
 	}
 	return $result;
 }
@@ -47,6 +48,7 @@ function drop_table($mysqli,$table) {
 function add_to_db($mysqli,$userId,$str) {
 	$data = read_db($mysqli,$userId);
 	$length = count($data);
+	myLog("data_db: ".json_encode($data,JSON_UNESCAPED_UNICODE));
 	for($i=0;$i<$length;++$i)
 	{
 		$user_data = $data[$i];
