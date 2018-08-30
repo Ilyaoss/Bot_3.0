@@ -32,10 +32,12 @@ function connect_db() {
 }
 
 function add_sub($mysqli,$userId,$str) {
-	$result = mysqli_query($mysqli,"INSERT INTO user_subs (userid,category) VALUES('$userId','$str')"); 
+	$query = mysqli_query($mysqli,"INSERT INTO user_subs (userid,category) VALUES('$userId','$str')"); 
 	if(mysqli_error($mysqli)){
 		myLog("error: ".mysqli_error($mysqli));
 	}
+	$result = $query;
+	mysqli_free_result($query);
 	return $result;
 }
 
@@ -188,7 +190,7 @@ function get_Buttons($start, $end, $keys, $prev = null) {
 }
 
 function get_Kbd_level($lvl,$keys = null,$payload = null,$CMD_NEXT = false) {	
-	$key = array_keys($payload);
+	//$key = array_keys($payload);
 	$buttons = [];
 	$b_main = getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN);
 	switch($lvl)
@@ -235,6 +237,7 @@ function get_Kbd_level($lvl,$keys = null,$payload = null,$CMD_NEXT = false) {
 			}
 			break;
 		case 3:
+			$key = array_keys($payload);
 			if(count($keys)<9)
 			{
 				$buttons = get_Buttons(0,count($keys),$keys,$payload);
