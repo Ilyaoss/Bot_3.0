@@ -24,7 +24,7 @@ function connect_db() {
 		myLog("Не удалось подключиться к MySQL: (" . $link->connect_errno . ") " . $link->connect_error);
 	}
 	$result = mysqli_query($link, "SHOW tables");
-	$res = mysqli_fetch_all($result);
+	$res = mysqli_fetch_array($result);
 	myLog("res: ".json_encode($res,JSON_UNESCAPED_UNICODE));
 	mysqli_free_result($result);
 	return $link;
@@ -78,7 +78,7 @@ function read_db($mysqli,$userId=null) {
 	{
 		$query = mysqli_query($mysqli,"SELECT category FROM user_subs WHERE userid = '$userId'");//"SELECT * FROM 'user_subs'"); 
 	}
-	$res = mysqli_fetch_all($query);
+	$res = mysqli_fetch_array($query);
 	mysqli_free_result($query);
 	return $res;
 }
