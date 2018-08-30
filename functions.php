@@ -80,7 +80,7 @@ function read_db($mysqli,$userId=null) {
 		$res = mysqli_fetch_all($query);
 		myLog("res_test: ".json_encode($res,JSON_UNESCAPED_UNICODE));
 		foreach( $res as $key  ){
-			$result[] = $key;
+			$result[$key[0]][] = $key[1];
 		}
 	}
 	else 
