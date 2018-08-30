@@ -36,9 +36,10 @@ function add_sub($mysqli,$userId,$str) {
 	if(mysqli_error($mysqli)){
 		myLog("error: ".mysqli_error($mysqli));
 	}
-	$result = $query;
-	mysqli_free_result($query);
-	return $result;
+	if (!mysqli_commit($mysqli)) {
+		print("Не удалось зафиксировать транзакцию\n");
+	}
+	return $query;
 }
 
 function drop_table($mysqli,$table) {
@@ -111,6 +112,9 @@ function delete_from_db($mysqli, $userId = null, $str = null) {
 			$result = mysqli_query($mysqli,"DELETE FROM user_subs WHERE userid = '$userId'");//"SELECT * FROM 'user_subs'"); 
 		}
 	
+	}
+	if (!mysqli_commit($mysqli)) {
+		print("Не удалось зафиксировать транзакцию\n");
 	}
 	myLog("del? $result");
 	return $msg;
