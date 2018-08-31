@@ -344,7 +344,7 @@ switch ($type) {
 							{
 								$user_data = read_db($link,$userId);
 								$idx = $payload[$key[0]];
-								$kbd = get_Kbd_unsub($mysqli,$userId,$idx);
+								$kbd = get_Kbd_unsub($link,$userId,$idx);
 							}
 						}
 						/*3-й уровень кнопок:*/
