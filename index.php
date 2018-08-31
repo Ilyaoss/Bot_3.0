@@ -342,37 +342,9 @@ switch ($type) {
 							/*Переход по страницами*/
 							else
 							{
-								$data = read_file();
-								$user_data = $data[$userId];
+								$user_data = read_db($link,$userId);
 								$idx = $payload[$key[0]];
-								
-								$b_main = getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN);
-								$b_next = getBtn('На след. стр. -->', COLOR_POSITIVE,[CMD_UNSUBS=>$idx+1]);
-								$b_prev = getBtn('<-- На пред. стр.', COLOR_NEGATIVE,[CMD_UNSUBS=>$idx-1]);
-								if(8*($idx+1)<count($user_data))
-								{
-									$buttons = get_Buttons_unsub(8*$idx,8*($idx+1),$user_data);
-									array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,'UNSUBS_ALL')]);
-									if($idx > 0)
-									{
-										array_push($buttons,[$b_prev,$b_main,$b_next]);
-									}
-									else
-									{
-										array_push($buttons,[$b_main,$b_next]);
-									}
-									
-								}
-								else
-								{
-									$buttons = get_Buttons_unsub(8*$idx,count($user_data),$user_data);
-									array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,'UNSUBS_ALL')]);
-									array_push($buttons,[$b_prev,$b_main]);
-								}
-								$kbd = [
-									'one_time' => false,
-									'buttons' => $buttons
-								];
+								$kbd = get_Kbd_unsub($mysqli,$userId,$idx);
 							}
 						}
 						/*3-й уровень кнопок:*/

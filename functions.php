@@ -274,17 +274,18 @@ function get_Kbd_level($lvl,$keys = null,$payload = null,$CMD_NEXT = false) {
 			];
 }
 
-function get_Kbd_unsub($mysqli,$userId) {
+function get_Kbd_unsub($mysqli,$userId,$idx=0) {
 	$user_data = read_db($mysqli,$userId);
 	myLog("userdata: ".json_encode($user_data,JSON_UNESCAPED_UNICODE));
+	$kbd = null;
+	$buttons =[];
 	if($user_data == [])
 	{
 		$msg = 'Нет активных подписок';
-		$kbd = null;
 	}
 	else
 	{
-		if(count($user_data)<9)
+		/*if(count($user_data)<9)
 		{
 			$buttons = get_Buttons_unsub(0,count($user_data),$user_data);
 			array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,CMD_UNSUBS_ALL)]);
@@ -295,7 +296,34 @@ function get_Kbd_unsub($mysqli,$userId) {
 			$buttons = get_Buttons_unsub(0,8,$user_data);
 			array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,CMD_UNSUBS_ALL)]);
 			array_push($buttons,[getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN),getBtn('На след стр. -->', COLOR_POSITIVE,[CMD_UNSUBS=>1])]);//[$k[0]=>[$prev[$k[0]]=>$key]]
+		}*/
+		
+		
+		
+		$b_main = getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN);
+		$b_next = getBtn('На след. стр. -->', COLOR_POSITIVE,[CMD_UNSUBS=>$idx+1]);
+		$b_prev = getBtn('<-- На пред. стр.', COLOR_NEGATIVE,[CMD_UNSUBS=>$idx-1]);
+		if(8*($idx+1)<count($user_data))
+		{
+			$buttons = get_Buttons_unsub(8*$idx,8*($idx+1),$user_data);
+			array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,'UNSUBS_ALL')]);
+			if($idx > 0)
+			{
+				array_push($buttons,[$b_prev,$b_main,$b_next]);
+			}
+			else
+			{
+				array_push($buttons,[$b_main,$b_next]);
+			}
+			
 		}
+		else
+		{
+			$buttons = get_Buttons_unsub(8*$idx,count($user_data),$user_data);
+			array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,'UNSUBS_ALL')]);
+			array_push($buttons,[$b_prev,$b_main]);
+		}		
+		
 		myLog("buttons: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
 		$kbd = [
 			'one_time' => false,
