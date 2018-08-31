@@ -102,7 +102,6 @@ switch ($type) {
 					{
 						$url = $attachment["url"];
 						$path = __DIR__ . '/test.xlsx';
-						
 						$cat_array_old = read_XLS($path);
 						
 						/*--Создаём ассоц. массив--*/
