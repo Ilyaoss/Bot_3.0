@@ -160,13 +160,9 @@ function getBtn($label, $color = COLOR_DEFAULT, $payload = '') {
 
 function get_Buttons_unsub($start, $end, $keys, $CMD = CMD_UNSUBS) {
 	$buttons = [];
-	/*for($i=$start;$i<$end;++$i) {
+	for($i=$start;$i<$end;++$i) {
 		$key = $keys[$i];
-		array_push($buttons,[getBtn($key, COLOR_DEFAULT,[$CMD=>'_'.$i])]);
-
-	}*/
-	foreach($keys as $key){
-		array_push($buttons,[getBtn($key, COLOR_DEFAULT,[$CMD=>'_'.$key])]);
+		array_push($buttons,[getBtn($key, COLOR_DEFAULT,[$CMD=>'_'.$key])]);//$i~key
 	}
 	myLog("buttons: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
 	return $buttons;
@@ -483,7 +479,8 @@ function intersect($keys,$subs) {
 	return $array;
 }
 
-function send_subs($vk,$user,$subs,$keys,$update) {
+function send_subs($vk,$user,$subs,$update) {
+	$keys = array_keys($upd_array);
 	myLog("user: $user subs: ".json_encode($subs,JSON_UNESCAPED_UNICODE));
 	myLog("user: $user keys: ".json_encode($keys,JSON_UNESCAPED_UNICODE));
 	/*Ищу вхождение моих подписок в массиве новой информации*/
@@ -512,8 +509,7 @@ function send_user_subs($vk,$userId){
 		$upd_array[$value[6]][$value[0]] = $value[5]; //в категории создаём массивы асоц номер-статус
 	}
 
-	$keys = array_keys($upd_array);
 	$data = read_file();
-	send_subs($vk,$userId,$data[$userId],$keys,$upd_array);
+	send_subs($vk,$userId,$data[$userId],$upd_array);
 }
 ?>

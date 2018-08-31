@@ -138,13 +138,13 @@ switch ($type) {
 							myLog("updates: ".json_encode($update,JSON_UNESCAPED_UNICODE));
 						}
 						
-						$keys = array_keys($upd_array);
+						//$keys = array_keys($upd_array);
 
 						$data = read_db($link);//read_file();
 						
 						foreach($data as $user=>$subs)
 						{
-							send_subs($vk,$user,$subs,$keys,$upd_array);							
+							send_subs($vk,$user,$subs,$upd_array);							
 						}
 						$msg = null;
 					}
