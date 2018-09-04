@@ -56,7 +56,7 @@ for($i=1;$i<count($def_mas);++$i) {
 $keys_1 = array_keys($array); /*Кнопки 1-го уровня*/
 
 $buttons = [];
-$kbd = [];
+$kbd = null;
 switch ($type) {
 	case 'message_new':
 		$message = $data['object'] ?? [];
@@ -92,7 +92,7 @@ switch ($type) {
 		
 		switch($payload){
 			case(''):
-				$kbd = null;
+				//$kbd = null;
 				/*Админ прислал новый документ ВЫНЕСИ НА ОТДЕЛЬНЫЙ СЕРВЕР*/
 				
 				$history = $vk->messages()->getHistory(VK_TOKEN, [
@@ -240,7 +240,7 @@ switch ($type) {
 							$msg = add_to_db($link,$userId,$str);
 							//$msg = add_to_file($str, $userId);
 							//send_user_subs($vk,$userId);
-							$kbd = null;//get_Kbd_level(3,$keys_3,[$key[0]=>$keys[0]]);
+							//$kbd = null;//get_Kbd_level(3,$keys_3,[$key[0]=>$keys[0]]);
 						}
 						
 					}
@@ -261,7 +261,7 @@ switch ($type) {
 							$msg = add_to_db($link,$userId,$str);
 							//$msg = add_to_file($str, $userId);
 							//send_user_subs($vk,$userId);
-							$kbd = null;//get_Kbd_level(2,$keys_2,$key[0]);
+							//$kbd = null;//get_Kbd_level(2,$keys_2,$key[0]);
 							
 							//myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
 						}
@@ -304,7 +304,7 @@ switch ($type) {
 								//$msg = add_to_file($str, $userId);
 								
 								//send_user_subs($vk,$userId);
-								$kbd = null;//get_Kbd_level(2,$keys_2,$key[0]);
+								//$kbd = null;//get_Kbd_level(2,$keys_2,$key[0]);
 							}
 							else
 							{

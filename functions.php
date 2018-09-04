@@ -48,6 +48,7 @@ function drop_table($mysqli,$table) {
 	myLog("error".mysqli_error($mysqli));
 	return $result;
 }
+
 function add_to_db($mysqli,$userId,$str) {
 	$data = read_db($mysqli,$userId);
 	$length = count($data);
@@ -323,6 +324,9 @@ function get_Kbd_unsub($mysqli,$userId,$idx=0) {
 			array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,'UNSUBS_ALL')]);
 			if($idx > 0){
 				array_push($buttons,[$b_prev,$b_main]);
+			}
+			else {
+				array_push($buttons,[$b_main]);
 			}
 		}		
 		
