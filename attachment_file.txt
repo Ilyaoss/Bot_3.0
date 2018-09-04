@@ -1,0 +1,55 @@
+if(is_admin($vk,$group_id,$userId))
+{
+	$attachment = $message['attachments'][0]["doc"] ?? '';
+	myLog("attachment: ".json_encode($attachment,JSON_UNESCAPED_UNICODE));
+	if($attachment)
+	{
+		$url = $attachment["url"];
+		$path = __DIR__ . '/test.xlsx';
+		$cat_array_old = read_XLS($path);
+		
+		/*--—оздаЄм ассоц. массив--*/
+		$array_old = array();
+		for($i=1;$i<count($cat_array_old);++$i) {
+			$value = $cat_array_old[$i];
+			$array_old[$value[6]][$value[0]] = $value[5]; //в категории создаЄм массивы асоц номер-статус
+		}
+		//myLog("cat_array_old: ".json_encode($array_old,JSON_UNESCAPED_UNICODE));	
+		file_put_contents($path, file_get_contents($url));
+		
+		$cat_array = read_XLS($path);
+			
+		
+		/*--—оздаЄм ассоц. массив--*/
+		$array = array();
+		for($i=1;$i<count($cat_array);++$i) {
+			$value = $cat_array[$i];
+			$array[$value[6]][$value[0]] = $value[5]; //в категории создаЄм массивы асоц номер-статус
+		}
+		//myLog("cat_array: ".json_encode($array,JSON_UNESCAPED_UNICODE));
+		
+		$keys = array_keys($array);
+		/*могут новые ключи по€витьс€ Ќ≈ «јЅ”ƒ№!*/
+		
+		$upd_array = [];
+		for($i=0;$i<count($array);++$i) {
+			$update = array_diff($array[$keys[$i]],$array_old[$keys[$i]]);
+			if($update) 
+			{
+				$upd_array[$keys[$i]]=$update;
+			}
+			myLog("updates: ".json_encode($update,JSON_UNESCAPED_UNICODE));
+		}
+		
+		//$keys = array_keys($upd_array);
+
+		$data = read_db($link);//read_file();
+		
+		foreach($data as $user=>$subs)
+		{
+			send_subs($vk,$user,$subs,$upd_array);							
+		}
+		$msg = null;
+	}
+	break;
+}

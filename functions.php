@@ -321,7 +321,9 @@ function get_Kbd_unsub($mysqli,$userId,$idx=0) {
 		{
 			$buttons = get_Buttons_unsub(8*$idx,count($user_data),$user_data);
 			array_push($buttons,[getBtn('Отписаться от всего', COLOR_NEGATIVE,'UNSUBS_ALL')]);
-			array_push($buttons,[$b_prev,$b_main]);
+			if($idx > 0){
+				array_push($buttons,[$b_prev,$b_main]);
+			}
 		}		
 		
 		myLog("buttons: ".json_encode($buttons,JSON_UNESCAPED_UNICODE));
@@ -508,7 +510,7 @@ function intersect($keys,$subs) {
 }
 
 function send_subs($vk,$user,$subs,$update) {
-	$keys = array_keys($upd_array);
+	$keys = array_keys($update);
 	myLog("user: $user subs: ".json_encode($subs,JSON_UNESCAPED_UNICODE));
 	myLog("user: $user keys: ".json_encode($keys,JSON_UNESCAPED_UNICODE));
 	/*Ищу вхождение моих подписок в массиве новой информации*/

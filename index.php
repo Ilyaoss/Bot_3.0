@@ -94,61 +94,7 @@ switch ($type) {
 			case(''):
 				$kbd = null;
 				/*Админ прислал новый документ ВЫНЕСИ НА ОТДЕЛЬНЫЙ СЕРВЕР*/
-				if(is_admin($vk,$group_id,$userId))
-				{
-					$attachment = $message['attachments'][0]["doc"] ?? '';
-					myLog("attachment: ".json_encode($attachment,JSON_UNESCAPED_UNICODE));
-					if($attachment)
-					{
-						$url = $attachment["url"];
-						$path = __DIR__ . '/test.xlsx';
-						$cat_array_old = read_XLS($path);
-						
-						/*--Создаём ассоц. массив--*/
-						$array_old = array();
-						for($i=1;$i<count($cat_array_old);++$i) {
-							$value = $cat_array_old[$i];
-							$array_old[$value[6]][$value[0]] = $value[5]; //в категории создаём массивы асоц номер-статус
-						}
-						//myLog("cat_array_old: ".json_encode($array_old,JSON_UNESCAPED_UNICODE));	
-						file_put_contents($path, file_get_contents($url));
-						
-						$cat_array = read_XLS($path);
-							
-						
-						/*--Создаём ассоц. массив--*/
-						$array = array();
-						for($i=1;$i<count($cat_array);++$i) {
-							$value = $cat_array[$i];
-							$array[$value[6]][$value[0]] = $value[5]; //в категории создаём массивы асоц номер-статус
-						}
-						//myLog("cat_array: ".json_encode($array,JSON_UNESCAPED_UNICODE));
-						
-						$keys = array_keys($array);
-						/*могут новые ключи появиться НЕ ЗАБУДЬ!*/
-						
-						$upd_array = [];
-						for($i=0;$i<count($array);++$i) {
-							$update = array_diff($array[$keys[$i]],$array_old[$keys[$i]]);
-							if($update) 
-							{
-								$upd_array[$keys[$i]]=$update;
-							}
-							myLog("updates: ".json_encode($update,JSON_UNESCAPED_UNICODE));
-						}
-						
-						//$keys = array_keys($upd_array);
-
-						$data = read_db($link);//read_file();
-						
-						foreach($data as $user=>$subs)
-						{
-							send_subs($vk,$user,$subs,$upd_array);							
-						}
-						$msg = null;
-					}
-					break;
-				}
+				
 				$history = $vk->messages()->getHistory(VK_TOKEN, [
 						'user_id' => $userId,
 						'count' => 5
@@ -285,7 +231,7 @@ switch ($type) {
 							$msg = add_to_db($link,$userId,$str);
 							//$msg = add_to_file($str, $userId);
 							
-							send_user_subs($vk,$userId);
+							//send_user_subs($vk,$userId);
 							$kbd = null;//get_Kbd_level(3,$keys_3,[$key[0]=>$keys[0]]);
 						}
 						else{
@@ -293,7 +239,7 @@ switch ($type) {
 							$str = "$key[0].$keys[0].".$payload[$key[0]][$keys[0]];
 							$msg = add_to_db($link,$userId,$str);
 							//$msg = add_to_file($str, $userId);
-							send_user_subs($vk,$userId);
+							//send_user_subs($vk,$userId);
 							$kbd = null;//get_Kbd_level(3,$keys_3,[$key[0]=>$keys[0]]);
 						}
 						
@@ -314,7 +260,7 @@ switch ($type) {
 							$str = $key[0];
 							$msg = add_to_db($link,$userId,$str);
 							//$msg = add_to_file($str, $userId);
-							send_user_subs($vk,$userId);
+							//send_user_subs($vk,$userId);
 							$kbd = null;//get_Kbd_level(2,$keys_2,$key[0]);
 							
 							//myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
@@ -357,7 +303,7 @@ switch ($type) {
 								$msg = add_to_db($link,$userId,$str);
 								//$msg = add_to_file($str, $userId);
 								
-								send_user_subs($vk,$userId);
+								//send_user_subs($vk,$userId);
 								$kbd = null;//get_Kbd_level(2,$keys_2,$key[0]);
 							}
 							else
