@@ -96,7 +96,7 @@ switch ($type) {
 					$r = rand(0,$admins["count"]-1);
 					$support = $admins["items"][$r];
 					$msg = "Новая заявка!Помогите пользователю!";
-					add_to_admin_file($text,$userId,$support["id"]);
+					//add_to_admin_file($text,$userId,$support["id"]);
 					sendMsg($vk,$support["id"],$msg,null,$first_item["id"]);
 					myLog("admins: ".json_encode($admins,JSON_UNESCAPED_UNICODE));
 					$msg = "Отлично, теперь жди ответа, с тобой обязательно свяжутся";
@@ -166,7 +166,7 @@ switch ($type) {
 			case CMD_FEEDBACK:
 				if(is_admin($vk,$group_id,$userId))
 				{
-					$kbd = get_Kbd_feedback($userId);
+					$msg = 'Проверьте важные сообщения сообщества!';//$kbd = get_Kbd_feedback($userId);
 				}
 				else
 				{
