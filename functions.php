@@ -227,7 +227,7 @@ function get_Kbd_level($lvl,$keys = null,$payload = null,$CMD_NEXT = false) {
 			$idx = array_search($payload, $keys_1);
 			if($idx > 8)
 			{
-				$b_back = getBtn('<--Назад', COLOR_NEGATIVE,$CMD_NEXT);
+				$b_back = getBtn('<--Назад', COLOR_NEGATIVE,CMD_NEXT);
 			}
 			/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)*/
 			if(count($keys)<9)
@@ -259,7 +259,7 @@ function get_Kbd_level($lvl,$keys = null,$payload = null,$CMD_NEXT = false) {
 			$idx = array_search($payload[$key[0]], $k_search);
 			if($idx > 6)
 			{
-				$b_back = getBtn('<--Назад', COLOR_NEGATIVE,[$key[0]=>$CMD_NEXT]);
+				$b_back = getBtn('<--Назад', COLOR_NEGATIVE,[$key[0]=>CMD_NEXT]);
 			}
 			if(count($keys)<9)
 			{
