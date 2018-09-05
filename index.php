@@ -177,10 +177,10 @@ switch ($type) {
 						'buttons' => $buttons
 					];
 				}
-				if(is_null($kbd))
+				/*if(is_null($kbd))
 				{
 					$msg = 'Нет активных заявок';
-				}
+				}*/
 				break;
 			default:
 				if(is_array($payload)){ /*Пришло сообщение от 2 или 3 уровня уровня*/
