@@ -260,7 +260,6 @@ function get_Kbd_level($lvl,$keys = null,$payload = null,$CMD_NEXT = false) {
 			$k_search = array_keys($array[$key[0]]);
 			myLog("k_search: ".json_encode($k_search,JSON_UNESCAPED_UNICODE));
 			$idx = array_search($payload[$key[0]], $k_search);
-			k_search
 			if($idx > 6)
 			{
 				$b_back = getBtn('<--Назад', COLOR_NEGATIVE,[$key[0]=>CMD_NEXT]);
