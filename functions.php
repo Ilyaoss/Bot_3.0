@@ -252,13 +252,10 @@ function get_Kbd_level($lvl,$keys = null,$payload = null,$CMD_NEXT = false) {
 			}
 			break;
 		case 3:
+			$key = array_keys($payload);
 			$b_back = getBtn('Назад', COLOR_NEGATIVE,$key[0]);
 			global $array;
-			$key = array_keys($payload);
-			myLog("payload: ".json_encode($payload,JSON_UNESCAPED_UNICODE));
-			myLog("key[0]: ".json_encode($key,JSON_UNESCAPED_UNICODE));
 			$k_search = array_keys($array[$key[0]]);
-			myLog("k_search: ".json_encode($k_search,JSON_UNESCAPED_UNICODE));
 			$idx = array_search($payload[$key[0]], $k_search);
 			if($idx > 6)
 			{
