@@ -201,6 +201,7 @@ function get_Kbd_level($lvl,$keys = null,$payload = null,$CMD_NEXT = false) {
 	//$key = array_keys($payload);
 	$buttons = [];
 	$b_main = getBtn('В главное меню', COLOR_NEGATIVE,CMD_MAIN);
+	$b_back = getBtn('<--Назад', COLOR_NEGATIVE,CMD_CAT);
 	switch($lvl)
 	{
 		case 0:
@@ -222,49 +223,63 @@ function get_Kbd_level($lvl,$keys = null,$payload = null,$CMD_NEXT = false) {
 			}
 			break;
 		case 2:
+			global $keys_1;
+			$idx = array_search($payload, $keys_1);
+			if($idx > 8)
+			{
+				$b_back = getBtn('<--Назад', COLOR_NEGATIVE,$CMD_NEXT);
+			}
 			/*Если меньше 9, то выводим все + 2 кнопки(подписатся на всё и назад/в главное меню)*/
 			if(count($keys)<9)
 			{
 				$buttons = get_Buttons(0,count($keys),$keys,$payload);
 				array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL'])]);
-				array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,CMD_CAT),$b_main]);
+				array_push($buttons,[$b_back,$b_main]);
 			}
 			elseif($CMD_NEXT)
 			{
 				$buttons = get_Buttons(7,count($keys),$keys,$payload);
 				array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL'])]);
 				array_push($buttons,[getBtn('<-- На пред. стр.', COLOR_NEGATIVE,$payload),$b_main]);
-				array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,CMD_CAT)]);
+				array_push($buttons,[$b_back]);
 			}
 			else
 			{
 				$buttons = get_Buttons(0,7,$keys,$payload);
 				array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$payload=>'SUBS_ALL'])]);
 				array_push($buttons,[$b_main,getBtn('На след стр. -->', COLOR_POSITIVE,[$payload=>CMD_NEXT])]);
-				array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,CMD_CAT)]);
+				array_push($buttons,[$b_back]);
 			}
 			break;
 		case 3:
+			$b_back = getBtn('Назад', COLOR_NEGATIVE,$key[0]);
+			global $array;
 			$key = array_keys($payload);
+			$k_search = array_keys($array[$key[0]]);
+			$idx = array_search($payload[$key[0]], $k_search);
+			if($idx > 6)
+			{
+				$b_back = getBtn('<--Назад', COLOR_NEGATIVE,[$key[0]=>$CMD_NEXT]);
+			}
 			if(count($keys)<9)
 			{
 				$buttons = get_Buttons(0,count($keys),$keys,$payload);
 				array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0] => [$payload[$key[0]]=>'SUBS_ALL']])]);//[$payload=>'SA']   [$k[0]=>[$prev[$k[0]]=>$key]]
-				array_push($buttons,[getBtn('<--Назад', COLOR_NEGATIVE,$key[0]),$b_main]);
+				array_push($buttons,[$b_back,$b_main]);
 			}
 			elseif($CMD_NEXT)
 			{
 				$buttons = get_Buttons(7,count($keys),$keys,$payload);
 				array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0] => [$payload[$key[0]]=>'SUBS_ALL']])]);
 				array_push($buttons,[getBtn('<-- На пред. стр.', COLOR_NEGATIVE,$payload),$b_main]);
-				array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,$key[0])]);
+				array_push($buttons,[$b_back]);
 			}
 			else
 			{
 				$buttons = get_Buttons(0,7,$keys,$payload);
 				array_push($buttons,[getBtn('Подписаться на всё', COLOR_PRIMARY,[$key[0] => [$payload[$key[0]]=>'SUBS_ALL']])]);
 				array_push($buttons,[$b_main,getBtn('На след стр. -->', COLOR_POSITIVE,[$key[0]=>[$payload[$key[0]]=>CMD_NEXT]])]);//[$k[0]=>[$prev[$k[0]]=>$key]]
-				array_push($buttons,[getBtn('Назад', COLOR_NEGATIVE,$key[0])]);
+				array_push($buttons,[$b_back]);
 			}
 			break;
 
@@ -367,50 +382,6 @@ function get_Kbd_feedback($userId) {
 	return $kbd;
 }
 
-function add_to_file($str, $userId) {
-	$data = read_file();
-	$length = count($data[$userId]);
-	for($i=0;$i<$length;++$i)
-	{
-		$user_data = $data[$userId][$i];
-		myLog("us_d: $user_data str: $str strpos:".strpos($user_data,$str));
-		/*Если наша категория является подкатегорией, то есть родительская входит в неё в начало*/
-		if(strpos($str,$user_data) === 0)
-		{
-			return 'Вы уже пописаны на эту категорию или на родительскую категорию';
-		}
-		/*Если наша категория является родительской, то мы убираем всех её детей и добавляем её*/
-		if(strpos($user_data,$str) === 0)
-		{
-			unset($data[$userId][$i]);	// Удалить подписку
-			myLog("data: ".json_encode($data,JSON_UNESCAPED_UNICODE));
-		}
-	}
-	
-	$data[$userId][]="$str";	// Добавить подписку
-	$data[$userId] = array_values($data[$userId]); //переиндексируем с 0 до конца
-	myLog("data: ".json_encode($data,JSON_UNESCAPED_UNICODE));
-	file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
-	return $msg = "Вы успешно подписались на $str";//.$payload[$key[0]][$keys[0]];
-}
-
-function read_file() {
-	$file = file_get_contents(__DIR__ . '/data.json');  // Открыть файл data.json
-	myLog("file: $file");
-	$data = json_decode($file,TRUE);        // Декодировать в массив 								   
-	return $data;
-}
-
-function delete_from_file($idx, $userId) {
-	$data = read_file();		   
-	$msg = "Вы успешно отписались от  ".$data[$userId][$idx];
-	unset($data[$userId][$idx]);	// Удалить подписку
-	$data[$userId] = array_values($data[$userId]);
-	file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
-	unset($data);
-	return $msg;
-}
-
 function myLog($str) {
     file_put_contents("php://stdout", "$str\n");
 }
@@ -475,30 +446,10 @@ function is_admin($vk,$group_id,$userId) {
 	return false;//$response["is_admin"];
 }
 
-function read_admin_data() {
-	$file = file_get_contents(__DIR__ . '/admin_data.json');  // Открыть файл data.json
-	myLog("file_admin: $file");
-	$data = json_decode($file,TRUE);        // Декодировать в массив 								   
-	return $data;
-}
-
-function add_to_admin_file($str, $userId,$adminId) {
-	$data = read_admin_data();
-	$data[$adminId][]=[$userId=>"$str"];	// Добавить обращение
-	myLog("data: ".json_encode($data,JSON_UNESCAPED_UNICODE));
-	file_put_contents(__DIR__ . '/admin_data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
-}
-
 function userInfo($vk,$userId) {
 	$user_info = $vk->users()->get(VK_TOKEN,['user_ids'=>$userId]);
 	myLog("user_info: ".json_encode($user_info,JSON_UNESCAPED_UNICODE));
 	return $user_info[0]['first_name']." ".$user_info[0]['last_name'];
-}
-
-function compare($a,$b) {
-	myLog("\nleft: $a \nright: $b");
-	if(strpos($a,$b) === 0) return 0;
-	else substr_compare($a,$b,0);
 }
 
 function intersect($keys,$subs) {
@@ -518,7 +469,7 @@ function send_subs($vk,$user,$subs,$update) {
 	myLog("user: $user subs: ".json_encode($subs,JSON_UNESCAPED_UNICODE));
 	myLog("user: $user keys: ".json_encode($keys,JSON_UNESCAPED_UNICODE));
 	/*Ищу вхождение моих подписок в массиве новой информации*/
-	$intersec = intersect($keys,$subs);//array_uintersect($keys,$subs,"compare");
+	$intersec = intersect($keys,$subs);
 	foreach($intersec as $sub)
 	{	
 		myLog("sub: $sub ");
@@ -546,4 +497,5 @@ function send_user_subs($vk,$userId){
 	$data = read_file();
 	send_subs($vk,$userId,$data[$userId],$upd_array);
 }
+
 ?>

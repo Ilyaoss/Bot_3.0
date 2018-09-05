@@ -1,6 +1,5 @@
 <?php
 require_once './vendor/autoload.php';
-//require_once './Excel/reader.php';
 require_once __DIR__ . '/PHPExcel-1.8/Classes/PHPExcel/IOFactory.php';
 require_once __DIR__ .'/functions.php';
 
@@ -26,10 +25,9 @@ const CMD_UNSUBS = 'UNSUBS';
 const CMD_UNSUBS_ALL = 'UNSUBS_ALL';
 const CMD_YES = 'YES';
 const CMD_FEEDBACK = 'FEEDBACK';
+
 const MAX_LENGHT = 40;
-//const MAX_LENGHT  = strlen('Список подкатегорий 1-го уровня, нажмите');
 const VK_TOKEN = '887f275780153f8d0a42339e542ecb1f1b6a47bce9385aea12ada07d3a459095800074da66b418d5911c9';
-//'0f0567f6ffa539268e0b6558d7622d375e6232283542932eadc135443d88109330c37b64bbb8c26bf525a';
  
 //Строка для подтверждения адреса сервера из настроек Callback API 
 $confirmation_token = 'd18ce045'; 
@@ -54,9 +52,9 @@ for($i=1;$i<count($def_mas);++$i) {
 }
 
 $keys_1 = array_keys($array); /*Кнопки 1-го уровня*/
-
 $buttons = [];
 $kbd = null;
+
 switch ($type) {
 	case 'message_new':
 		$message = $data['object'] ?? [];
@@ -72,17 +70,7 @@ switch ($type) {
 			myLog("user: $user, subs: $subs");							
 		}
 		myLog("db: ".json_encode($db,JSON_UNESCAPED_UNICODE));
-		
-		/*$add = add_to_db($link,$userId,$str);
-		$add = add_to_db($link,$userId,$str);
-		myLog("add: ".json_encode($add,JSON_UNESCAPED_UNICODE));
-		$delete = delete_from_db($link, $userId , $str );
-		myLog("delete: ".json_encode($delete,JSON_UNESCAPED_UNICODE));*/
-		/*$user_info = $vk->users()->get(VK_TOKEN,['user_ids'=>$userId,
-												'fields'=>'status']);*/
-		/*myLog("Name: ".$user_info[0]['first_name'].
-				"\nLasName: ".$user_info[0]['last_name'].
-				"\nStatus: ".$user_info[0]['status']);*/
+				
 		myLog("MSG: ".$body." PAYLOAD string:".$payload);
 		if ($payload) {
 			$payload = json_decode($payload, true);
@@ -93,11 +81,10 @@ switch ($type) {
 		switch($payload){
 			case(''):
 				//$kbd = null;
-				/*Админ прислал новый документ ВЫНЕСИ НА ОТДЕЛЬНЫЙ СЕРВЕР*/
-				
+				/*получаем историю последних 2 сообщений*/
 				$history = $vk->messages()->getHistory(VK_TOKEN, [
 						'user_id' => $userId,
-						'count' => 5
+						'count' => 2
 						//'group_id' => json_encode($kbd, JSON_UNESCAPED_UNICODE)
 					]);
 				$first_item = $history["items"][0];
@@ -122,9 +109,7 @@ switch ($type) {
 					myLog("resp: ".json_encode($resp,JSON_UNESCAPED_UNICODE));
 					//send_to_all_admins($vk,$admins,$msg);
 				}
-				myLog("text 0: $text");
-				myLog("text 0: ".$sec_item["text"]);
-				//myLog("history".json_encode($history,JSON_UNESCAPED_UNICODE));
+				$msg=null;
 				break;
 			case CMD_MAIN:
 				$msg = "Нажмите любую кнопку";			
@@ -134,9 +119,6 @@ switch ($type) {
 				$kbd = get_Kbd_level(1,$keys_1);
 				break;
 			case CMD_MY:
-
-				///$data = read_file(); 
-				//$my_subs = $data[$userId];
 				$my_subs = read_db($link,$userId);
 				myLog("mysubs".$my_subs.json_encode($my_subs,JSON_UNESCAPED_UNICODE));
 				$msg = "Список моих подписок:\n";						
@@ -178,12 +160,7 @@ switch ($type) {
 				];
 				break;
 			case CMD_YES:
-				/*$data = read_file($userId);		   
-				$data[$userId] = [];
-				file_put_contents(__DIR__ . '/data.json',json_encode($data,JSON_UNESCAPED_UNICODE));  // Перекодировать в формат и записать в файл.
-				unset($data);*/
 				$msg = delete_from_db($link, $userId);
-				//$msg = 'Все подписки отменены';
 				$kbd = get_Kbd_level(0);
 				break;
 			case CMD_FEEDBACK:
@@ -194,7 +171,6 @@ switch ($type) {
 				else
 				{
 					$msg = 'Опиши и отправь мне проблему с которой ты столкнулся';
-					//$buttons = [];
 					array_push($buttons,[getBtn('<-- Назад', COLOR_NEGATIVE,CMD_MAIN)]);
 					$kbd = [
 						'one_time' => false,
@@ -205,15 +181,12 @@ switch ($type) {
 				{
 					$msg = 'Нет активных заявок';
 				}
-				
-				
 				break;
 			default:
-				if(is_array($payload)){
+				if(is_array($payload)){ /*Пришло сообщение от 2 или 3 уровня уровня*/
 					$key = array_keys($payload);
-					/*Пришло сообщение от 3 уровня*/
-					if(is_array($payload[$key[0]]))
-					{
+					
+					if(is_array($payload[$key[0]])) { /*Пришло сообщение от 3 уровня*/
 						/*4-й уровень - подписка оформляется*/
 						myLog("PAYLOAD_val_1:".json_encode($payload[$key[0]],JSON_UNESCAPED_UNICODE));
 						$keys = array_keys($payload[$key[0]]);
@@ -229,24 +202,14 @@ switch ($type) {
 						{
 							$str = "$key[0].$keys[0]";
 							$msg = add_to_db($link,$userId,$str);
-							//$msg = add_to_file($str, $userId);
-							
-							//send_user_subs($vk,$userId);
-							$kbd = null;//get_Kbd_level(3,$keys_3,[$key[0]=>$keys[0]]);
 						}
 						else{
 							
 							$str = "$key[0].$keys[0].".$payload[$key[0]][$keys[0]];
 							$msg = add_to_db($link,$userId,$str);
-							//$msg = add_to_file($str, $userId);
-							//send_user_subs($vk,$userId);
-							//$kbd = null;//get_Kbd_level(3,$keys_3,[$key[0]=>$keys[0]]);
 						}
 						
-					}
-					/*Пришло сообщение от 2 уровня*/
-					else
-					{	
+					} else { /*Пришло сообщение от 2 уровня*/
 						myLog("PAYLOAD_val:".$payload[$key[0]]);
 						if($payload[$key[0]]=== CMD_NEXT)
 						{
@@ -259,11 +222,6 @@ switch ($type) {
 						{
 							$str = $key[0];
 							$msg = add_to_db($link,$userId,$str);
-							//$msg = add_to_file($str, $userId);
-							//send_user_subs($vk,$userId);
-							//$kbd = null;//get_Kbd_level(2,$keys_2,$key[0]);
-							
-							//myLog("Keys2: ".json_encode($keys_2,JSON_UNESCAPED_UNICODE));
 						}
 						elseif($key[0]===CMD_UNSUBS)
 						{
@@ -275,7 +233,6 @@ switch ($type) {
 								$s = substr($payload[$key[0]],1);
 								myLog("s1: ".$s);
 								$msg = delete_from_db($link, $userId, $s);
-								//$msg = delete_from_file($s,$userId);
 								$kbd = get_Kbd_unsub($link,$userId);
 								if(is_null($kbd))
 								{
@@ -301,10 +258,6 @@ switch ($type) {
 							{
 								$str = "$key[0].".$payload[$key[0]];
 								$msg = add_to_db($link,$userId,$str);
-								//$msg = add_to_file($str, $userId);
-								
-								//send_user_subs($vk,$userId);
-								//$kbd = null;//get_Kbd_level(2,$keys_2,$key[0]);
 							}
 							else
 							{
